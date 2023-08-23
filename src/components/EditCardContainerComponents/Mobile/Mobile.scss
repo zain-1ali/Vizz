@@ -1,0 +1,136 @@
+@import "../../../styles/colors.scss";
+.mobile-main {
+  width: 227.89112854003906px;
+  height: 436.0000305175781px;
+  //   border: 1px solid black;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  .mobile-inner {
+    width: 186px;
+    height: 405px;
+    // border: 1px solid black;
+    .bg-prfl-container {
+      width: 100%;
+      height: 27%;
+      //   border: 1px solid black;
+      position: relative;
+      .prfl-img {
+        height: 63px;
+        width: 63px;
+        border-radius: 100%;
+        // border: 1px solid black;
+        position: absolute;
+        object-fit: fill;
+        bottom: -45px;
+        left: 10px;
+      }
+    }
+
+    .contact-card-details {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 50px;
+
+      h2 {
+        font-family: Inter;
+        font-size: 20px;
+        font-weight: 500;
+        line-height: 24px;
+        letter-spacing: 0em;
+        //   text-align: left;
+        color: $c2;
+      }
+      .phone-container {
+        display: flex;
+        margin-top: 10px;
+        font-family: Inter;
+        font-size: 8px;
+        font-weight: 400;
+        line-height: 12px;
+        letter-spacing: 0em;
+        // text-align: left;
+        color: #cccccc;
+      }
+
+      .job-container {
+        display: flex;
+        align-items: center;
+        margin-top: 3px;
+        width: 80%;
+        // border: 1px solid black;
+        font-family: Inter;
+        font-size: 8px;
+        font-weight: 400;
+        line-height: 9.8px;
+        letter-spacing: 0em;
+        text-align: center;
+        color: #cccccc;
+      }
+
+      .location-container {
+        display: flex;
+        margin-top: 4px;
+        font-family: Inter;
+        font-size: 8px;
+        font-weight: 400;
+        line-height: 12px;
+        letter-spacing: 0em;
+        // text-align: left;
+        color: #cccccc;
+      }
+    }
+
+    .links-heading {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 10px;
+      .line {
+        width: 32%;
+        height: 1px;
+        background-color: black;
+      }
+      font-family: Inter;
+      font-size: 10px;
+      font-weight: 400;
+      line-height: 12px;
+      letter-spacing: 0em;
+      text-align: center;
+    }
+
+    .links-main {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-top: 10px;
+      .links-inner {
+        width: 90%;
+        display: flex;
+        justify-content: flex-start;
+        .icon-container {
+          height: 26px;
+          width: 26px;
+          background-color: black;
+          margin-left: 7px;
+          border-radius: 100%;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
+      }
+    }
+  }
+  .phoneimg {
+    position: absolute;
+    z-index: 10;
+    top: 0px;
+    width: 227px;
+    height: 436px;
+  }
+}

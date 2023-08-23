@@ -1,0 +1,60 @@
+@import "../../styles/colors.scss";
+
+.edit-main {
+  width: 100%;
+  display: flex;
+  height: 100vh;
+  overflow-y: scroll;
+  &::-webkit-scrollbar {
+    width: 0;
+  }
+
+  .edit-inner {
+    width: 78%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow-y: scroll;
+
+    .edit-header {
+      width: 90%;
+      margin-top: 20px;
+      display: flex;
+      justify-content: space-between;
+      .editbtn1 {
+        width: 159px;
+        height: 47px;
+        border-radius: 24px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #f7f7f7;
+        border: none;
+        cursor: pointer;
+
+        font-family: Inter;
+        font-size: 16px;
+        font-weight: 600;
+        line-height: 19px;
+        letter-spacing: 0em;
+      }
+      .editbtn2 {
+        width: 159px;
+        height: 47px;
+        border-radius: 24px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: white;
+        border: 1px solid black;
+        cursor: pointer;
+        font-family: Inter;
+        font-size: 16px;
+        font-weight: 400;
+        line-height: 19px;
+        letter-spacing: 0em;
+      }
+    }
+  }
+}

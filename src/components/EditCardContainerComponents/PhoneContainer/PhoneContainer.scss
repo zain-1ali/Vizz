@@ -1,0 +1,26 @@
+.phone-container-main {
+  width: 30%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+  //   border: 1px solid black;
+
+  .view-card-btn {
+    width: 126px;
+    height: 27px;
+    border-radius: 15px;
+    background-color: #bdbdbd;
+    font-family: Inter;
+    font-size: 11px;
+    font-weight: 400;
+    line-height: 12px;
+    letter-spacing: 0em;
+    color: #ffffff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+  }
+}

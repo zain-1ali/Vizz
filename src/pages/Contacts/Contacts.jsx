@@ -11,12 +11,12 @@ import { BsTrashFill } from "react-icons/bs";
 import { colors } from "@mui/material";
 
 const Contacts = () => {
-  console.log(screen.width);
+  //   console.log(screen.width);
   return (
     <div className="contact-main">
       <Sidebar />
       <div className="contact-inner">
-        {/*-------------------------------heade section-------------------------------------*/}
+        {/*-------------------------------header section-------------------------------------*/}
         <div className="contact-header">
           <div className="profilebtn">
             <p>Contacts</p>
@@ -33,6 +33,8 @@ const Contacts = () => {
             Export via CVS
           </div>
         </div>
+
+        {/*-------------------------------info section-------------------------------------*/}
 
         <div className="contact-info-container">
           <div className="info-inner">
@@ -71,6 +73,8 @@ const Contacts = () => {
             </div>
           </div>
         </div>
+
+        {/*-------------------------------table section-------------------------------------*/}
 
         <div className="tableContainer">
           <div className="table-head">

@@ -42,7 +42,15 @@ const Sidebar = () => {
           <SiGoogleanalytics className="optionicon" />
           <p>Analytics</p>
         </div>
-        <div className="single-option">
+        <div
+          className="single-option"
+          onClick={() => navigate("/settings")}
+          style={
+            pathname === "/settings"
+              ? { backgroundColor: "rgba(47, 47, 47, 1)" }
+              : null
+          }
+        >
           <IoMdSettings className="optionicon" />
           <p>Settings</p>
         </div>

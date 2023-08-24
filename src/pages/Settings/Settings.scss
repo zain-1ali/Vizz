@@ -1,3 +1,4 @@
+@import "../../styles/colors.scss";
 .settings-main {
   width: 100%;
   display: flex;
@@ -7,5 +8,183 @@
     width: 78%;
     height: 100%;
     overflow-y: scroll;
+    display: flex;
+    justify-content: center;
+
+    .settings-innerII {
+      width: 90%;
+
+      .settings-header {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        margin-top: 35px;
+
+        .profilebtn {
+          width: 141px;
+          height: 47px;
+          border-radius: 36px;
+          background-color: rgba(247, 247, 247, 1);
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          cursor: pointer;
+
+          p {
+            font-family: Inter;
+            font-size: 16px;
+            font-weight: 500;
+            line-height: 19px;
+            letter-spacing: 0em;
+            // text-align: left;
+          }
+        }
+
+        .sortbtn {
+          width: 159px;
+          height: 47px;
+          border-radius: 36px;
+          border: 1px;
+          border: 2px solid rgba(124, 124, 124, 1);
+          outline: none;
+          padding-left: 5px;
+          padding-right: 5px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          font-family: Inter;
+          font-size: 16px;
+          font-weight: 400;
+          line-height: 19px;
+          letter-spacing: 0em;
+          color: #353535;
+          cursor: pointer;
+        }
+      }
+      .custom-heading {
+        width: 100%;
+        border-bottom: 1px solid #dfdddd;
+        margin-top: 40px;
+        font-family: Inter;
+        font-size: 24px;
+        font-weight: 600;
+        line-height: 29px;
+        letter-spacing: 0em;
+        color: #dea527;
+        padding-bottom: 15px;
+      }
+      .account-setting-form {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        .form-content {
+          width: 600px;
+          margin-top: 20px;
+          // border: 1px solid black;
+          .name-fields {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            .singlefield {
+              font-family: Inter;
+              font-size: 14px;
+              font-weight: 500;
+              line-height: 17px;
+              letter-spacing: 0em;
+
+              .nameinput {
+                width: 270px;
+                height: 46px;
+                border-radius: 36px;
+                background-color: #f7f7f7;
+                margin-top: 6px;
+                border: none;
+                outline: none;
+                padding-left: 20px;
+              }
+            }
+          }
+
+          .email-field {
+            width: 600px;
+            // border: 1px solid black;
+            margin-top: 20px;
+            .singlefieldII {
+              font-family: Inter;
+              font-size: 14px;
+              font-weight: 500;
+              line-height: 17px;
+              letter-spacing: 0em;
+
+              .emailinput {
+                width: 570px;
+                height: 47px;
+                border-radius: 36px;
+                background-color: #f7f7f7;
+                margin-top: 6px;
+                border: none;
+                outline: none;
+                padding-left: 20px;
+              }
+            }
+          }
+
+          .account-security {
+            width: 600px;
+            // border: 1px solid black;
+
+            margin-top: 20px;
+            .singlefieldIII {
+              font-family: Inter;
+              font-size: 20px;
+              font-weight: 600;
+              line-height: 24px;
+              letter-spacing: 0em;
+              color: #625f5f;
+              position: relative;
+
+              .reset-btn {
+                width: 159px;
+                height: 47px;
+                border-radius: 36px;
+                background-color: $c2;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                font-family: Inter;
+                font-size: 16px;
+                font-weight: 600;
+                line-height: 19px;
+                letter-spacing: 0em;
+                color: white;
+                position: absolute;
+                right: 0px;
+                bottom: 0px;
+                cursor: pointer;
+              }
+
+              .reset-btn:hover {
+                background-color: $c2hover;
+              }
+
+              .emailinput {
+                width: 570px;
+                height: 47px;
+                margin-top: 12px;
+                border-radius: 36px;
+                background-color: #f7f7f7;
+                // margin-top: 6px;
+                border: none;
+                outline: none;
+                padding-left: 20px;
+              }
+            }
+          }
+        }
+      }
+    }
   }
 }

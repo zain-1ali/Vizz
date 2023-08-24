@@ -30,7 +30,14 @@ const Lead = () => {
             as your profile is shared
           </p>
         </div>
-        <div className="form-input-options"></div>
+        <div className="form-input-options">
+          <div className="option">Full Name</div>
+          <div className="option">Email</div>
+          <div className="option">Phone Number</div>
+          <div className="option">Job Title</div>
+          <div className="option">Company</div>
+          <div className="option">Note</div>
+        </div>
       </div>
     </div>
   );

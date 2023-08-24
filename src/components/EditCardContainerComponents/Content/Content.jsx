@@ -20,7 +20,7 @@ const Content = () => {
         <div className="lead-direct">
           <div className="lead">
             {/* <ThemeProvider theme={theme}> */}
-            <Switch defaultChecked />
+            <Switch defaultChecked size="small" />
             {/* </ThemeProvider> */}
 
             <p>Lead Mode</p>

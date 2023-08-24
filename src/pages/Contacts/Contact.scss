@@ -1,0 +1,273 @@
+.contact-main {
+  width: 100%;
+  display: flex;
+  height: 100vh;
+
+  .contact-inner {
+    width: 78%;
+    height: 100%;
+    overflow-y: scroll;
+
+    .contact-header {
+      width: 100%;
+      display: flex;
+      justify-content: space-around;
+      margin-top: 35px;
+
+      .profilebtn {
+        width: 178px;
+        height: 47px;
+        border-radius: 36px;
+        background-color: rgba(247, 247, 247, 1);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+
+        p {
+          font-family: Inter;
+          font-size: 16px;
+          font-weight: 500;
+          line-height: 19px;
+          letter-spacing: 0em;
+          // text-align: left;
+        }
+      }
+
+      .searchbar {
+        width: 393px;
+        height: 47px;
+        border-radius: 36px;
+        border: 2px solid rgba(124, 124, 124, 1);
+        display: flex;
+        align-items: center;
+        input {
+          width: 82%;
+          outline: none;
+          border: none;
+          margin-left: 20px;
+        }
+        .searchicon {
+          font-size: 25px;
+          color: rgba(124, 124, 124, 1);
+        }
+      }
+
+      .csvbtn {
+        width: 141px;
+        height: 47px;
+        border-radius: 36px;
+        border: 2px;
+        border: 2px solid rgba(124, 124, 124, 1);
+        outline: none;
+        cursor: pointer;
+        font-family: Inter;
+        font-size: 12px;
+        font-weight: 600;
+        line-height: 15px;
+        letter-spacing: 0em;
+        color: #000000;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+    }
+
+    .contact-info-container {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-top: 50px;
+
+      .info-inner {
+        width: 88%;
+        // border: 1px solid black;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        .info {
+          width: 60%;
+          height: 120px;
+          border-radius: 5px;
+          background-color: #ffebbb;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          .info-inner {
+            height: 80%;
+            width: 90%;
+            // border: 1px solid black;
+            display: flex;
+            .icon-container {
+              height: 100%;
+              width: 37px;
+              //   border: 1px solid black;
+            }
+
+            .text-container {
+              width: 91%;
+              height: 100%;
+              //   border: 1px solid black;
+              .main-heading {
+                font-family: Inter;
+                font-size: 16px;
+                font-weight: 500;
+                line-height: 19px;
+                letter-spacing: 0em;
+              }
+              .para-info {
+                margin-top: 10px;
+                font-family: Inter;
+                font-size: 13px;
+                font-weight: 400;
+                line-height: 16px;
+                letter-spacing: 0em;
+                color: #535353;
+              }
+              .learn-more {
+                color: #eea707;
+                font-family: Inter;
+                font-size: 16px;
+                font-weight: 500;
+                line-height: 19px;
+                letter-spacing: 0em;
+                margin-top: 10px;
+              }
+            }
+          }
+        }
+        .lead-stats {
+          width: 35%;
+          height: 120px;
+          border-radius: 6px;
+          background-color: #ffebbb;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          .lead-stats-inner {
+            height: 86%;
+            width: 86%;
+            // border: 1px solid black;
+            display: flex;
+            // justify-content: space-between;
+
+            .total-leads {
+              height: 100%;
+              width: 62%;
+              //   border: 1px solid black;
+              span {
+                font-family: Inter;
+                font-size: 16px;
+                font-weight: 500;
+                line-height: 19px;
+                letter-spacing: 0em;
+              }
+              h2 {
+                font-family: Inter;
+                font-size: 48px;
+                font-weight: 700;
+                line-height: 58px;
+                letter-spacing: 0em;
+                margin-top: 15px;
+              }
+            }
+            .pi-chart {
+              height: 100%;
+              width: 38%;
+              .circle {
+                height: 92px;
+                width: 92px;
+                border-radius: 100%;
+                border: 6px solid #dea527;
+              }
+            }
+          }
+        }
+      }
+    }
+
+    .tableContainer {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 30px;
+
+      .table-head {
+        width: 88%;
+        height: 47px;
+        border-radius: 36px;
+        background-color: #dea527;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        .col-heading {
+          font-family: Inter;
+          font-size: 16px;
+          font-weight: 500;
+          line-height: 19px;
+          letter-spacing: 0em;
+          color: #ffffff;
+        }
+      }
+      .table-rows {
+        width: 88%;
+        height: 350px;
+        // border: 1px solid black;
+        overflow-y: scroll;
+        &::-webkit-scrollbar {
+          width: 0;
+        }
+
+        .table-row {
+          width: 100%;
+          height: 83px;
+          border-radius: 37px;
+          background-color: #f7f7f7;
+          margin-top: 25px;
+          display: flex;
+          justify-content: space-around;
+          align-items: center;
+          .contact-name {
+            display: flex;
+            align-items: center;
+            .contact-img {
+              height: 36px;
+              width: 36px;
+              border-radius: 100%;
+            }
+            .name {
+              font-family: Inter;
+              font-size: 12px;
+              font-weight: 400;
+              line-height: 15px;
+              letter-spacing: 0em;
+              margin-left: 10px;
+            }
+          }
+
+          .contact-email {
+            font-family: Inter;
+            font-size: 12px;
+            font-weight: 400;
+            line-height: 15px;
+            letter-spacing: 0em;
+          }
+
+          .date {
+            font-family: Inter;
+            font-size: 12px;
+            font-weight: 400;
+            line-height: 15px;
+            letter-spacing: 0em;
+          }
+          .actions {
+            display: flex;
+            align-items: center;
+          }
+        }
+      }
+    }
+  }
+}

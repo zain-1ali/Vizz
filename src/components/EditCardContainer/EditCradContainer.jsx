@@ -33,6 +33,9 @@ const EditCradContainer = () => {
             <div
               className="single-option"
               onClick={() => dispatch(openContent())}
+              style={
+                iscontent ? { backgroundColor: "rgba(47, 47, 47, 1)" } : null
+              }
             >
               <img src={content} alt="" className="optionicon" />
               <p>Content</p>
@@ -40,15 +43,26 @@ const EditCradContainer = () => {
             <div
               className="single-option"
               onClick={() => dispatch(openAbout())}
+              style={
+                isabout ? { backgroundColor: "rgba(47, 47, 47, 1)" } : null
+              }
             >
               <img src={about} alt="" className="optionicon" />
               <p>About</p>
             </div>
-            <div className="single-option" onClick={() => dispatch(openQr())}>
+            <div
+              className="single-option"
+              onClick={() => dispatch(openQr())}
+              style={isqr ? { backgroundColor: "rgba(47, 47, 47, 1)" } : null}
+            >
               <img src={qr} alt="" className="optionicon" />
               <p>Qr Code</p>
             </div>
-            <div className="single-option" onClick={() => dispatch(openLead())}>
+            <div
+              className="single-option"
+              onClick={() => dispatch(openLead())}
+              style={islead ? { backgroundColor: "rgba(47, 47, 47, 1)" } : null}
+            >
               <img src={lead} alt="" className="optionicon" />
               <p>Lead Capture</p>
             </div>

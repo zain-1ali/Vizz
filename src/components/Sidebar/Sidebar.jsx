@@ -38,7 +38,15 @@ const Sidebar = () => {
           <BsPersonVcardFill className="optionicon" />
           <p>Contacts</p>
         </div>
-        <div className="single-option">
+        <div
+          className="single-option"
+          onClick={() => navigate("/analytics")}
+          style={
+            pathname === "/analytics"
+              ? { backgroundColor: "rgba(47, 47, 47, 1)" }
+              : null
+          }
+        >
           <SiGoogleanalytics className="optionicon" />
           <p>Analytics</p>
         </div>

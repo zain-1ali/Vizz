@@ -12,6 +12,7 @@ import Home from "./pages/Home/Home";
 import EditCard from "./pages/EditCard/EditCard";
 import Contacts from "./pages/Contacts/Contacts";
 import Settings from "./pages/Settings/Settings";
+import Analytics from "./pages/Analytics/Analytics";
 function App() {
   let width = screen.width;
   return (
@@ -25,6 +26,7 @@ function App() {
             <Route path="/editcard" element={<EditCard />} />
             <Route path="/contacts" element={<Contacts />} />
             <Route path="/settings" element={<Settings />} />
+            <Route path="/analytics" element={<Analytics />} />
           </Routes>
         </BrowserRouter>
       ) : (

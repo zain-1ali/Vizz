@@ -1,13 +1,59 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./About.scss";
 import { Switch } from "@mui/material";
 import { AiOutlinePlus } from "react-icons/ai";
 import bgplaceholder from "../../../imgs/coverholder.png";
 import prflplaceholder from "../../../imgs/prflplaceholder.png";
+import { useDispatch } from "react-redux";
+import {
+  setName,
+  setEmail,
+  setColor,
+  setPhone,
+  setCoverUrl,
+  setProfileurl,
+  setDesignation,
+  setAddress,
+  setBio,
+} from "../../../redux/profileInfoSlice.js";
+import { useSelector } from "react-redux";
+import Cropper from "../../Cropper/Cropper";
+import { submitAbout } from "../../../redux/ApisSlice";
 
-const About = () => {
+const About = ({ id }) => {
+  let date = Date.now();
+  let dispatch = useDispatch();
+  const name = useSelector((state) => state.profileInfoSlice.name);
+  const email = useSelector((state) => state.profileInfoSlice.email);
+  const color = useSelector((state) => state.profileInfoSlice.color);
+  const phone = useSelector((state) => state.profileInfoSlice.phone);
+  const cover = useSelector((state) => state.profileInfoSlice.coverUrl);
+  const profile = useSelector((state) => state.profileInfoSlice.profileUrl);
+  const address = useSelector((state) => state.profileInfoSlice.address);
+  const bio = useSelector((state) => state.profileInfoSlice.bio);
+  const responce = useSelector((state) => state.ApiSlice.response);
+
+  console.log(responce);
+
   let [prflimg, setprflimg] = useState(null);
-  let [bgimg, setbgimg] = useState(null);
+
+  // ----------------------------------------------------State setup for profile img crop---------------------------------------------
+
+  let [cropModal, setcropModal] = useState(false);
+  let [myprflimg, setmyprflimg] = useState(null);
+  let [cropPrfl, setCropPrfl] = useState({
+    unit: "%",
+    x: 50,
+    y: 50,
+    width: 25,
+    height: 25,
+  });
+
+  let handleclosecropper = () => {
+    setcropModal(false);
+    // settheimg(null)
+  };
+
   let handlePrflImageChange = (event) => {
     // profileImage
     setprflimg("");
@@ -24,6 +70,23 @@ const About = () => {
         setcropModal(true);
       });
     }
+  };
+
+  // ----------------------------------------------------State setup for bg img crop---------------------------------------------
+
+  let [bgimg, setbgimg] = useState(null);
+  let [bgCropModal, setBgcropModal] = useState(false);
+  let [mybgimg, setmybgimg] = useState(null);
+  let [cropbg, setCropbg] = useState({
+    unit: "%",
+    x: 50,
+    y: 50,
+    width: 25,
+    height: 25,
+  });
+
+  let handleclosebgcropper = () => {
+    setBgcropModal(false);
   };
 
   let handlebgImageChange = (event) => {
@@ -44,8 +107,51 @@ const About = () => {
     }
   };
 
+  let aboutData = new FormData();
+  aboutData.append("id", id);
+  // aboutData.append("coverUrl", cover);
+  // aboutData.append("profileUrl", profile);
+  aboutData.append("name", name);
+  aboutData.append("bio", bio);
+  aboutData.append("email", email);
+  aboutData.append("address", address);
+  aboutData.append("color", "#000000");
+  aboutData.append("phone", phone);
+  // console.log(aboutData);
+  // console.log("name", name);
+
+  // console.log(aboutData.get("coverUrl"));
+
+  // useEffect(() => {
+
+  // }, []);
   return (
     <div className="about-main">
+      {/* --------------------------------------------croper for profile image------------------------------------------------  */}
+      <Cropper
+        cropModal={cropModal}
+        handleclosecropper={handleclosecropper}
+        theimg={prflimg}
+        myimg={myprflimg}
+        setmyimg={setmyprflimg}
+        setcrop={setCropPrfl}
+        crop={cropPrfl}
+        aspect={1 / 1}
+        setReduxState={setProfileurl}
+      />
+
+      {/* --------------------------------------------croper for Cover image------------------------------------------------  */}
+      <Cropper
+        cropModal={bgCropModal}
+        handleclosecropper={handleclosebgcropper}
+        theimg={bgimg}
+        myimg={mybgimg}
+        setmyimg={setmybgimg}
+        setcrop={setCropbg}
+        crop={cropbg}
+        aspect={4 / 2}
+        setReduxState={setCoverUrl}
+      />
       <div className="about-upper">
         <div className="lead-direct">
           <div className="lead">
@@ -120,7 +226,7 @@ const About = () => {
           // className="prfl-img"
         >
           <img
-            src={prflplaceholder}
+            src={profile}
             alt=""
             className="prfl-img"
             // style={{ border: "1px solid black" }}
@@ -135,7 +241,7 @@ const About = () => {
         </label>
 
         <label htmlFor="coverImg">
-          <img src={bgplaceholder} alt="" className="bg-img" />
+          <img src={cover} alt="" className="bg-img" />
           <input
             type="file"
             name="coverImg"
@@ -149,23 +255,56 @@ const About = () => {
       </div>
 
       <div className="first-field">
-        <input type="text" className="input1" placeholder="Company Name" />
+        <input
+          type="text"
+          className="input1"
+          placeholder="Company Name"
+          onChange={(e) => dispatch(setName(e.target.value))}
+          value={name}
+        />
         <input
           type="text"
           className="input2"
           placeholder="Location / Address"
+          onChange={(e) => dispatch(setAddress(e.target.value))}
+          value={address}
         />
       </div>
 
       <div className="second-field">
-        <input type="text" className="input1" placeholder="Email" />
-        <input type="text" className="input2" placeholder="Phone Number" />
+        <input
+          type="text"
+          className="input1"
+          placeholder="Email"
+          onChange={(e) => dispatch(setEmail(e.target.value))}
+          value={email}
+        />
+        <input
+          type="text"
+          className="input2"
+          placeholder="Phone Number"
+          onChange={(e) => dispatch(setPhone(e.target.value))}
+          value={phone}
+        />
       </div>
-      <textarea name="" id="" cols="30" rows="10" placeholder="Bio"></textarea>
+      <textarea
+        name=""
+        id=""
+        cols="30"
+        rows="10"
+        placeholder="Bio"
+        onChange={(e) => dispatch(setBio(e.target.value))}
+        value={bio}
+      ></textarea>
       <div className="btns-main">
         <div className="btns-inner">
           <button className="cancel">Cancel</button>
-          <button className="update">Update</button>
+          <button
+            className="update"
+            onClick={() => dispatch(submitAbout(aboutData))}
+          >
+            Update
+          </button>
         </div>
       </div>
     </div>

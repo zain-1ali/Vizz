@@ -32,10 +32,12 @@
 
   .contact-card-details {
     width: 100%;
+    height: 100px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-top: 30px;
+    margin-top: 35px;
+    // border: 1px solid black;
 
     h2 {
       font-family: Inter;
@@ -49,6 +51,8 @@
     .phone-container {
       display: flex;
       margin-top: 10px;
+      width: 50%;
+      // border: 1px solid black;
       font-family: Inter;
       font-size: 10px;
       font-weight: 400;
@@ -62,19 +66,25 @@
       display: flex;
       align-items: center;
       margin-top: 4px;
-      width: 70%;
+      width: 60%;
+
+      // border: 1px solid black;
       font-family: Inter;
       font-size: 10px;
       font-weight: 400;
       line-height: 12px;
       letter-spacing: 0em;
       // text-align: left;
+      p {
+      }
       color: #cccccc;
     }
 
     .location-container {
       display: flex;
       margin-top: 5px;
+      width: 50%;
+      // border: 1px solid black;
       font-family: Inter;
       font-size: 10px;
       font-weight: 400;
@@ -88,7 +98,7 @@
   .btn-main {
     width: 100%;
     // border: 1px solid black;
-    margin-top: 15px;
+    margin-top: 10px;
     display: flex;
     justify-content: center;
     align-items: center;

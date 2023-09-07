@@ -88,7 +88,7 @@
         justify-content: space-between;
         align-items: center;
         .link-left {
-          width: 28%;
+          width: 38%;
           display: flex;
           justify-content: space-between;
           align-items: center;
@@ -112,6 +112,7 @@
         }
 
         .link-right {
+          // border: 1px solid black;
           width: 45%;
           height: 100%;
           display: flex;

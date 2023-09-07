@@ -18,11 +18,15 @@ import Qr from "../EditCardContainerComponents/Qr/Qr";
 import Lead from "../EditCardContainerComponents/Lead/Lead";
 import QrContainer from "../EditCardContainerComponents/QrContainer/QrContainer";
 
-const EditCradContainer = () => {
+const EditCradContainer = ({ id }) => {
   const iscontent = useSelector((state) => state.profileEditHandeler.isContent);
   const isabout = useSelector((state) => state.profileEditHandeler.isAbout);
   const isqr = useSelector((state) => state.profileEditHandeler.isQr);
   const islead = useSelector((state) => state.profileEditHandeler.isLead);
+  let singleProfile = useSelector(
+    (state) => state.ApiSlice.singleEmployee?.data
+  );
+  console.log(singleProfile);
   const dispatch = useDispatch();
 
   return (
@@ -68,8 +72,8 @@ const EditCradContainer = () => {
             </div>
           </div>
         </div>
-        {iscontent && <Content />}
-        {isabout && <About />}
+        {iscontent && <Content links={singleProfile?.links} />}
+        {isabout && <About id={id} />}
         {isqr && <Qr />}
         {islead && <Lead />}
 

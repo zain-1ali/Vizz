@@ -1,0 +1,110 @@
+.links-modal-main {
+  width: 100%;
+  height: 100%;
+  overflow-y: scroll;
+
+  .links-upper {
+    width: 100%;
+    // border: 1px solid black;
+    h2 {
+      font-family: Inter;
+      font-size: 24px;
+      font-weight: 600;
+      line-height: 29px;
+      letter-spacing: 0em;
+      color: #353535;
+    }
+    p {
+      font-family: Inter;
+      font-size: 12px;
+      font-weight: 400;
+      line-height: 15px;
+      letter-spacing: 0em;
+      color: #abaaaa;
+      margin-top: 5px;
+      width: 516px;
+    }
+  }
+
+  .single-type-link {
+    width: 100%;
+    margin-top: 20px;
+    h2 {
+      font-family: Inter;
+      font-size: 16px;
+      font-weight: 600;
+      line-height: 19px;
+      letter-spacing: 0em;
+      color: #626060;
+    }
+    .links {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+
+      .single-link {
+        width: 215px;
+        height: 65px;
+        border-radius: 16px;
+        background-color: #f3f3f3;
+        margin-top: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        .single-link-inner {
+          width: 85%;
+          display: flex;
+          justify-content: space-around;
+          align-items: center;
+          //   border: 1px solid black;
+          .icon-name {
+            width: 65%;
+            display: flex;
+            // justify-content: center;
+            align-items: center;
+            .icon-circle {
+              height: 30px;
+              width: 30px;
+              border-radius: 100%;
+              background-color: black;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+            }
+            .name {
+              font-family: Inter;
+              font-size: 12px;
+              font-weight: 500;
+              line-height: 15px;
+              letter-spacing: 0em;
+              margin-left: 8px;
+            }
+          }
+
+          .add-remove {
+            width: 35%;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            cursor: pointer;
+            // border: 1px solid black;
+
+            .btn {
+              width: 38px;
+              height: 19px;
+              border-radius: 22px;
+              background-color: #2c2a2a;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+.links-modal-main::-webkit-scrollbar {
+  display: none;
+}

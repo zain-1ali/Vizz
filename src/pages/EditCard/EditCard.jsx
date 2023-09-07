@@ -1,11 +1,47 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Sidebar from "../../components/Sidebar/Sidebar";
 import "./EditCard.scss";
 import { BsShareFill } from "react-icons/bs";
 import { MdKeyboardArrowLeft } from "react-icons/md";
 import EditCradContainer from "../../components/EditCardContainer/EditCradContainer";
+import { useDispatch, useSelector } from "react-redux";
+import { getEmployee } from "../../redux/ApisSlice";
+import { useParams } from "react-router-dom";
+import {
+  setName,
+  setEmail,
+  setColor,
+  setPhone,
+  setCoverUrl,
+  setProfileurl,
+  setDesignation,
+  setAddress,
+  setBio,
+} from "../../redux/profileInfoSlice.js";
 
 const EditCard = () => {
+  let { id } = useParams();
+  console.log(id);
+  let dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getEmployee(id));
+  }, []);
+  let singleProfile = useSelector((state) => state.ApiSlice.singleEmployee);
+
+  console.log(singleProfile);
+
+  useEffect(() => {
+    dispatch(setName(singleProfile?.name));
+    dispatch(setEmail(singleProfile?.email));
+    dispatch(setColor(singleProfile?.color));
+    dispatch(setPhone(singleProfile?.phone));
+    // dispatch(setCoverUrl(singleProfile?.coverUrl));
+    // dispatch(setProfileurl(singleProfile?.profileUrl));
+    dispatch(setDesignation(singleProfile?.designation));
+    dispatch(setAddress(singleProfile?.address));
+    dispatch(setBio(singleProfile?.bio));
+  }, [singleProfile]);
+
   return (
     <div className="edit-main">
       <Sidebar />
@@ -18,7 +54,8 @@ const EditCard = () => {
                 marginRight: "4px",
               }}
             />
-            Jone Mike
+            {singleProfile?.name}
+            {/* Jone Mike */}
           </button>
           <button className="editbtn2">
             <BsShareFill
@@ -31,7 +68,7 @@ const EditCard = () => {
           </button>
         </div>
 
-        <EditCradContainer />
+        <EditCradContainer id={id} />
       </div>
     </div>
   );

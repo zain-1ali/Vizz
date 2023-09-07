@@ -5,12 +5,23 @@ import { BiHelpCircle } from "react-icons/bi";
 import bgplaceholder from "../../imgs/coverholder.png";
 import prflplaceholder from "../../imgs/prflplaceholder.png";
 import { CgColorPicker } from "react-icons/cg";
-import { AiFillEye } from "react-icons/ai";
+import { AiFillEye, AiOutlinePlus } from "react-icons/ai";
+import { Switch } from "@mui/material";
+import LinksModal from "../../components/LinksModal/LinksModal";
+import {
+  openLinkModal,
+  openLinkEditModal,
+  openLinkUpdateModal,
+  openModal,
+  closeAllModal,
+} from "../../redux/Modalslice";
+import { useDispatch } from "react-redux";
 
 const Settings = () => {
   let [prflimg, setprflimg] = useState(null);
   let [bgimg, setbgimg] = useState(null);
 
+  let dispatch = useDispatch();
   let handlePrflImageChange = (event) => {
     // profileImage
     setprflimg("");
@@ -50,6 +61,7 @@ const Settings = () => {
     <div className="settings-main">
       <Sidebar />
       <div className="settings-inner">
+        <LinksModal />
         <div className="settings-innerII">
           <div className="settings-header">
             <div className="profilebtn">
@@ -72,6 +84,38 @@ const Settings = () => {
 
           <div className="account-setting-form">
             <div className="form-content">
+              <div className="about-upper">
+                <div className="lead-direct">
+                  <div className="lead">
+                    {/* <ThemeProvider theme={theme}> */}
+                    <Switch defaultChecked size="small" />
+                    {/* </ThemeProvider> */}
+
+                    <p>Lead Mode</p>
+                  </div>
+                  <div className="direct">
+                    {/* <ThemeProvider theme={theme}> */}
+                    <Switch defaultChecked size="small" />
+                    {/* </ThemeProvider> */}
+                    <p>Direct</p>
+                  </div>
+                </div>
+                <div
+                  className="add-link"
+                  onClick={() => {
+                    dispatch(openModal()), dispatch(openLinkModal());
+                  }}
+                >
+                  <AiOutlinePlus
+                    style={{
+                      color: "white",
+                      fontSize: "20px",
+                      marginRight: "5px",
+                    }}
+                  />{" "}
+                  Add Links and Contacts
+                </div>
+              </div>
               <div className="name-fields">
                 <div className="singlefield">
                   First name

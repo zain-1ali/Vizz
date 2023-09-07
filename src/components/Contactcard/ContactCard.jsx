@@ -9,7 +9,7 @@ import { BiSolidPencil } from "react-icons/bi";
 import { BsShareFill } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
 
-const ContactCard = () => {
+const ContactCard = ({ data }) => {
   const navigate = useNavigate();
 
   return (
@@ -19,25 +19,38 @@ const ContactCard = () => {
         <img src={bg} alt="" className="bg" />
       </div>
       <div className="contact-card-details">
-        <h2>Jon Mike</h2>
-        <div className="phone-container">
-          <FaPhoneAlt style={{ fontSize: "12px", marginRight: "4px" }} />
-          +10101010110110
-        </div>
-        <div className="job-container">
-          <BiSolidBriefcaseAlt
-            style={{ fontSize: "30px", marginRight: "7px" }}
-          />
-          Keese producer / Company owner / www.rerse.sk / infe@mlke.k
-        </div>
+        <h2>{data?.name}</h2>
+        {data?.phone && (
+          <div className="phone-container">
+            <FaPhoneAlt style={{ fontSize: "12px", marginRight: "4px" }} />
+            {data?.phone}
+          </div>
+        )}
+        {data?.bio && (
+          <div className="job-container">
+            <BiSolidBriefcaseAlt
+              style={
+                data?.bio.length <= 28
+                  ? { fontSize: "15px", marginRight: "4px" }
+                  : { fontSize: "30px", marginRight: "7px" }
+              }
+            />
+            {data?.bio}
+          </div>
+        )}
 
-        <div className="location-container">
-          <MdLocationOn style={{ fontSize: "15px", marginRight: "4px" }} />
-          Za Solnou 1064/11
-        </div>
+        {data?.address && (
+          <div className="location-container">
+            <MdLocationOn style={{ fontSize: "15px", marginRight: "4px" }} />
+            {data?.address}
+          </div>
+        )}
       </div>
       <div className="btn-main">
-        <button className="editbtn" onClick={() => navigate("/editcard")}>
+        <button
+          className="editbtn"
+          onClick={() => navigate(`/editcard/${data?.id}`)}
+        >
           <BiSolidPencil
             style={{
               fontSize: "12px",

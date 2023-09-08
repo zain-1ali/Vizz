@@ -107,16 +107,26 @@ const About = ({ id }) => {
     }
   };
 
-  let aboutData = new FormData();
-  aboutData.append("id", id);
+  let aboutData = {
+    id,
+    name,
+    email,
+    color,
+    address,
+    bio,
+    coverUrl: cover,
+    profileUrl: profile,
+  };
+  // new FormData();
+  // aboutData.append("id", id);
   // aboutData.append("coverUrl", cover);
   // aboutData.append("profileUrl", profile);
-  aboutData.append("name", name);
-  aboutData.append("bio", bio);
-  aboutData.append("email", email);
-  aboutData.append("address", address);
-  aboutData.append("color", "#000000");
-  aboutData.append("phone", phone);
+  // aboutData.append("name", name);
+  // aboutData.append("bio", bio);
+  // aboutData.append("email", email);
+  // aboutData.append("address", address);
+  // aboutData.append("color", "#000000");
+  // aboutData.append("phone", phone);
   // console.log(aboutData);
   // console.log("name", name);
 

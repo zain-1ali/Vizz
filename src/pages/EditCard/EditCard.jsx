@@ -31,15 +31,15 @@ const EditCard = () => {
   console.log(singleProfile);
 
   useEffect(() => {
-    dispatch(setName(singleProfile?.name));
-    dispatch(setEmail(singleProfile?.email));
-    dispatch(setColor(singleProfile?.color));
-    dispatch(setPhone(singleProfile?.phone));
+    dispatch(setName(singleProfile?.data?.name));
+    dispatch(setEmail(singleProfile?.data?.email));
+    dispatch(setColor(singleProfile?.data?.color));
+    dispatch(setPhone(singleProfile?.data?.phone));
     // dispatch(setCoverUrl(singleProfile?.coverUrl));
-    // dispatch(setProfileurl(singleProfile?.profileUrl));
-    dispatch(setDesignation(singleProfile?.designation));
-    dispatch(setAddress(singleProfile?.address));
-    dispatch(setBio(singleProfile?.bio));
+    dispatch(setProfileurl(singleProfile?.data?.profileUrl));
+    dispatch(setDesignation(singleProfile?.data?.designation));
+    dispatch(setAddress(singleProfile?.data?.address));
+    dispatch(setBio(singleProfile?.data?.bio));
   }, [singleProfile]);
 
   return (
@@ -54,7 +54,7 @@ const EditCard = () => {
                 marginRight: "4px",
               }}
             />
-            {singleProfile?.name}
+            {singleProfile?.data?.name}
             {/* Jone Mike */}
           </button>
           <button className="editbtn2">

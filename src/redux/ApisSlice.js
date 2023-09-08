@@ -111,15 +111,13 @@ export const submitAbout = createAsyncThunk(
   "submitAbout",
 
   async (data, { rejectWithValue }) => {
-    console.log(data.get("name"));
-    id = data.get("id");
     const response = await fetch(`${baseUrl}/api/updateEmployee`, {
       method: "Post",
-      body: data,
       headers: {
         Authorization: `Bearer ${theToken[1]}`,
-        "Content-Type": "multipart/form-data",
+        "Content-Type": "application/json",
       },
+      body: JSON.stringify(data),
     });
     try {
       const result = await response.json();
@@ -160,6 +158,29 @@ export const getOrganizationLinks = createAsyncThunk(
       headers: {
         Authorization: `Bearer ${theToken[1]}`,
       },
+    });
+
+    try {
+      const result = await response.json();
+      // dispatch(setName(result?.data?.name));
+      console.log(result);
+      return result;
+    } catch (error) {
+      rejectWithValue(error);
+    }
+  }
+);
+
+export const deleteOrganizationLink = createAsyncThunk(
+  "deleteOrganizationLink",
+  async (id, { rejectWithValue }) => {
+    const response = await fetch(`${baseUrl}/api/deleteOrganizationLink`, {
+      method: "Post",
+      headers: {
+        Authorization: `Bearer ${theToken[1]}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(id),
     });
 
     try {
@@ -296,7 +317,7 @@ export const ApiSlice = createSlice({
     },
     // )
 
-    // get Organization Links
+    // get added Organization Links
 
     // (
     [getOrganizationLinks.pending]: (state) => {
@@ -310,6 +331,22 @@ export const ApiSlice = createSlice({
     [getOrganizationLinks.rejected]: (state, action) => {
       state.loading = false;
       state.addedLinks = action.payload;
+    },
+    // )
+
+    // delete Organization Link
+    // (
+    [deleteOrganizationLink.pending]: (state) => {
+      state.submitLoading = true;
+    },
+
+    [deleteOrganizationLink.fulfilled]: (state, action) => {
+      state.submitLoading = false;
+      state.response = action.payload;
+    },
+    [deleteOrganizationLink.rejected]: (state, action) => {
+      state.submitLoading = false;
+      state.response = action.payload;
     },
     // )
   },

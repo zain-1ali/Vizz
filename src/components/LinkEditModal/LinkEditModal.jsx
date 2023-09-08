@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./LinkEditModal.scss";
 import Mobile from "../EditCardContainerComponents/Mobile/Mobile";
 import { MdKeyboardArrowLeft } from "react-icons/md";
@@ -12,13 +12,22 @@ import {
   closeAllModal,
 } from "../../redux/Modalslice";
 import { returnIcons } from "../../assets/ReturnSocialIcons";
-import { addOrganizationLink } from "../../redux/ApisSlice";
+import {
+  addOrganizationLink,
+  deleteOrganizationLink,
+  getAllSocialLinks,
+  getOrganizationLinks,
+} from "../../redux/ApisSlice";
+import { BsFillTrashFill } from "react-icons/bs";
 
 const LinkEditModal = ({ link, linkInfo }) => {
   let dispatch = useDispatch();
   let theLinkValue = linkInfo?.replace(link?.baseUrl, "");
   let [value, setvalue] = useState(theLinkValue);
-
+  useEffect(() => {
+    dispatch(getAllSocialLinks());
+    dispatch(getOrganizationLinks());
+  }, []);
   console.log(linkInfo.length > 0 ? true : false);
 
   const responce = useSelector((state) => state.ApiSlice.response);
@@ -29,7 +38,14 @@ const LinkEditModal = ({ link, linkInfo }) => {
     <div className="link-edit-main">
       <div className="left">
         <div className="left-upper">
-          <div className="go-back" onClick={() => dispatch(openLinkModal())}>
+          <div
+            className="go-back"
+            onClick={() => {
+              dispatch(openLinkModal()),
+                dispatch(getAllSocialLinks()),
+                dispatch(getOrganizationLinks());
+            }}
+          >
             <MdKeyboardArrowLeft style={{ fontSize: "25px" }} />
             <p>Back</p>
           </div>
@@ -47,24 +63,67 @@ const LinkEditModal = ({ link, linkInfo }) => {
             value={value}
             onChange={(e) => setvalue(e.target.value)}
           />
-          <div className="btns-div">
-            <button className="btn1" onClick={() => dispatch(openLinkModal())}>
-              Cancel
-            </button>
-            <button
-              className="btn2"
-              onClick={() =>
-                dispatch(
-                  addOrganizationLink({
-                    linkId: link?.id,
-                    value: link?.baseUrl + value,
-                  })
-                )
-              }
-            >
-              Add
-            </button>
-          </div>
+          {linkInfo.length > 0 ? (
+            <div className="btns-div2">
+              <div className="btns-left">
+                <button
+                  className="btn1"
+                  onClick={() => dispatch(openLinkModal())}
+                >
+                  Cancel
+                </button>
+                <button
+                  className="btn2"
+                  onClick={() => {
+                    dispatch(
+                      addOrganizationLink({
+                        linkId: link?.id,
+                        value: link?.baseUrl + value,
+                      })
+                    ),
+                      dispatch(openLinkModal());
+                    // dispatch(openLinkModal());
+                  }}
+                >
+                  Add
+                </button>
+              </div>
+              <div
+                className="del-btn"
+                onClick={() => {
+                  dispatch(deleteOrganizationLink({ linkId: link?.id })),
+                    dispatch(openLinkModal()),
+                    dispatch(getAllSocialLinks()),
+                    dispatch(getOrganizationLinks());
+                }}
+              >
+                <BsFillTrashFill style={{ marginRight: "5px" }} />
+                remove
+              </div>
+            </div>
+          ) : (
+            <div className="btns-div">
+              <button
+                className="btn1"
+                onClick={() => dispatch(openLinkModal())}
+              >
+                Cancel
+              </button>
+              <button
+                className="btn2"
+                onClick={() =>
+                  dispatch(
+                    addOrganizationLink({
+                      linkId: link?.id,
+                      value: link?.baseUrl + value,
+                    })
+                  )
+                }
+              >
+                Add
+              </button>
+            </div>
+          )}
         </div>
       </div>
       <div className="right">

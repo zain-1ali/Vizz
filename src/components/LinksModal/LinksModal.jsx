@@ -59,10 +59,10 @@ const LinksModal = () => {
   }, []);
 
   let allLinks = useSelector((state) => state.ApiSlice.allLinks);
-  console.log(allLinks.data);
+  // console.log(allLinks.data);
 
   let addedLinks = useSelector((state) => state.ApiSlice.addedLinks);
-  console.log(addedLinks.data);
+  // console.log(addedLinks.data);
 
   let [linkInfo, setLinkInfo] = useState("");
   let addedOrNot = (id) => {
@@ -121,9 +121,9 @@ const LinksModal = () => {
       <Modal
         open={modal}
         onClose={() => {
-          dispatch(closeAllModal()),
-            dispatch(removeLink()),
-            dispatch(setLinkHighlight(false));
+          dispatch(closeAllModal());
+          // dispatch(removeLink()),
+          // dispatch(setLinkHighlight(false));
         }}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"

@@ -15,7 +15,7 @@ const Home = () => {
   let allProfiles = useSelector((state) => state.ApiSlice.profiles);
   console.log(allProfiles);
 
-  let admin = allProfiles.data;
+  let admin = allProfiles?.data;
   let employees = allProfiles?.data?.employees;
 
   console.log(admin);

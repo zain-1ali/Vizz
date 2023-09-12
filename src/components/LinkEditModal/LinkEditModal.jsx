@@ -34,6 +34,14 @@ const LinkEditModal = ({ link, linkInfo }) => {
 
   console.log(responce);
 
+  let dataFunc = {
+    data: {
+      linkId: link?.id,
+      value: link?.baseUrl + value,
+    },
+    func: () => dispatch(openLinkModal()),
+  };
+
   return (
     <div className="link-edit-main">
       <div className="left">
@@ -75,13 +83,8 @@ const LinkEditModal = ({ link, linkInfo }) => {
                 <button
                   className="btn2"
                   onClick={() => {
-                    dispatch(
-                      addOrganizationLink({
-                        linkId: link?.id,
-                        value: link?.baseUrl + value,
-                      })
-                    ),
-                      dispatch(openLinkModal());
+                    dispatch(addOrganizationLink(dataFunc));
+
                     // dispatch(openLinkModal());
                   }}
                 >
@@ -111,14 +114,7 @@ const LinkEditModal = ({ link, linkInfo }) => {
               </button>
               <button
                 className="btn2"
-                onClick={() =>
-                  dispatch(
-                    addOrganizationLink({
-                      linkId: link?.id,
-                      value: link?.baseUrl + value,
-                    })
-                  )
-                }
+                onClick={() => dispatch(addOrganizationLink(dataFunc))}
               >
                 Add
               </button>

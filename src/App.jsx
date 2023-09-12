@@ -12,6 +12,7 @@ import Home from "./pages/Home/Home";
 import EditCard from "./pages/EditCard/EditCard";
 import Contacts from "./pages/Contacts/Contacts";
 import Settings from "./pages/Settings/Settings";
+import { ToastContainer } from "react-toastify";
 // import Analytics from "./pages/Analytics/Analytics";
 function App() {
   let width = screen.width;
@@ -43,6 +44,18 @@ function App() {
           Please open the application on your laptop or desktop
         </div>
       )}
+      <ToastContainer
+        position="top-center"
+        autoClose={5000}
+        // hideProgressBar={false}
+        // newestOnTop={false}
+        // closeOnClick
+        // rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        // theme="light"
+      />
     </>
   );
 }

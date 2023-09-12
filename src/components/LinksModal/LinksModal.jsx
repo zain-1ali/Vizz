@@ -115,7 +115,7 @@ const LinksModal = () => {
   //     dispatch(setLinkDescription(findlink[0]?.description));
   //     dispatch(setLinkHighlight(findlink[0]?.isHighLighted));
   //   };
-
+  console.log(linkEditmodal);
   return (
     <>
       <Modal
@@ -161,8 +161,8 @@ const LinksModal = () => {
                                     className="btn"
                                     onClick={() => {
                                       setSelectedLink(elm),
-                                        getAddedLink(elm?.id);
-                                      dispatch(openLinkEditModal());
+                                        getAddedLink(elm?.id),
+                                        dispatch(openLinkEditModal());
                                     }}
                                   >
                                     <MdModeEdit
@@ -176,9 +176,9 @@ const LinksModal = () => {
                                   <div
                                     className="btn"
                                     onClick={() => {
-                                      setSelectedLink(elm),
-                                        setLinkInfo(""),
-                                        dispatch(openLinkEditModal());
+                                      dispatch(openLinkEditModal()),
+                                        setSelectedLink(elm),
+                                        setLinkInfo("");
                                     }}
                                   >
                                     <BsPlusLg

@@ -247,6 +247,13 @@
           }
         }
       }
+      .account-links {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 550px;
+      }
 
       .organization-setting-form {
         width: 100%;

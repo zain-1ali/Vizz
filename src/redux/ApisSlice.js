@@ -1,4 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 let baseUrl = import.meta.env.VITE_BASE_URL;
 // create action
@@ -46,6 +48,27 @@ export const loginUser = createAsyncThunk(
   }
 );
 let theToken = localStorage.getItem("vizzToken").split("|");
+
+export const signOutUser = createAsyncThunk(
+  "signOutUser",
+  async (cb, { rejectWithValue }) => {
+    const response = await fetch(`${baseUrl}/api/signout`, {
+      method: "Post",
+      headers: {
+        Authorization: `Bearer ${theToken[1]}`,
+      },
+    });
+    try {
+      const result = await response.json();
+      cb();
+      localStorage.removeItem("vizzToken");
+      // data.successNavigation();
+      return result;
+    } catch (error) {
+      rejectWithValue(error);
+    }
+  }
+);
 
 // read action
 export const getOrganizationProfiles = createAsyncThunk(
@@ -129,6 +152,7 @@ export const submitAbout = createAsyncThunk(
   }
 );
 
+// Apis for organization links
 //
 export const addOrganizationLink = createAsyncThunk(
   "addOrganizationLink",
@@ -140,10 +164,11 @@ export const addOrganizationLink = createAsyncThunk(
         "Content-Type": "application/json",
       },
 
-      body: JSON.stringify(data),
+      body: JSON.stringify(data?.data),
     });
     try {
       const result = await response.json();
+      data?.func();
       return result;
     } catch (error) {
       rejectWithValue(error);
@@ -187,6 +212,115 @@ export const deleteOrganizationLink = createAsyncThunk(
       const result = await response.json();
       // dispatch(setName(result?.data?.name));
       console.log(result);
+      return result;
+    } catch (error) {
+      rejectWithValue(error);
+    }
+  }
+);
+
+export const rearrangeLinks = createAsyncThunk(
+  "rearrangeLinks",
+
+  async (data, { rejectWithValue }) => {
+    const response = await fetch(`${baseUrl}/api/arrangeOrganizationLinks`, {
+      method: "Post",
+      headers: {
+        Authorization: `Bearer ${theToken[1]}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ links: data }),
+    });
+    try {
+      const result = await response.json();
+      return result;
+    } catch (error) {
+      rejectWithValue(error);
+    }
+  }
+);
+
+// Apis for user links
+
+export const addUserLink = createAsyncThunk(
+  "addUserLink",
+  async (data, { rejectWithValue }) => {
+    const response = await fetch(`${baseUrl}/api/addUserLink`, {
+      method: "Post",
+      headers: {
+        Authorization: `Bearer ${theToken[1]}`,
+        "Content-Type": "application/json",
+      },
+
+      body: JSON.stringify(data?.data),
+    });
+    try {
+      const result = await response.json();
+      data?.func();
+      return result;
+    } catch (error) {
+      rejectWithValue(error);
+    }
+  }
+);
+
+export const getUserLinks = createAsyncThunk(
+  "getUserLinks",
+  async (id, { rejectWithValue }) => {
+    const response = await fetch(`${baseUrl}/api/getUserLinks/${id}`, {
+      headers: {
+        Authorization: `Bearer ${theToken[1]}`,
+      },
+    });
+
+    try {
+      const result = await response.json();
+      // dispatch(setName(result?.data?.name));
+      console.log(result);
+      return result;
+    } catch (error) {
+      rejectWithValue(error);
+    }
+  }
+);
+
+export const deleteUserLink = createAsyncThunk(
+  "deleteUserLink",
+  async (id, { rejectWithValue }) => {
+    const response = await fetch(`${baseUrl}/api/deleteUserLink`, {
+      method: "Post",
+      headers: {
+        Authorization: `Bearer ${theToken[1]}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(id),
+    });
+
+    try {
+      const result = await response.json();
+      // dispatch(setName(result?.data?.name));
+      console.log(result);
+      return result;
+    } catch (error) {
+      rejectWithValue(error);
+    }
+  }
+);
+
+export const rearrangeUserLinks = createAsyncThunk(
+  "rearrangeUserLinks",
+
+  async (data, { rejectWithValue }) => {
+    const response = await fetch(`${baseUrl}/api/arrangeOrganizationLinks`, {
+      method: "Post",
+      headers: {
+        Authorization: `Bearer ${theToken[1]}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ links: data }),
+    });
+    try {
+      const result = await response.json();
       return result;
     } catch (error) {
       rejectWithValue(error);
@@ -288,14 +422,20 @@ export const ApiSlice = createSlice({
     // update about method
     // (
     [submitAbout.pending]: (state) => {
+      // toast.loading("Please wait...");
       state.submitLoading = true;
     },
 
     [submitAbout.fulfilled]: (state, action) => {
+      action.payload.status === true
+        ? toast.success(action.payload.message)
+        : toast.error(action.payload.message);
+
       state.submitLoading = false;
       state.response = action.payload;
     },
     [submitAbout.rejected]: (state, action) => {
+      toast.error(action.payload.message);
       state.submitLoading = false;
       state.response = action.payload;
     },
@@ -308,6 +448,9 @@ export const ApiSlice = createSlice({
     },
 
     [addOrganizationLink.fulfilled]: (state, action) => {
+      action.payload.status === true
+        ? toast.success(action.payload.message)
+        : toast.error(action.payload.message);
       state.submitLoading = false;
       state.response = action.payload;
     },
@@ -341,10 +484,93 @@ export const ApiSlice = createSlice({
     },
 
     [deleteOrganizationLink.fulfilled]: (state, action) => {
+      action.payload.status === true
+        ? toast.success(action.payload.message)
+        : toast.error(action.payload.message);
       state.submitLoading = false;
       state.response = action.payload;
     },
     [deleteOrganizationLink.rejected]: (state, action) => {
+      state.submitLoading = false;
+      state.response = action.payload;
+    },
+    // )
+
+    // rearrange Links
+    // (
+    [rearrangeLinks.pending]: (state) => {
+      state.submitLoading = true;
+    },
+
+    [rearrangeLinks.fulfilled]: (state, action) => {
+      state.submitLoading = false;
+      state.response = action.payload;
+    },
+    [rearrangeLinks.rejected]: (state, action) => {
+      state.submitLoading = false;
+      state.response = action.payload;
+    },
+    // )
+
+    // add User Link
+    // (
+    [addUserLink.pending]: (state) => {
+      state.submitLoading = true;
+    },
+
+    [addUserLink.fulfilled]: (state, action) => {
+      state.submitLoading = false;
+      state.response = action.payload;
+    },
+    [addUserLink.rejected]: (state, action) => {
+      state.submitLoading = false;
+      state.response = action.payload;
+    },
+    // )
+
+    // get User Links
+    // (
+    [getUserLinks.pending]: (state) => {
+      state.submitLoading = true;
+    },
+
+    [getUserLinks.fulfilled]: (state, action) => {
+      state.submitLoading = false;
+      state.response = action.payload;
+    },
+    [getUserLinks.rejected]: (state, action) => {
+      state.submitLoading = false;
+      state.response = action.payload;
+    },
+    // )
+
+    // delete User Link
+    // (
+    [deleteUserLink.pending]: (state) => {
+      state.submitLoading = true;
+    },
+
+    [deleteUserLink.fulfilled]: (state, action) => {
+      state.submitLoading = false;
+      state.response = action.payload;
+    },
+    [deleteUserLink.rejected]: (state, action) => {
+      state.submitLoading = false;
+      state.response = action.payload;
+    },
+    // )
+
+    // rearrange User Links
+    // (
+    [rearrangeUserLinks.pending]: (state) => {
+      state.submitLoading = true;
+    },
+
+    [rearrangeUserLinks.fulfilled]: (state, action) => {
+      state.submitLoading = false;
+      state.response = action.payload;
+    },
+    [rearrangeUserLinks.rejected]: (state, action) => {
       state.submitLoading = false;
       state.response = action.payload;
     },

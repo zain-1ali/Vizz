@@ -239,6 +239,7 @@ export const socialIcons = [
 // ];
 
 export let returnIcons = (name, size) => {
+  console.log(name);
   if (name === "Call") {
     return <MdCall style={{ color: "white", fontSize: `${size}px` }} />;
   } else if (name === "Message") {

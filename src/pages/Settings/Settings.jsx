@@ -16,6 +16,7 @@ import {
   closeAllModal,
 } from "../../redux/Modalslice";
 import { useDispatch } from "react-redux";
+import Content from "../../components/EditCardContainerComponents/Content/Content";
 
 const Settings = () => {
   let [prflimg, setprflimg] = useState(null);
@@ -144,7 +145,10 @@ const Settings = () => {
               </div>
             </div>
           </div>
-
+          <div className="custom-heading">Account Links</div>
+          <div className="account-links">
+            <Content check="organization" />
+          </div>
           <div className="custom-heading">Organization</div>
 
           <div className="organization-setting-form">

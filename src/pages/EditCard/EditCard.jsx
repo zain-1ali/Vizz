@@ -18,6 +18,7 @@ import {
   setAddress,
   setBio,
 } from "../../redux/profileInfoSlice.js";
+import { ToastContainer } from "react-toastify";
 
 const EditCard = () => {
   let { id } = useParams();
@@ -67,7 +68,18 @@ const EditCard = () => {
             Share Card
           </button>
         </div>
-
+        <ToastContainer
+          position="top-center"
+          autoClose={5000}
+          // hideProgressBar={false}
+          // newestOnTop={false}
+          // closeOnClick
+          // rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          // theme="light"
+        />
         <EditCradContainer id={id} />
       </div>
     </div>

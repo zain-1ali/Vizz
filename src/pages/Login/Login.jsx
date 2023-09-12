@@ -16,6 +16,7 @@ const Login = () => {
   let dispatch = useDispatch();
   let successNavigation = () => {
     navigate("/home");
+    window.location.reload();
   };
 
   let loginFunc = () => {

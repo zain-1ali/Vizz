@@ -72,7 +72,13 @@ const EditCradContainer = ({ id }) => {
             </div>
           </div>
         </div>
-        {iscontent && <Content links={singleProfile?.links} />}
+        {iscontent && (
+          <Content
+            links={singleProfile?.links}
+            userId={singleProfile?.id}
+            check="user"
+          />
+        )}
         {isabout && <About id={id} />}
         {isqr && <Qr />}
         {islead && <Lead />}

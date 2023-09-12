@@ -6,12 +6,21 @@ import { SiGoogleanalytics } from "react-icons/Si";
 import { IoMdSettings } from "react-icons/io";
 import { RiLogoutCircleLine } from "react-icons/ri";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import {
+  closeCustomModal,
+  openCustomModal,
+  openModal,
+} from "../../redux/Modalslice";
+import CustomModal from "../Modals/CustomModal/CustomModal";
 
 const Sidebar = () => {
   let navigate = useNavigate();
   let pathname = window.location.pathname;
+  let dispatch = useDispatch();
   return (
     <div className="sidebar-main">
+      <CustomModal name="logoutWarning" />
       <img src={vizzlogo} alt="logo" />
       <div className="sidebar-option-main">
         <div
@@ -63,7 +72,7 @@ const Sidebar = () => {
           <p>Settings</p>
         </div>
       </div>
-      <button className="logoutbtn">
+      <button className="logoutbtn" onClick={() => dispatch(openCustomModal())}>
         <RiLogoutCircleLine className="logouticon" />
         <p>Logout</p>
       </button>

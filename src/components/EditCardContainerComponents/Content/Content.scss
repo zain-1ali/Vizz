@@ -66,7 +66,8 @@
 
   .content-links {
     width: 100%;
-    height: 76%;
+    height: 60%;
+    // border: 1px solid black;
     margin-top: 30px;
     display: flex;
     flex-direction: column;
@@ -159,6 +160,16 @@
       }
     }
 
+    // border: 1px solid black;
+  }
+
+  .add-link-btm {
+    width: 100%;
+    // height: 76%;
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     .add-link-btn {
       width: 90%;
       height: 57px;
@@ -176,7 +187,5 @@
       color: #878787;
       cursor: pointer;
     }
-
-    // border: 1px solid black;
   }
 }

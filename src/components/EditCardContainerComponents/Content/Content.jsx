@@ -8,8 +8,15 @@ import { FaRedditAlien } from "react-icons/fa";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import LinksModal from "../../LinksModal/LinksModal";
 import { openLinkModal, openModal } from "../../../redux/Modalslice";
-import { useDispatch } from "react-redux";
-const Content = ({ links }) => {
+import { useDispatch, useSelector } from "react-redux";
+import { returnIcons } from "../../../assets/ReturnSocialIcons";
+import {
+  addUserLink,
+  getOrganizationLinks,
+  getUserLinks,
+  rearrangeLinks,
+} from "../../../redux/ApisSlice";
+const Content = ({ links, check, userId }) => {
   const theme = createTheme({
     palette: {
       switchClr: {
@@ -19,6 +26,12 @@ const Content = ({ links }) => {
   });
 
   let dispatch = useDispatch();
+  let allLinks = useSelector((state) => state.ApiSlice.singleEmployee);
+
+  useEffect(() => {
+    let getLinkFunc = check === "user" ? getUserLinks : getOrganizationLinks;
+    dispatch(getLinkFunc(userId));
+  }, []);
 
   let openUrl = (url) => {
     let theUrl = url?.includes("https://") ? url : `https://${url}`;
@@ -43,7 +56,12 @@ const Content = ({ links }) => {
     // dispatch(Addlinks(updatedItems))
     setItems(updatedItems);
 
-    // updating at firebase
+    let updatedLinksIds = [];
+    updatedItems?.map((elm) => {
+      updatedLinksIds.push(elm?.linkId);
+    });
+    // updating in database
+    dispatch(rearrangeLinks(updatedLinksIds));
 
     // set(ref(db, `User/${user?.id}/links/`), [...updatedItems]).then(() => {
 
@@ -82,70 +100,65 @@ const Content = ({ links }) => {
         </div>
       </div>
 
-      <div className="content-links">
-        <DragDropContext onDragEnd={handleDragEnd}>
-          <Droppable droppableId="droppable">
-            {(provided) => (
-              <div
-                {...provided.droppableProps}
-                ref={provided.innerRef}
-                className="content-links"
-              >
-                {/* allLinks */}
-                {items?.map((elm, index) => (
-                  <Draggable
-                    key={elm.linkId}
-                    draggableId={elm.name}
-                    index={index}
-                  >
-                    {(provided) => (
-                      <>
-                        <div
-                          className="single-link"
-                          {...provided.draggableProps}
-                          {...provided.dragHandleProps}
-                          ref={provided.innerRef}
-                        >
-                          <div className="link-inner">
-                            <div
-                              className="link-left"
-                              // style={{ border: "1px solid black" }}
-                            >
-                              <RiDraggable />
-                              <div className="icon-container">
-                                {/* <FaRedditAlien style={{ color: "white" }} /> */}
-                                <img
-                                  src={elm?.image}
-                                  alt=""
-                                  style={{ height: "15px", width: "15px" }}
-                                />
-                              </div>
-                              <p>{elm?.name}</p>
+      <DragDropContext onDragEnd={handleDragEnd}>
+        <Droppable droppableId="droppable">
+          {(provided) => (
+            <div
+              {...provided.droppableProps}
+              ref={provided.innerRef}
+              className="content-links"
+            >
+              {/* allLinks */}
+              {items?.map((elm, index) => (
+                <Draggable
+                  key={elm.linkId}
+                  draggableId={elm.name}
+                  index={index}
+                >
+                  {(provided) => (
+                    <>
+                      <div
+                        className="single-link"
+                        {...provided.draggableProps}
+                        {...provided.dragHandleProps}
+                        ref={provided.innerRef}
+                      >
+                        <div className="link-inner">
+                          <div
+                            className="link-left"
+                            // style={{ border: "1px solid black" }}
+                          >
+                            <RiDraggable />
+                            <div className="icon-container">
+                              {/* <FaRedditAlien style={{ color: "white" }} /> */}
+                              {returnIcons(elm.name, 16)}
                             </div>
+                            <p>{elm?.name}</p>
+                          </div>
 
-                            <div className="link-right">
-                              <div className="remove-btn">Remove Link</div>
-                              <div
-                                className="open-btn"
-                                onClick={() => openUrl(elm?.value)}
-                              >
-                                Open Link
-                              </div>
+                          <div className="link-right">
+                            <div className="remove-btn">Remove Link</div>
+                            <div
+                              className="open-btn"
+                              onClick={() => openUrl(elm?.value)}
+                            >
+                              Open Link
                             </div>
                           </div>
                         </div>
-                      </>
-                    )}
-                  </Draggable>
-                ))}
-                {provided.placeholder}
-              </div>
-            )}
-          </Droppable>
-        </DragDropContext>
+                      </div>
+                    </>
+                  )}
+                </Draggable>
+              ))}
+              {provided.placeholder}
+            </div>
+          )}
+        </Droppable>
+      </DragDropContext>
 
-        {/* ----------------------------------- */}
-        {/* {links?.map((elm) => {
+      {/* ----------------------------------- */}
+      {/* {links?.map((elm) => {
           return (
             <div className="single-link">
               <div className="link-inner">
@@ -175,7 +188,7 @@ const Content = ({ links }) => {
             </div>
           );
         })} */}
-        {/* <div className="single-link">
+      {/* <div className="single-link">
           <div className="link-inner">
             <div className="link-left">
               <RiDraggable />
@@ -242,7 +255,7 @@ const Content = ({ links }) => {
             </div>
           </div>
         </div> */}
-
+      <div className="add-link-btm">
         <div className="add-link-btn">
           <AiOutlinePlus
             style={{ color: "#878787", fontSize: "16px", marginRight: "5px" }}

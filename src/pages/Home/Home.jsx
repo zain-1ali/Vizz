@@ -9,6 +9,7 @@ import { getEmployee, getOrganizationProfiles } from "../../redux/ApisSlice";
 
 const Home = () => {
   let dispatch = useDispatch();
+  let theToken = localStorage.getItem("vizzToken");
   useEffect(() => {
     dispatch(getOrganizationProfiles());
   }, []);
@@ -54,7 +55,6 @@ const Home = () => {
 
         <div className="contact-cards-main">
           <div className="contact-card-container">
-            <ContactCard data={admin} />
             {employees?.map((elm) => {
               return (
                 <div

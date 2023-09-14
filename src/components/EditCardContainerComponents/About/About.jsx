@@ -19,6 +19,8 @@ import {
 import { useSelector } from "react-redux";
 import Cropper from "../../Cropper/Cropper";
 import { submitAbout } from "../../../redux/ApisSlice";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.min.css";
 
 const About = ({ id }) => {
   let date = Date.now();
@@ -33,7 +35,7 @@ const About = ({ id }) => {
   const bio = useSelector((state) => state.profileInfoSlice.bio);
   const responce = useSelector((state) => state.ApiSlice.response);
 
-  console.log(responce);
+  console.log(cover);
 
   let [prflimg, setprflimg] = useState(null);
 
@@ -106,6 +108,8 @@ const About = ({ id }) => {
       });
     }
   };
+  // let splitCover = cover?.split("base64,");
+  // let splitProfile = bas?.split("base64,");
 
   let aboutData = {
     id,
@@ -114,9 +118,27 @@ const About = ({ id }) => {
     color,
     address,
     bio,
-    coverUrl: cover,
-    profileUrl: profile,
   };
+
+  //   let splitData = base64Image?.split("base64,");
+  //   console.log(splitData[1]);
+  // let splitCover=b?.split("base64,");
+
+  cover?.slice(0, 8) === "https://"
+    ? null
+    : (aboutData.coverUrl = cover.split("base64,")[1]);
+
+  profile?.slice(0, 8) === "https://"
+    ? null
+    : (aboutData.profileUrl = profile.split("base64,")[1]);
+
+  // let profileAdded = profile.slice(0, 8) === "https://" ? true : false;
+
+  // console.log(cover?.slice(0, 8));
+
+  //   coverUrl: cover?.includes('https://') || cover==='',
+  //   profileUrl: profile,
+  // };
   // new FormData();
   // aboutData.append("id", id);
   // aboutData.append("coverUrl", cover);
@@ -317,6 +339,7 @@ const About = ({ id }) => {
           </button>
         </div>
       </div>
+      <ToastContainer position="top-center" autoClose={2000} />
     </div>
   );
 };

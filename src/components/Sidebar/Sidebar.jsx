@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "./Sidebar.scss";
 import vizzlogo from "../../imgs/vizzlogo.png";
 import { BsPersonFill, BsPersonVcardFill } from "react-icons/bs";
@@ -13,14 +13,22 @@ import {
   openModal,
 } from "../../redux/Modalslice";
 import CustomModal from "../Modals/CustomModal/CustomModal";
+import LogoutModal from "../Modals/LogoutModal/LogoutModal";
 
 const Sidebar = () => {
   let navigate = useNavigate();
   let pathname = window.location.pathname;
   let dispatch = useDispatch();
+  let [logoutmodal, setlogoutmodal] = useState(false);
+  let handleLogoutModal = () => {
+    setlogoutmodal(!logoutmodal);
+  };
   return (
     <div className="sidebar-main">
-      <CustomModal name="logoutWarning" />
+      <LogoutModal
+        logoutmodal={logoutmodal}
+        handleLogoutModal={handleLogoutModal}
+      />
       <img src={vizzlogo} alt="logo" />
       <div className="sidebar-option-main">
         <div
@@ -72,7 +80,7 @@ const Sidebar = () => {
           <p>Settings</p>
         </div>
       </div>
-      <button className="logoutbtn" onClick={() => dispatch(openCustomModal())}>
+      <button className="logoutbtn" onClick={() => handleLogoutModal()}>
         <RiLogoutCircleLine className="logouticon" />
         <p>Logout</p>
       </button>

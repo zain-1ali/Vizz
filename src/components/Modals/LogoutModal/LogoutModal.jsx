@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Modal from "@mui/material/Modal";
 import { useSelector, useDispatch } from "react-redux";
-import "./CustomModal.scss";
+import "./LogOutModal.scss";
 import { closeCustomModal } from "../../../redux/Modalslice";
 import { Box } from "@mui/material";
 import { RxCross2 } from "react-icons/rx";
@@ -31,7 +31,7 @@ import { useNavigate } from "react-router-dom";
 
 // import { removeLink } from "../Redux/Singlelinkslice";
 
-const CustomModal = ({ name, userId, linkId }) => {
+const LogoutModal = ({ handleLogoutModal, logoutmodal }) => {
   // console.log(link);
 
   const modal = useSelector((state) => state.modalHandeler.CustomModal);
@@ -61,49 +61,35 @@ const CustomModal = ({ name, userId, linkId }) => {
     // p: linkModal ? "30px" : "2px",
   };
 
-  console.log(linkId);
-  let delLink = () => {
-    if (name === "linkDelWarnorganization") {
-      return dispatch(deleteOrganizationLink({ linkId }));
-    } else {
-      return dispatch(deleteUserLink({ linkId, userId }));
-    }
-  };
-
   return (
     <>
       <Modal
-        open={modal}
+        open={logoutmodal}
         onClose={() => {
-          dispatch(closeCustomModal());
+          handleLogoutModal();
         }}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
         <Box sx={style2}>
-          {name?.slice(0, 11) === "linkDelWarn" && (
-            <>
-              <div className="logout-warn">
-                <h2>Are you sure to delete this link?</h2>
-                <div className="btn-main">
-                  <button
-                    className="editbtn"
-                    onClick={() => dispatch(closeCustomModal())}
-                  >
-                    Cancel
-                  </button>
-                  <button
-                    className="sharebtn"
-                    onClick={() => {
-                      delLink(), dispatch(closeCustomModal());
-                    }}
-                  >
-                    Sure
-                  </button>
-                </div>
+          <>
+            <div className="logout-warn">
+              <h2>Are You Sure to Logout From This Devise ?</h2>
+              <div className="btn-main">
+                <button className="editbtn" onClick={() => handleLogoutModal()}>
+                  Cancel
+                </button>
+                <button
+                  className="sharebtn"
+                  onClick={() => {
+                    dispatch(signOutUser(navigateToLogin)), handleLogoutModal();
+                  }}
+                >
+                  Sure
+                </button>
               </div>
-            </>
-          )}
+            </div>
+          </>
         </Box>
       </Modal>
       {/* <ToastContainer position="top-center" autoClose={2000} /> */}
@@ -111,4 +97,4 @@ const CustomModal = ({ name, userId, linkId }) => {
   );
 };
 
-export default CustomModal;
+export default LogoutModal;

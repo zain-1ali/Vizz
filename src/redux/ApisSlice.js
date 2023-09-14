@@ -188,6 +188,7 @@ export const getOrganizationLinks = createAsyncThunk(
     try {
       const result = await response.json();
       // dispatch(setName(result?.data?.name));
+      console.log("org links");
       console.log(result);
       return result;
     } catch (error) {
@@ -233,6 +234,7 @@ export const rearrangeLinks = createAsyncThunk(
     });
     try {
       const result = await response.json();
+      console.log("org");
       return result;
     } catch (error) {
       rejectWithValue(error);
@@ -275,6 +277,7 @@ export const getUserLinks = createAsyncThunk(
 
     try {
       const result = await response.json();
+      console.log("user links");
       // dispatch(setName(result?.data?.name));
       console.log(result);
       return result;
@@ -311,16 +314,42 @@ export const rearrangeUserLinks = createAsyncThunk(
   "rearrangeUserLinks",
 
   async (data, { rejectWithValue }) => {
-    const response = await fetch(`${baseUrl}/api/arrangeOrganizationLinks`, {
+    const response = await fetch(`${baseUrl}/api/arrangeUserLinks`, {
       method: "Post",
       headers: {
         Authorization: `Bearer ${theToken[1]}`,
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ links: data }),
+
+      body: JSON.stringify({
+        links: data.updatedLinksIds,
+        userId: data.userId,
+      }),
     });
     try {
       const result = await response.json();
+      console.log("user");
+      return result;
+    } catch (error) {
+      rejectWithValue(error);
+    }
+  }
+);
+
+export const getOrganization = createAsyncThunk(
+  "getOrganization",
+  async ({ rejectWithValue }) => {
+    const response = await fetch(`${baseUrl}/api/getOrganization`, {
+      headers: {
+        Authorization: `Bearer ${theToken[1]}`,
+      },
+    });
+
+    try {
+      const result = await response.json();
+      // dispatch(setName(result?.data?.name));
+      console.log("org");
+      console.log(result);
       return result;
     } catch (error) {
       rejectWithValue(error);
@@ -334,6 +363,7 @@ const initialState = {
   allLinks: {},
   singleEmployee: {},
   addedLinks: {},
+  organization: {},
   loading: false,
   submitLoading: false,
   error: null,
@@ -520,11 +550,11 @@ export const ApiSlice = createSlice({
 
     [addUserLink.fulfilled]: (state, action) => {
       state.submitLoading = false;
-      state.response = action.payload;
+      state.addedLinks = action.payload;
     },
     [addUserLink.rejected]: (state, action) => {
       state.submitLoading = false;
-      state.response = action.payload;
+      state.addedLinks = action.payload;
     },
     // )
 
@@ -536,7 +566,7 @@ export const ApiSlice = createSlice({
 
     [getUserLinks.fulfilled]: (state, action) => {
       state.submitLoading = false;
-      state.response = action.payload;
+      state.addedLinks = action.payload;
     },
     [getUserLinks.rejected]: (state, action) => {
       state.submitLoading = false;
@@ -547,10 +577,13 @@ export const ApiSlice = createSlice({
     // delete User Link
     // (
     [deleteUserLink.pending]: (state) => {
-      state.submitLoading = true;
+      state.loading = true;
     },
 
     [deleteUserLink.fulfilled]: (state, action) => {
+      action.payload.status === true
+        ? toast.success(action.payload.message)
+        : toast.error(action.payload.message);
       state.submitLoading = false;
       state.response = action.payload;
     },
@@ -563,7 +596,7 @@ export const ApiSlice = createSlice({
     // rearrange User Links
     // (
     [rearrangeUserLinks.pending]: (state) => {
-      state.submitLoading = true;
+      state.loading = true;
     },
 
     [rearrangeUserLinks.fulfilled]: (state, action) => {
@@ -573,6 +606,23 @@ export const ApiSlice = createSlice({
     [rearrangeUserLinks.rejected]: (state, action) => {
       state.submitLoading = false;
       state.response = action.payload;
+    },
+    // )
+
+    // get Organization
+
+    // (
+    [getOrganization.pending]: (state) => {
+      state.loading = true;
+    },
+
+    [getOrganization.fulfilled]: (state, action) => {
+      state.loading = false;
+      state.organization = action.payload;
+    },
+    [getOrganization.rejected]: (state, action) => {
+      state.loading = false;
+      state.organization = action.payload;
     },
     // )
   },

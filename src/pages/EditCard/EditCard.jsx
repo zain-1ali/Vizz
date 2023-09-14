@@ -36,7 +36,7 @@ const EditCard = () => {
     dispatch(setEmail(singleProfile?.data?.email));
     dispatch(setColor(singleProfile?.data?.color));
     dispatch(setPhone(singleProfile?.data?.phone));
-    // dispatch(setCoverUrl(singleProfile?.coverUrl));
+    dispatch(setCoverUrl(singleProfile?.data?.coverUrl));
     dispatch(setProfileurl(singleProfile?.data?.profileUrl));
     dispatch(setDesignation(singleProfile?.data?.designation));
     dispatch(setAddress(singleProfile?.data?.address));
@@ -68,18 +68,15 @@ const EditCard = () => {
             Share Card
           </button>
         </div>
-        <ToastContainer
+        {/* <ToastContainer
           position="top-center"
           autoClose={5000}
-          // hideProgressBar={false}
-          // newestOnTop={false}
-          // closeOnClick
-          // rtl={false}
+          
           pauseOnFocusLoss
           draggable
           pauseOnHover
-          // theme="light"
-        />
+          
+        /> */}
         <EditCradContainer id={id} />
       </div>
     </div>

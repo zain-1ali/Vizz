@@ -17,6 +17,7 @@ import About from "../EditCardContainerComponents/About/About";
 import Qr from "../EditCardContainerComponents/Qr/Qr";
 import Lead from "../EditCardContainerComponents/Lead/Lead";
 import QrContainer from "../EditCardContainerComponents/QrContainer/QrContainer";
+import { getUserLinks } from "../../redux/ApisSlice";
 
 const EditCradContainer = ({ id }) => {
   const iscontent = useSelector((state) => state.profileEditHandeler.isContent);
@@ -73,11 +74,7 @@ const EditCradContainer = ({ id }) => {
           </div>
         </div>
         {iscontent && (
-          <Content
-            links={singleProfile?.links}
-            userId={singleProfile?.id}
-            check="user"
-          />
+          <Content check="user" userId={id} getLinkFunc={getUserLinks} />
         )}
         {isabout && <About id={id} />}
         {isqr && <Qr />}

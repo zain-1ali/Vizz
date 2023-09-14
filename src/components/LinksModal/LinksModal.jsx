@@ -27,7 +27,11 @@ import {
   socialIcons,
 } from "../../assets/ReturnSocialIcons";
 import LinkEditModal from "../LinkEditModal/LinkEditModal";
-import { getAllSocialLinks, getOrganizationLinks } from "../../redux/ApisSlice";
+import {
+  getAllSocialLinks,
+  getOrganizationLinks,
+  getUserLinks,
+} from "../../redux/ApisSlice";
 import { AiOutlineArrowRight, AiOutlineMinus } from "react-icons/ai";
 import { MdModeEdit } from "react-icons/md";
 // import Linkeditmodal from "./Linkeditmodal";
@@ -39,7 +43,7 @@ import { MdModeEdit } from "react-icons/md";
 
 // import { removeLink } from "../Redux/Singlelinkslice";
 
-const LinksModal = () => {
+const LinksModal = ({ check, userId }) => {
   // console.log(link);
   const linkModal = useSelector((state) => state.modalHandeler.linkmodal);
   const linkEditmodal = useSelector(
@@ -55,7 +59,11 @@ const LinksModal = () => {
 
   useEffect(() => {
     dispatch(getAllSocialLinks());
-    dispatch(getOrganizationLinks());
+    if (check === "user") {
+      dispatch(getUserLinks(userId));
+    } else {
+      dispatch(getOrganizationLinks());
+    }
   }, []);
 
   let allLinks = useSelector((state) => state.ApiSlice.allLinks);
@@ -239,7 +247,12 @@ const LinksModal = () => {
             </div>
           )}
           {linkEditmodal && (
-            <LinkEditModal link={selectedLink} linkInfo={linkInfo} />
+            <LinkEditModal
+              link={selectedLink}
+              linkInfo={linkInfo}
+              check={check}
+              userId={userId}
+            />
           )}
           {/* linkInfo={linkInfo} */}
         </Box>

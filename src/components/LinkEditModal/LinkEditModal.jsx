@@ -14,13 +14,14 @@ import {
 import { returnIcons } from "../../assets/ReturnSocialIcons";
 import {
   addOrganizationLink,
+  addUserLink,
   deleteOrganizationLink,
   getAllSocialLinks,
   getOrganizationLinks,
 } from "../../redux/ApisSlice";
 import { BsFillTrashFill } from "react-icons/bs";
 
-const LinkEditModal = ({ link, linkInfo }) => {
+const LinkEditModal = ({ link, linkInfo, check, userId }) => {
   let dispatch = useDispatch();
   let theLinkValue = linkInfo?.replace(link?.baseUrl, "");
   let [value, setvalue] = useState(theLinkValue);
@@ -28,7 +29,7 @@ const LinkEditModal = ({ link, linkInfo }) => {
     dispatch(getAllSocialLinks());
     dispatch(getOrganizationLinks());
   }, []);
-  console.log(linkInfo.length > 0 ? true : false);
+  console.log(check, userId);
 
   const responce = useSelector((state) => state.ApiSlice.response);
 
@@ -38,8 +39,17 @@ const LinkEditModal = ({ link, linkInfo }) => {
     data: {
       linkId: link?.id,
       value: link?.baseUrl + value,
+      userId,
     },
     func: () => dispatch(openLinkModal()),
+  };
+
+  let addLink = () => {
+    if (check === "user") {
+      return dispatch(addUserLink(dataFunc));
+    } else {
+      return dispatch(addOrganizationLink(dataFunc));
+    }
   };
 
   return (
@@ -112,10 +122,7 @@ const LinkEditModal = ({ link, linkInfo }) => {
               >
                 Cancel
               </button>
-              <button
-                className="btn2"
-                onClick={() => dispatch(addOrganizationLink(dataFunc))}
-              >
+              <button className="btn2" onClick={() => addLink()}>
                 Add
               </button>
             </div>

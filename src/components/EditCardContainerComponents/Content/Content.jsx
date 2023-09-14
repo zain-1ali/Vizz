@@ -15,8 +15,11 @@ import {
   getOrganizationLinks,
   getUserLinks,
   rearrangeLinks,
+  rearrangeUserLinks,
 } from "../../../redux/ApisSlice";
-const Content = ({ links, check, userId }) => {
+import { closeCustomModal, openCustomModal } from "../../../redux/Modalslice";
+import CustomModal from "../../Modals/CustomModal/CustomModal";
+const Content = ({ check, userId, getLinkFunc }) => {
   const theme = createTheme({
     palette: {
       switchClr: {
@@ -26,12 +29,20 @@ const Content = ({ links, check, userId }) => {
   });
 
   let dispatch = useDispatch();
-  let allLinks = useSelector((state) => state.ApiSlice.singleEmployee);
 
+  let [linkId, setlinkId] = useState("");
   useEffect(() => {
-    let getLinkFunc = check === "user" ? getUserLinks : getOrganizationLinks;
-    dispatch(getLinkFunc(userId));
+    // let getLinkFunc = check === "user" ? getUserLinks : getOrganizationLinks;
+    if (check === "user") {
+      dispatch(getUserLinks(userId));
+    } else {
+      dispatch(getOrganizationLinks(userId));
+    }
   }, []);
+
+  let allLinks = useSelector((state) => state.ApiSlice.addedLinks);
+
+  console.log(allLinks);
 
   let openUrl = (url) => {
     let theUrl = url?.includes("https://") ? url : `https://${url}`;
@@ -42,9 +53,9 @@ const Content = ({ links, check, userId }) => {
 
   const [items, setItems] = useState([]);
   useEffect(() => {
-    setItems(links);
+    setItems(allLinks?.data);
     // dispatch(Addlinks(links));
-  }, [links]);
+  }, [allLinks?.data]);
   const handleDragEnd = (result) => {
     if (!result.destination) {
       return;
@@ -61,7 +72,11 @@ const Content = ({ links, check, userId }) => {
       updatedLinksIds.push(elm?.linkId);
     });
     // updating in database
-    dispatch(rearrangeLinks(updatedLinksIds));
+    if (check === "user") {
+      dispatch(rearrangeUserLinks({ updatedLinksIds, userId }));
+    } else {
+      dispatch(rearrangeLinks(updatedLinksIds));
+    }
 
     // set(ref(db, `User/${user?.id}/links/`), [...updatedItems]).then(() => {
 
@@ -69,8 +84,13 @@ const Content = ({ links, check, userId }) => {
   };
 
   return (
-    <div className="content-main">
-      <LinksModal />
+    <div className={check === "user" ? `content-main` : `content-main2`}>
+      <LinksModal check={check} userId={userId} />
+      <CustomModal
+        name={`linkDelWarn` + check}
+        userId={userId}
+        linkId={linkId}
+      />
       <div className="content-upper">
         <div className="lead-direct">
           <div className="lead">
@@ -137,7 +157,15 @@ const Content = ({ links, check, userId }) => {
                           </div>
 
                           <div className="link-right">
-                            <div className="remove-btn">Remove Link</div>
+                            <div
+                              className="remove-btn"
+                              onClick={() => {
+                                setlinkId(elm.linkId),
+                                  dispatch(openCustomModal());
+                              }}
+                            >
+                              Remove Link
+                            </div>
                             <div
                               className="open-btn"
                               onClick={() => openUrl(elm?.value)}

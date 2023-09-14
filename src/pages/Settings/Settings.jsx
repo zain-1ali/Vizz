@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./Settings.scss";
 import Sidebar from "../../components/Sidebar/Sidebar";
 import { BiHelpCircle } from "react-icons/bi";
@@ -15,14 +15,22 @@ import {
   openModal,
   closeAllModal,
 } from "../../redux/Modalslice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Content from "../../components/EditCardContainerComponents/Content/Content";
+import { getOrganization, getOrganizationLinks } from "../../redux/ApisSlice";
 
 const Settings = () => {
   let [prflimg, setprflimg] = useState(null);
   let [bgimg, setbgimg] = useState(null);
 
   let dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getOrganization());
+  }, []);
+
+  let organization = useSelector((state) => state.ApiSlice.organization);
+  console.log(organization);
+
   let handlePrflImageChange = (event) => {
     // profileImage
     setprflimg("");
@@ -85,19 +93,19 @@ const Settings = () => {
 
           <div className="account-setting-form">
             <div className="form-content">
-              <div className="about-upper">
+              {/* <div className="about-upper">
                 <div className="lead-direct">
                   <div className="lead">
-                    {/* <ThemeProvider theme={theme}> */}
+                    
                     <Switch defaultChecked size="small" />
-                    {/* </ThemeProvider> */}
+             
 
                     <p>Lead Mode</p>
                   </div>
                   <div className="direct">
-                    {/* <ThemeProvider theme={theme}> */}
+                    
                     <Switch defaultChecked size="small" />
-                    {/* </ThemeProvider> */}
+                  
                     <p>Direct</p>
                   </div>
                 </div>
@@ -116,7 +124,7 @@ const Settings = () => {
                   />{" "}
                   Add Links and Contacts
                 </div>
-              </div>
+              </div> */}
               <div className="name-fields">
                 <div className="singlefield">
                   First name
@@ -147,7 +155,11 @@ const Settings = () => {
           </div>
           <div className="custom-heading">Account Links</div>
           <div className="account-links">
-            <Content check="organization" />
+            <Content
+              check="organization"
+              userId="null"
+              getLinkFunc={getOrganizationLinks}
+            />
           </div>
           <div className="custom-heading">Organization</div>
 

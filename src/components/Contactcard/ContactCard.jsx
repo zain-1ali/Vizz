@@ -15,8 +15,8 @@ const ContactCard = ({ data }) => {
   return (
     <div className="contactcard">
       <div className="card-imgs">
-        <img src={prfl} alt="" className="prfl" />
-        <img src={bg} alt="" className="bg" />
+        <img src={data?.profileUrl} alt="" className="prfl" />
+        <img src={data?.coverUrl} alt="" className="bg" />
       </div>
       <div className="contact-card-details">
         <h2>{data?.name}</h2>

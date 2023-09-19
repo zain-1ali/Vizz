@@ -19,6 +19,7 @@ import {
 } from "../../../redux/ApisSlice";
 import { closeCustomModal, openCustomModal } from "../../../redux/Modalslice";
 import CustomModal from "../../Modals/CustomModal/CustomModal";
+import { setLinks } from "../../../redux/profileInfoSlice";
 const Content = ({ check, userId, getLinkFunc }) => {
   const theme = createTheme({
     palette: {
@@ -74,6 +75,7 @@ const Content = ({ check, userId, getLinkFunc }) => {
     // updating in database
     if (check === "user") {
       dispatch(rearrangeUserLinks({ updatedLinksIds, userId }));
+      dispatch(setLinks(updatedItems));
     } else {
       dispatch(rearrangeLinks(updatedLinksIds));
     }
@@ -284,7 +286,12 @@ const Content = ({ check, userId, getLinkFunc }) => {
           </div>
         </div> */}
       <div className="add-link-btm">
-        <div className="add-link-btn">
+        <div
+          className="add-link-btn"
+          onClick={() => {
+            dispatch(openModal()), dispatch(openLinkModal());
+          }}
+        >
           <AiOutlinePlus
             style={{ color: "#878787", fontSize: "16px", marginRight: "5px" }}
           />

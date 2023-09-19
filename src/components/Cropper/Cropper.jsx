@@ -14,6 +14,7 @@ const Cropper = ({
   crop,
   aspect,
   setReduxState,
+  isSettings,
 }) => {
   let dispatch = useDispatch();
 
@@ -46,8 +47,11 @@ const Cropper = ({
     // Converting to base64
     const base64Image = canvas.toDataURL("image/jpeg");
     // setprofileImagePath(base64Image)
-
-    dispatch(setReduxState(base64Image));
+    if (isSettings) {
+      setReduxState(base64Image);
+    } else {
+      dispatch(setReduxState(base64Image));
+    }
 
     // setOutput(base64Image);
     // setsaveImageIcon(true)

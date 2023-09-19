@@ -13,6 +13,7 @@ import EditCard from "./pages/EditCard/EditCard";
 import Contacts from "./pages/Contacts/Contacts";
 import Settings from "./pages/Settings/Settings";
 import { ToastContainer } from "react-toastify";
+import Analytics from "./pages/Analytics/Analytics";
 // import Analytics from "./pages/Analytics/Analytics";
 function App() {
   let width = screen.width;
@@ -27,7 +28,7 @@ function App() {
             <Route path="/editcard/:id" element={<EditCard />} />
             <Route path="/contacts" element={<Contacts />} />
             <Route path="/settings" element={<Settings />} />
-            {/* <Route path="/analytics" element={<Analytics />} /> */}
+            <Route path="/analytics" element={<Analytics />} />
           </Routes>
         </BrowserRouter>
       ) : (

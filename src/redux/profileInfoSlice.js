@@ -12,6 +12,7 @@ const initialState = {
   coverUrl: bgplaceholder,
   phone: "",
   color: "",
+  links: [],
 };
 
 export const profileInfoSlice = createSlice({
@@ -48,6 +49,9 @@ export const profileInfoSlice = createSlice({
     setColor: (state, action) => {
       state.color = action.payload;
     },
+    setLinks: (state, action) => {
+      state.links = action.payload;
+    },
   },
 });
 
@@ -62,6 +66,7 @@ export const {
   setDesignation,
   setAddress,
   setBio,
+  setLinks,
 } = profileInfoSlice.actions;
 
 export default profileInfoSlice.reducer;

@@ -17,19 +17,66 @@ import {
 } from "../../redux/Modalslice";
 import { useDispatch, useSelector } from "react-redux";
 import Content from "../../components/EditCardContainerComponents/Content/Content";
-import { getOrganization, getOrganizationLinks } from "../../redux/ApisSlice";
+import {
+  getOrganization,
+  getOrganizationLinks,
+  updateOrganization,
+} from "../../redux/ApisSlice";
+import Cropper from "../../components/Cropper/Cropper";
+import PrflPreviwModal from "../../components/Modals/PrflPreviewModal/PrflPreviewModal";
 
 const Settings = () => {
-  let [prflimg, setprflimg] = useState(null);
-  let [bgimg, setbgimg] = useState(null);
-
   let dispatch = useDispatch();
   useEffect(() => {
     dispatch(getOrganization());
   }, []);
 
-  let organization = useSelector((state) => state.ApiSlice.organization);
-  console.log(organization);
+  let [data, setData] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    address: "",
+    bio: "",
+    color: "",
+  });
+  let [fontClr, setFontClr] = useState("black");
+  let [showprfl, setshowprfl] = useState(null);
+  let [showbgimg, setshowbgimg] = useState(null);
+  let organisation = useSelector((state) => state.ApiSlice.organization);
+  console.log(organisation?.data);
+  useEffect(() => {
+    setData({
+      name: organisation?.data?.name,
+      email: organisation?.data?.email,
+      phone: organisation?.data?.phone,
+      address: organisation?.data?.address,
+      bio: organisation?.data?.bio,
+      // profileUrl: organisation?.data?.profileUrl,
+      // coverUrl: organisation?.data?.coverUrl,
+      color: organisation?.data?.color,
+    });
+    // setshowprfl(organisation?.data?.profileUrl);
+    // setshowbgimg(organisation?.data?.coverUrl);
+  }, [organisation?.data]);
+
+  let [prflimg, setprflimg] = useState(null);
+
+  // ----------------------------------------------------State setup for profile img crop---------------------------------------------
+
+  let [cropModal, setcropModal] = useState(false);
+  let [myprflimg, setmyprflimg] = useState(null);
+  let [cropPrfl, setCropPrfl] = useState({
+    unit: "%",
+    x: 50,
+    y: 50,
+    width: 25,
+    height: 25,
+  });
+
+  let handleclosecropper = () => {
+    setcropModal(false);
+    // settheimg(null)
+  };
 
   let handlePrflImageChange = (event) => {
     // profileImage
@@ -44,9 +91,26 @@ const Settings = () => {
         setprflimg(reader.result);
         // dispatch(setProfileImg(reader.result))
 
-        // setcropModal(true);
+        setcropModal(true);
       });
     }
+  };
+
+  // ----------------------------------------------------State setup for bg img crop---------------------------------------------
+
+  let [bgimg, setbgimg] = useState(null);
+  let [bgCropModal, setBgcropModal] = useState(false);
+  let [mybgimg, setmybgimg] = useState(null);
+  let [cropbg, setCropbg] = useState({
+    unit: "%",
+    x: 50,
+    y: 50,
+    width: 25,
+    height: 25,
+  });
+
+  let handleclosebgcropper = () => {
+    setBgcropModal(false);
   };
 
   let handlebgImageChange = (event) => {
@@ -62,15 +126,62 @@ const Settings = () => {
         setbgimg(reader.result);
         // dispatch(setProfileImg(reader.result))
 
-        // setBgcropModal(true);
+        setBgcropModal(true);
       });
     }
   };
+
+  let organizationBtmData = {
+    color: data.color,
+  };
+
+  showbgimg?.slice(0, 8) === "https://"
+    ? null
+    : (organizationBtmData.coverUrl = showbgimg?.split("base64,")[1]);
+
+  showprfl?.slice(0, 8) === "https://"
+    ? null
+    : (organizationBtmData.profileUrl = showprfl?.split("base64,")[1]);
+
+  let [prvModal, setprvModal] = useState(false);
+
+  let handlePrvModal = () => {
+    setprvModal(!prvModal);
+  };
+
   return (
     <div className="settings-main">
       <Sidebar />
       <div className="settings-inner">
+        {/* --------------------------------------------croper for profile image------------------------------------------------  */}
+        <Cropper
+          cropModal={cropModal}
+          handleclosecropper={handleclosecropper}
+          theimg={prflimg}
+          myimg={myprflimg}
+          setmyimg={setmyprflimg}
+          setcrop={setCropPrfl}
+          crop={cropPrfl}
+          aspect={1 / 1}
+          setReduxState={setshowprfl}
+          isSettings={true}
+        />
+
+        {/* --------------------------------------------croper for Cover image------------------------------------------------  */}
+        <Cropper
+          cropModal={bgCropModal}
+          handleclosecropper={handleclosebgcropper}
+          theimg={bgimg}
+          myimg={mybgimg}
+          setmyimg={setmybgimg}
+          setcrop={setCropbg}
+          crop={cropbg}
+          aspect={4 / 2}
+          setReduxState={setshowbgimg}
+          isSettings={true}
+        />
         <LinksModal />
+        <PrflPreviwModal handlePrvModal={handlePrvModal} prvModal={prvModal} />
         <div className="settings-innerII">
           <div className="settings-header">
             <div className="profilebtn">
@@ -127,20 +238,86 @@ const Settings = () => {
               </div> */}
               <div className="name-fields">
                 <div className="singlefield">
-                  First name
-                  <input type="text" className="nameinput" />
+                  <p>Name</p>
+                  <input
+                    type="text"
+                    placeholder="Name"
+                    className="nameinput"
+                    onChange={(e) => setData({ ...data, name: e.target.value })}
+                    value={data.name}
+                  />
                 </div>
 
                 <div className="singlefield">
-                  Last name
-                  <input type="text" className="nameinput" />
+                  <p>Location</p>{" "}
+                  <input
+                    type="text"
+                    placeholder="Address"
+                    className="nameinput"
+                    onChange={(e) =>
+                      setData({ ...data, address: e.target.value })
+                    }
+                    value={data.address}
+                  />
+                </div>
+              </div>
+              <div className="name-fields" style={{ marginTop: "10px" }}>
+                <div className="singlefield">
+                  <p>Email</p>
+                  <input
+                    type="text"
+                    placeholder="Email"
+                    className="nameinput"
+                    onChange={(e) =>
+                      setData({ ...data, email: e.target.value })
+                    }
+                    value={data.email}
+                  />
+                </div>
+
+                <div className="singlefield">
+                  <p>Phone</p>
+                  <input
+                    type="text"
+                    placeholder="Phone Number"
+                    className="nameinput"
+                    onChange={(e) =>
+                      setData({ ...data, phone: e.target.value })
+                    }
+                    value={data.phone}
+                  />
                 </div>
               </div>
 
+              {/* <div className="name-fields" style={{ marginTop: "10px" }}>
+                <div className="singlefield">
+                  <p>Job</p>
+                  <input
+                    type="text"
+                    placeholder="Job Title"
+                    className="nameinput"
+                  />
+                </div>
+
+                <div className="singlefield">
+                  <p>Company</p>
+                  <input
+                    type="text"
+                    placeholder="Company"
+                    className="nameinput"
+                  />
+                </div>
+              </div> */}
+
               <div className="email-field">
                 <div className="singlefieldII">
-                  Email
-                  <input type="text" className="emailinput" />
+                  <p>Description</p>
+                  <textarea
+                    className="emailinput"
+                    onChange={(e) => setData({ ...data, bio: e.target.value })}
+                    value={data.bio}
+                  ></textarea>
+                  {/* <input type="text" /> */}
                 </div>
               </div>
 
@@ -253,7 +430,7 @@ const Settings = () => {
                   // className="prfl-img"
                 >
                   <img
-                    src={prflplaceholder}
+                    src={showprfl ? showprfl : prflplaceholder}
                     alt=""
                     className="prfl-img"
                     // style={{ border: "1px solid black" }}
@@ -268,7 +445,11 @@ const Settings = () => {
                 </label>
 
                 <label htmlFor="coverImg">
-                  <img src={bgplaceholder} alt="" className="bg-img" />
+                  <img
+                    src={showbgimg ? showbgimg : bgplaceholder}
+                    alt=""
+                    className="bg-img"
+                  />
                   <input
                     type="file"
                     name="coverImg"
@@ -304,8 +485,15 @@ const Settings = () => {
                   <div className="single-color-field-upper">
                     Page background color
                     <div className="single-color-field">
-                      <div className="color-circle"></div>
-                      #dea527
+                      <div
+                        className="color-circle"
+                        style={
+                          data.color
+                            ? { backgroundColor: data.color }
+                            : { backgroundColor: "black" }
+                        }
+                      ></div>
+                      {data?.color}
                       <label htmlFor="bgclr" className="color-picker-circle">
                         <div>
                           <CgColorPicker style={{ fontSize: "20px" }} />
@@ -318,6 +506,10 @@ const Settings = () => {
                             height: "0px",
                             width: "0px",
                           }}
+                          onChange={(e) =>
+                            setData({ ...data, color: e.target.value })
+                          }
+                          value={data.color}
                         />
                       </label>
                     </div>
@@ -325,27 +517,32 @@ const Settings = () => {
                   <div className="single-color-field-upper">
                     Text color
                     <div className="single-color-field">
-                      <div className="color-circle"></div>
-                      #dea527
-                      <label htmlFor="bgclr" className="color-picker-circle">
+                      <div
+                        className="color-circle"
+                        style={{ backgroundColor: fontClr }}
+                      ></div>
+                      {fontClr}
+                      <label htmlFor="textclr" className="color-picker-circle">
                         <div>
                           <CgColorPicker style={{ fontSize: "20px" }} />
                         </div>
                         <input
                           type="color"
-                          id="bgclr"
+                          id="textclr"
                           style={{
                             opacity: "0px",
                             height: "0px",
                             width: "0px",
                           }}
+                          onChange={(e) => setFontClr(e.target.value)}
+                          value={fontClr}
                         />
                       </label>
                     </div>
                   </div>
                 </div>
 
-                <div className="twice-colors">
+                {/* <div className="twice-colors">
                   <div className="single-color-field-upper">
                     Page background color
                     <div className="single-color-field">
@@ -388,10 +585,10 @@ const Settings = () => {
                       </label>
                     </div>
                   </div>
-                </div>
+                </div> */}
               </div>
               <div className="btns">
-                <div className="preview">
+                <div className="preview" onClick={() => handlePrvModal()}>
                   Preview
                   <AiFillEye
                     style={{
@@ -401,7 +598,12 @@ const Settings = () => {
                     }}
                   />
                 </div>
-                <div className="save">Save</div>
+                <div
+                  className="save"
+                  onClick={() => dispatch(updateOrganization(data))}
+                >
+                  Save
+                </div>
               </div>
               <br />
             </div>

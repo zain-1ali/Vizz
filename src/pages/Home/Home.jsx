@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import "./Home.scss";
 import Sidebar from "../../components/Sidebar/Sidebar";
 import { BiSearchAlt } from "react-icons/bi";
@@ -6,6 +6,7 @@ import { FiPlus } from "react-icons/fi";
 import ContactCard from "../../components/Contactcard/ContactCard";
 import { useDispatch, useSelector } from "react-redux";
 import { getEmployee, getOrganizationProfiles } from "../../redux/ApisSlice";
+import CreateCardModal from "../../components/Modals/CreateCardModal/CreateModal";
 
 const Home = () => {
   let dispatch = useDispatch();
@@ -16,15 +17,22 @@ const Home = () => {
   let allProfiles = useSelector((state) => state.ApiSlice.profiles);
   console.log(allProfiles);
 
-  let admin = allProfiles?.data;
   let employees = allProfiles?.data?.employees;
 
-  console.log(admin);
+  // console.log(admin);
 
+  let [cardModal, setcardModal] = useState(false);
+  let handlecardModal = () => {
+    setcardModal(!cardModal);
+  };
   return (
     <div className="home-main">
       <Sidebar />
       <div className="home-inner">
+        <CreateCardModal
+          cardModal={cardModal}
+          handlecardModal={handlecardModal}
+        />
         {/*-------------------------------heade section-------------------------------------*/}
         <div className="home-header">
           <div className="profilebtn">
@@ -45,7 +53,7 @@ const Home = () => {
         {/*-------------------------------Create Card button-------------------------------------*/}
 
         <div className="create-card-div">
-          <div className="create-card-btn">
+          <div className="create-card-btn" onClick={() => handlecardModal()}>
             <FiPlus className="plusicon" />
             <p>Create New Card</p>
           </div>

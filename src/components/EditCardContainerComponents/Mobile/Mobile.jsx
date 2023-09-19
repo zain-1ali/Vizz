@@ -9,29 +9,51 @@ import { BsShareFill } from "react-icons/bs";
 
 import "./Mobile.scss";
 import { IoMdDownload } from "react-icons/io";
+import { useSelector } from "react-redux";
+import { returnIcons } from "../../../assets/ReturnSocialIcons";
 
 let returnSplitString = (string) => {
-  if (string.length <= 96) {
-    return string;
-  } else {
-    return string?.slice(0, 95) + "...";
+  if (string) {
+    if (string?.length <= 96) {
+      return string;
+    } else {
+      return string?.slice(0, 95) + "...";
+    }
   }
 };
 
 let theBio =
   "Short BIO about our company. Information that describes what we do, what we offer, etc. Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum ";
-const Mobile = () => {
+// -----------------------------------------------state from redux----------------------------------------------
+
+const Mobile = ({ mobileData }) => {
   return (
     <div className="mobile-main">
       <div className="mobile-inner">
         <div className="bg-prfl-container">
-          <img src={people} alt="" className="prfl-img" />
-          <img src="https://placehold.co/186x130" alt="" className="bg-img" />
+          <img
+            src={
+              mobileData?.profile
+                ? mobileData?.profile
+                : "https://placehold.co/63x63"
+            }
+            alt=""
+            className="prfl-img"
+          />
+          <img
+            src={
+              mobileData?.cover
+                ? mobileData?.cover
+                : "https://placehold.co/186x130"
+            }
+            alt=""
+            className="bg-img"
+          />
         </div>
 
         <div className="contact-card-details">
           <div className="contact-card-details-inner">
-            <h2>Jon Mike</h2>
+            <h2>{mobileData?.name}</h2>
             <div className="primary-info-container">
               <div className="border-line"></div>
               <div className="primary-info">
@@ -47,7 +69,7 @@ const Mobile = () => {
                 </div>
 
                 <div className="location-container">
-                  {returnSplitString(theBio)}
+                  {returnSplitString(mobileData?.bio)}
                 </div>
               </div>
             </div>
@@ -73,42 +95,18 @@ const Mobile = () => {
 
         <div className="links-main">
           <div className="links-inner">
-            <div className="icon-container-upper">
-              <div className="icon-container">
-                <FaRedditAlien style={{ color: "white" }} />
-              </div>
-              <p>Facebook</p>
-            </div>
-            <div className="icon-container-upper">
-              <div className="icon-container">
-                <FaRedditAlien style={{ color: "white" }} />
-              </div>
-              <p>Instagram asdfdd</p>
-            </div>
-            <div className="icon-container-upper">
-              <div className="icon-container">
-                <FaRedditAlien style={{ color: "white" }} />
-              </div>
-              <p>Reddit</p>
-            </div>
-            <div className="icon-container-upper">
-              <div className="icon-container">
-                <FaRedditAlien style={{ color: "white" }} />
-              </div>
-              <p>Reddit</p>
-            </div>
-            <div className="icon-container-upper">
-              <div className="icon-container">
-                <FaRedditAlien style={{ color: "white" }} />
-              </div>
-              <p>Reddit</p>
-            </div>
-            <div className="icon-container-upper">
-              <div className="icon-container">
-                <FaRedditAlien style={{ color: "white" }} />
-              </div>
-              <p>Reddit</p>
-            </div>
+            {mobileData?.links?.map((elm) => {
+              return (
+                <div className="icon-container-upper">
+                  <div className="icon-container">
+                    {/* <FaRedditAlien style={{ color: "white" }} />
+                     */}
+                    {returnIcons(elm.name, 14)}
+                  </div>
+                  <p>{elm?.name}</p>
+                </div>
+              );
+            })}
           </div>
         </div>
         <div className="prfl-btm">

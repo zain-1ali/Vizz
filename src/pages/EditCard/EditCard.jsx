@@ -17,6 +17,7 @@ import {
   setDesignation,
   setAddress,
   setBio,
+  setLinks,
 } from "../../redux/profileInfoSlice.js";
 import { ToastContainer } from "react-toastify";
 
@@ -29,7 +30,7 @@ const EditCard = () => {
   }, []);
   let singleProfile = useSelector((state) => state.ApiSlice.singleEmployee);
 
-  console.log(singleProfile);
+  // console.log(singleProfile);
 
   useEffect(() => {
     dispatch(setName(singleProfile?.data?.name));
@@ -41,6 +42,7 @@ const EditCard = () => {
     dispatch(setDesignation(singleProfile?.data?.designation));
     dispatch(setAddress(singleProfile?.data?.address));
     dispatch(setBio(singleProfile?.data?.bio));
+    dispatch(setLinks(singleProfile?.data?.links));
   }, [singleProfile]);
 
   return (

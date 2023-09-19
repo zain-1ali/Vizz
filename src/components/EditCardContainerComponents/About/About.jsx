@@ -120,10 +120,6 @@ const About = ({ id }) => {
     bio,
   };
 
-  //   let splitData = base64Image?.split("base64,");
-  //   console.log(splitData[1]);
-  // let splitCover=b?.split("base64,");
-
   cover?.slice(0, 8) === "https://"
     ? null
     : (aboutData.coverUrl = cover.split("base64,")[1]);

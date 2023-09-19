@@ -47,7 +47,7 @@ export const loginUser = createAsyncThunk(
     }
   }
 );
-let theToken = localStorage.getItem("vizzToken").split("|");
+let theToken = localStorage.getItem("vizzToken")?.split("|");
 
 export const signOutUser = createAsyncThunk(
   "signOutUser",
@@ -338,18 +338,62 @@ export const rearrangeUserLinks = createAsyncThunk(
 
 export const getOrganization = createAsyncThunk(
   "getOrganization",
-  async ({ rejectWithValue }) => {
+  async (data, { rejectWithValue }) => {
     const response = await fetch(`${baseUrl}/api/getOrganization`, {
       headers: {
         Authorization: `Bearer ${theToken[1]}`,
       },
     });
-
+    console.log("org1");
     try {
       const result = await response.json();
       // dispatch(setName(result?.data?.name));
-      console.log("org");
+      console.log("org2");
       console.log(result);
+      return result;
+    } catch (error) {
+      rejectWithValue(error);
+    }
+  }
+);
+
+export const addEmployee = createAsyncThunk(
+  "addEmployee",
+
+  async (data, { rejectWithValue }) => {
+    const response = await fetch(`${baseUrl}/api/createEmployee`, {
+      method: "Post",
+      headers: {
+        Authorization: `Bearer ${theToken[1]}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+    try {
+      const result = await response.json();
+      console.log("res");
+      return result;
+    } catch (error) {
+      rejectWithValue(error);
+    }
+  }
+);
+
+export const updateOrganization = createAsyncThunk(
+  "updateOrganization",
+
+  async (data, { rejectWithValue }) => {
+    const response = await fetch(`${baseUrl}/api/updateOrganization`, {
+      method: "Post",
+      headers: {
+        Authorization: `Bearer ${theToken[1]}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+    try {
+      const result = await response.json();
+      console.log("res");
       return result;
     } catch (error) {
       rejectWithValue(error);
@@ -577,7 +621,7 @@ export const ApiSlice = createSlice({
     // delete User Link
     // (
     [deleteUserLink.pending]: (state) => {
-      state.loading = true;
+      state.submitLoading = true;
     },
 
     [deleteUserLink.fulfilled]: (state, action) => {
@@ -586,6 +630,8 @@ export const ApiSlice = createSlice({
         : toast.error(action.payload.message);
       state.submitLoading = false;
       state.response = action.payload;
+      console.log(action?.payload?.data);
+      // state.addedLinks = action?.payload?.data;
     },
     [deleteUserLink.rejected]: (state, action) => {
       state.submitLoading = false;
@@ -623,6 +669,50 @@ export const ApiSlice = createSlice({
     [getOrganization.rejected]: (state, action) => {
       state.loading = false;
       state.organization = action.payload;
+    },
+    // )
+
+    // update Organization method
+    // (
+    [updateOrganization.pending]: (state) => {
+      // toast.loading("Please wait...");
+      state.submitLoading = true;
+    },
+
+    [updateOrganization.fulfilled]: (state, action) => {
+      action.payload.status === true
+        ? toast.success(action.payload.message)
+        : toast.error(action.payload.message);
+
+      state.submitLoading = false;
+      state.response = action.payload;
+    },
+    [updateOrganization.rejected]: (state, action) => {
+      toast.error(action.payload.message);
+      state.submitLoading = false;
+      state.response = action.payload;
+    },
+    // )
+
+    // update Organization method
+    // (
+    [addEmployee.pending]: (state) => {
+      // toast.loading("Please wait...");
+      state.submitLoading = true;
+    },
+
+    [addEmployee.fulfilled]: (state, action) => {
+      action.payload.status === true
+        ? toast.success(action.payload.message)
+        : toast.error(action.payload.message);
+
+      state.submitLoading = false;
+      state.response = action.payload;
+    },
+    [addEmployee.rejected]: (state, action) => {
+      toast.error(action.payload.message);
+      state.submitLoading = false;
+      state.response = action.payload;
     },
     // )
   },

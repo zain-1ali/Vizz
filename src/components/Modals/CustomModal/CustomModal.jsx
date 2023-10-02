@@ -55,6 +55,7 @@ const CustomModal = ({ name, userId, linkId }) => {
     height: 170,
     bgcolor: "white",
     borderRadius: "18px",
+    outline: "none",
     // overflow: 'auto',
     // border: '2px solid #000',
     boxShadow: 24,

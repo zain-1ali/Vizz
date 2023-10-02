@@ -10,6 +10,14 @@
   .mobile-inner {
     width: 186px;
     height: 405px;
+    .progress-container {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 300;
+    }
     // border: 1px solid black;
     .bg-prfl-container {
       width: 100%;
@@ -47,17 +55,18 @@
           line-height: 24px;
           letter-spacing: 0em;
           //   text-align: left;
-          color: $c2;
+          // color: $c2;
         }
         .primary-info-container {
           width: 100%;
           margin-top: 5px;
           display: flex;
           justify-content: space-between;
+          // border: 1px solid black;
           .border-line {
             height: 60px;
             width: 2px;
-            background-color: $c2;
+            // background-color: $c2;
           }
 
           .primary-info {
@@ -122,7 +131,7 @@
           width: 100px;
           height: 22px;
           border-radius: 36px;
-          background-color: $c2;
+          // background-color: $c2;
           box-shadow: 0px 0px 1px 0px #0000001a;
           cursor: pointer;
           display: flex;

@@ -32,7 +32,9 @@ const LinkEditModal = ({ link, linkInfo, check, userId }) => {
   console.log(check, userId);
 
   const responce = useSelector((state) => state.ApiSlice.response);
-
+  let organisation = useSelector((state) => state.ApiSlice.organization);
+  let singleEmployee = useSelector((state) => state.ApiSlice.singleEmployee);
+  let mobileData = check === "user" ? singleEmployee?.data : organisation?.data;
   console.log(responce);
 
   let dataFunc = {
@@ -51,6 +53,8 @@ const LinkEditModal = ({ link, linkInfo, check, userId }) => {
       return dispatch(addOrganizationLink(dataFunc));
     }
   };
+
+  let color = useSelector((state) => state.profileInfoSlice.color);
 
   return (
     <div className="link-edit-main">
@@ -130,7 +134,7 @@ const LinkEditModal = ({ link, linkInfo, check, userId }) => {
         </div>
       </div>
       <div className="right">
-        <Mobile />
+        <Mobile mobileData={mobileData} color={color} />
       </div>
     </div>
   );

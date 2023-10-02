@@ -1,8 +1,62 @@
 import React from "react";
 import "./Lead.scss";
-import { Switch } from "@mui/material";
+import { Box, CircularProgress, Switch } from "@mui/material";
+import {
+  setFormHeader,
+  setNameVisible,
+  setEmailVisible,
+  setCompanyVisible,
+  setNoteVisible,
+  setJobVisible,
+  setPhoneVisible,
+} from "../../../redux/profileInfoSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { updateLead } from "../../../redux/ApisSlice";
 
-const Lead = () => {
+const Lead = (userId) => {
+  let dispatch = useDispatch();
+  const formHeader = useSelector((state) => state.profileInfoSlice.formHeader);
+  const nameVisible = useSelector(
+    (state) => state.profileInfoSlice.nameVisible
+  );
+  const emailVisible = useSelector(
+    (state) => state.profileInfoSlice.emailVisible
+  );
+  const companyVisible = useSelector(
+    (state) => state.profileInfoSlice.companyVisible
+  );
+  const jobVisible = useSelector((state) => state.profileInfoSlice.jobVisible);
+  const noteVisible = useSelector(
+    (state) => state.profileInfoSlice.noteVisible
+  );
+  const phoneVisible = useSelector(
+    (state) => state.profileInfoSlice.phoneVisible
+  );
+
+  let changeVisibility = (cb, value) => {
+    if (value === 1) {
+      dispatch(cb(0));
+    } else {
+      dispatch(cb(1));
+    }
+  };
+  let updateLeadMode = () => {
+    dispatch(
+      updateLead({
+        userId,
+        formHeader,
+        nameVisible,
+        emailVisible,
+        companyVisible,
+        jobVisible,
+        noteVisible,
+        phoneVisible,
+      })
+    );
+  };
+
+  console.log(emailVisible);
+  let loading = useSelector((state) => state.ApiSlice.submitLoading);
   return (
     <div className="lead-main">
       <div className="lead-inner">
@@ -21,7 +75,11 @@ const Lead = () => {
         </div>
         <div className="form-header">
           <h2 className="heading">Form Header</h2>
-          <input type="text" />
+          <input
+            type="text"
+            onChange={(e) => setFormHeader(e.target.value)}
+            value={formHeader}
+          />
         </div>
         <div className="description2">
           <h2 className="heading2">Input Fields</h2>
@@ -31,12 +89,62 @@ const Lead = () => {
           </p>
         </div>
         <div className="form-input-options">
-          <div className="option">Full Name</div>
-          <div className="option">Email</div>
-          <div className="option">Phone Number</div>
-          <div className="option">Job Title</div>
-          <div className="option">Company</div>
-          <div className="option">Note</div>
+          <div
+            className="option"
+            onClick={() => changeVisibility(setNameVisible, nameVisible)}
+          >
+            Full Name
+          </div>
+          <div
+            className="option"
+            onClick={() => changeVisibility(setEmailVisible, emailVisible)}
+          >
+            Email
+          </div>
+          <div
+            className="option"
+            onClick={() => changeVisibility(setPhoneVisible, phoneVisible)}
+          >
+            Phone Number
+          </div>
+          <div
+            className="option"
+            onClick={() => changeVisibility(setJobVisible, jobVisible)}
+          >
+            Job Title
+          </div>
+          <div
+            className="option"
+            onClick={() => changeVisibility(setCompanyVisible, companyVisible)}
+          >
+            Company
+          </div>
+          <div
+            className="option"
+            onClick={() => changeVisibility(setNoteVisible, noteVisible)}
+          >
+            Note
+          </div>
+        </div>
+
+        <div className="btns-main">
+          <div className="btns-inner">
+            <button className="cancel">Cancel</button>
+            <button
+              className="update"
+              onClick={() => {
+                !loading ? updateLeadMode() : null;
+              }}
+            >
+              {loading ? (
+                <Box sx={{ color: "white" }}>
+                  <CircularProgress color="inherit" size={27} />{" "}
+                </Box>
+              ) : (
+                " Update"
+              )}
+            </button>
+          </div>
         </div>
       </div>
     </div>

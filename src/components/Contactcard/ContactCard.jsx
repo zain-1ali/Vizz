@@ -8,15 +8,35 @@ import { MdLocationOn } from "react-icons/md";
 import { BiSolidPencil } from "react-icons/bi";
 import { BsShareFill } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
+import { setAllNull } from "../../redux/profileInfoSlice";
+import { useDispatch } from "react-redux";
 
 const ContactCard = ({ data }) => {
   const navigate = useNavigate();
+  let dispatch = useDispatch();
+  let returnString = (str) => {
+    if (str?.length <= 52) {
+      return str;
+    } else {
+      return str?.slice(0, 53) + "...";
+    }
+  };
 
   return (
     <div className="contactcard">
       <div className="card-imgs">
-        <img src={data?.profileUrl} alt="" className="prfl" />
-        <img src={data?.coverUrl} alt="" className="bg" />
+        <img
+          src={
+            data?.profileUrl ? data?.profileUrl : "https://placehold.co/75x75"
+          }
+          alt=""
+          className="prfl"
+        />
+        <img
+          src={data?.coverUrl ? data?.coverUrl : "https://placehold.co/265x123"}
+          alt=""
+          className="bg"
+        />
       </div>
       <div className="contact-card-details">
         <h2>{data?.name}</h2>
@@ -35,7 +55,7 @@ const ContactCard = ({ data }) => {
                   : { fontSize: "30px", marginRight: "7px" }
               }
             />
-            {data?.bio}
+            {returnString(data?.bio)}
           </div>
         )}
 
@@ -49,7 +69,10 @@ const ContactCard = ({ data }) => {
       <div className="btn-main">
         <button
           className="editbtn"
-          onClick={() => navigate(`/editcard/${data?.id}`)}
+          onClick={() => {
+            navigate(`/editcard/${data?.id}`);
+            // dispatch(setAllNull());
+          }}
         >
           <BiSolidPencil
             style={{

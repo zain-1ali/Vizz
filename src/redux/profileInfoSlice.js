@@ -11,8 +11,19 @@ const initialState = {
   logoUrl: "",
   coverUrl: bgplaceholder,
   phone: "",
-  color: "",
+  color: "#DEA527",
   links: [],
+  direct: {
+    status: 0,
+    linkId: "",
+  },
+  formHeader: "",
+  nameVisible: 0,
+  emailVisible: 0,
+  companyVisible: 0,
+  jobVisible: 0,
+  noteVisible: 0,
+  phoneVisible: 0,
 };
 
 export const profileInfoSlice = createSlice({
@@ -52,6 +63,46 @@ export const profileInfoSlice = createSlice({
     setLinks: (state, action) => {
       state.links = action.payload;
     },
+    setDirect: (state, action) => {
+      state.direct = {
+        status: action.payload?.status,
+        linkId: action.payload?.linkId,
+      };
+    },
+
+    setFormHeader: (state, action) => {
+      state.formHeader = action.payload;
+    },
+    setNameVisible: (state, action) => {
+      state.nameVisible = action.payload;
+    },
+    setEmailVisible: (state, action) => {
+      state.emailVisible = action.payload;
+    },
+    setCompanyVisible: (state, action) => {
+      state.companyVisible = action.payload;
+    },
+    setNoteVisible: (state, action) => {
+      state.noteVisible = action.payload;
+    },
+    setJobVisible: (state, action) => {
+      state.jobVisible = action.payload;
+    },
+    setPhoneVisible: (state, action) => {
+      state.phoneVisible = action.payload;
+    },
+    setAllNull: (state) => {
+      state.name = "";
+      state.email = "";
+      state.bio = "";
+      state.address = "";
+      state.designation = "";
+      state.profileUrl = "";
+      state.coverUrl = "";
+      state.phone = "";
+      state.color = "";
+      state.links = "";
+    },
   },
 });
 
@@ -67,6 +118,15 @@ export const {
   setAddress,
   setBio,
   setLinks,
+  setAllNull,
+  setDirect,
+  setFormHeader,
+  setNameVisible,
+  setEmailVisible,
+  setCompanyVisible,
+  setNoteVisible,
+  setJobVisible,
+  setPhoneVisible,
 } = profileInfoSlice.actions;
 
 export default profileInfoSlice.reducer;

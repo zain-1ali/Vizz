@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./About.scss";
-import { Switch } from "@mui/material";
+import { Box, CircularProgress, Switch } from "@mui/material";
 import { AiOutlinePlus } from "react-icons/ai";
 import bgplaceholder from "../../../imgs/coverholder.png";
 import prflplaceholder from "../../../imgs/prflplaceholder.png";
@@ -21,6 +21,7 @@ import Cropper from "../../Cropper/Cropper";
 import { submitAbout } from "../../../redux/ApisSlice";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.min.css";
+import { CgColorPicker } from "react-icons/cg";
 
 const About = ({ id }) => {
   let date = Date.now();
@@ -122,11 +123,11 @@ const About = ({ id }) => {
 
   cover?.slice(0, 8) === "https://"
     ? null
-    : (aboutData.coverUrl = cover.split("base64,")[1]);
+    : (aboutData.coverUrl = cover?.split("base64,")[1]);
 
   profile?.slice(0, 8) === "https://"
     ? null
-    : (aboutData.profileUrl = profile.split("base64,")[1]);
+    : (aboutData.profileUrl = profile?.split("base64,")[1]);
 
   // let profileAdded = profile.slice(0, 8) === "https://" ? true : false;
 
@@ -153,6 +154,7 @@ const About = ({ id }) => {
   // useEffect(() => {
 
   // }, []);
+  let loading = useSelector((state) => state.ApiSlice.submitLoading);
   return (
     <div className="about-main">
       {/* --------------------------------------------croper for profile image------------------------------------------------  */}
@@ -207,41 +209,66 @@ const About = ({ id }) => {
       <div className="select-clr-container">
         <h2>Card Color</h2>
         <div className="clrs">
-          <div
-            className="single-clr"
-            style={{ backgroundColor: "black" }}
-          ></div>
+          <div className="single-clr" style={{ border: "1px solid black" }}>
+            <label
+              htmlFor="textclr"
+              // style={{ height: "0px", width: "0px", opacity: "0px" }}
+            >
+              <CgColorPicker style={{ fontSize: "15px" }} />
+
+              <input
+                type="color"
+                id="textclr"
+                style={{
+                  opacity: "0px",
+                  height: "0px",
+                  width: "0px",
+                  // display: "none",
+                }}
+                onChange={(e) => dispatch(setColor(e.target.value))}
+                value={color}
+              />
+            </label>
+          </div>
           <div
             className="single-clr"
             style={{ backgroundColor: "#E70A0A" }}
+            onClick={() => dispatch(setColor("#E70A0A"))}
           ></div>
           <div
             className="single-clr"
             style={{ backgroundColor: "#0ED416" }}
+            onClick={() => dispatch(setColor("#0ED416"))}
           ></div>
           <div
             className="single-clr"
             style={{ backgroundColor: "#3076FF" }}
+            onClick={() => dispatch(setColor("#3076FF"))}
           ></div>
           <div
             className="single-clr"
             style={{ backgroundColor: "#F439D6" }}
+            onClick={() => dispatch(setColor("#F439D6"))}
           ></div>
           <div
             className="single-clr"
             style={{ backgroundColor: "#6732FF" }}
+            onClick={() => dispatch(setColor("#6732FF"))}
           ></div>
           <div
             className="single-clr"
             style={{ backgroundColor: "#FCE410" }}
+            onClick={() => dispatch(setColor("#FCE410"))}
           ></div>
           <div
             className="single-clr"
             style={{ backgroundColor: "#1BE4FF" }}
+            onClick={() => dispatch(setColor("#1BE4FF"))}
           ></div>
           <div
             className="single-clr"
             style={{ backgroundColor: "#DEA527" }}
+            onClick={() => dispatch(setColor("#DEA527"))}
           ></div>
         </div>
       </div>
@@ -254,7 +281,7 @@ const About = ({ id }) => {
           // className="prfl-img"
         >
           <img
-            src={profile}
+            src={profile ? profile : "https://placehold.co/112x112"}
             alt=""
             className="prfl-img"
             // style={{ border: "1px solid black" }}
@@ -269,7 +296,11 @@ const About = ({ id }) => {
         </label>
 
         <label htmlFor="coverImg">
-          <img src={cover} alt="" className="bg-img" />
+          <img
+            src={cover ? cover : "https://placehold.co/600x180"}
+            alt=""
+            className="bg-img"
+          />
           <input
             type="file"
             name="coverImg"
@@ -329,13 +360,21 @@ const About = ({ id }) => {
           <button className="cancel">Cancel</button>
           <button
             className="update"
-            onClick={() => dispatch(submitAbout(aboutData))}
+            onClick={() => {
+              !loading ? dispatch(submitAbout(aboutData)) : null;
+            }}
           >
-            Update
+            {loading ? (
+              <Box sx={{ color: "white" }}>
+                <CircularProgress color="inherit" size={27} />{" "}
+              </Box>
+            ) : (
+              " Update"
+            )}
           </button>
         </div>
       </div>
-      <ToastContainer position="top-center" autoClose={2000} />
+      {/* <ToastContainer position="top-center" autoClose={2000} /> */}
     </div>
   );
 };

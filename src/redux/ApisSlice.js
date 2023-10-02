@@ -40,7 +40,11 @@ export const loginUser = createAsyncThunk(
     try {
       const result = await response.json();
       localStorage.setItem("vizzToken", result?.data?.token);
-      data.successNavigation();
+      console.log(result);
+      if (result?.status === true) {
+        data.successNavigation();
+      }
+
       return result;
     } catch (error) {
       rejectWithValue(error);
@@ -401,9 +405,53 @@ export const updateOrganization = createAsyncThunk(
   }
 );
 
+export const updateEmployeeDirect = createAsyncThunk(
+  "updateEmployeeDirect",
+
+  async (data, { rejectWithValue }) => {
+    const response = await fetch(`${baseUrl}/api/changeUserDirect`, {
+      method: "Post",
+      headers: {
+        Authorization: `Bearer ${theToken[1]}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+    try {
+      const result = await response.json();
+      // console.log("res");
+      return result;
+    } catch (error) {
+      rejectWithValue(error);
+    }
+  }
+);
+
+export const updateLead = createAsyncThunk(
+  "updateLead",
+
+  async (data, { rejectWithValue }) => {
+    const response = await fetch(`${baseUrl}/api/updateLeadFields`, {
+      method: "Post",
+      headers: {
+        Authorization: `Bearer ${theToken[1]}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+    try {
+      const result = await response.json();
+      // console.log("res");
+      return result;
+    } catch (error) {
+      rejectWithValue(error);
+    }
+  }
+);
+
 const initialState = {
   response: {},
-  profiles: {},
+  profiles: { data: { employees: [] } },
   allLinks: {},
   singleEmployee: {},
   addedLinks: {},
@@ -438,6 +486,9 @@ export const ApiSlice = createSlice({
     },
 
     [loginUser.fulfilled]: (state, action) => {
+      action.payload.status === true
+        ? toast.success(action.payload.message)
+        : toast.error(action.payload.message);
       state.submitLoading = false;
       state.response = action.payload;
     },
@@ -527,6 +578,7 @@ export const ApiSlice = createSlice({
         : toast.error(action.payload.message);
       state.submitLoading = false;
       state.response = action.payload;
+      state.addedLinks = action?.payload;
     },
     [addOrganizationLink.rejected]: (state, action) => {
       state.submitLoading = false;
@@ -563,6 +615,7 @@ export const ApiSlice = createSlice({
         : toast.error(action.payload.message);
       state.submitLoading = false;
       state.response = action.payload;
+      state.addedLinks = action?.payload;
     },
     [deleteOrganizationLink.rejected]: (state, action) => {
       state.submitLoading = false;
@@ -573,15 +626,15 @@ export const ApiSlice = createSlice({
     // rearrange Links
     // (
     [rearrangeLinks.pending]: (state) => {
-      state.submitLoading = true;
+      // state.submitLoading = true;
     },
 
     [rearrangeLinks.fulfilled]: (state, action) => {
-      state.submitLoading = false;
+      // state.submitLoading = false;
       state.response = action.payload;
     },
     [rearrangeLinks.rejected]: (state, action) => {
-      state.submitLoading = false;
+      // state.submitLoading = false;
       state.response = action.payload;
     },
     // )
@@ -611,6 +664,7 @@ export const ApiSlice = createSlice({
     [getUserLinks.fulfilled]: (state, action) => {
       state.submitLoading = false;
       state.addedLinks = action.payload;
+      state.addedLinks = action?.payload;
     },
     [getUserLinks.rejected]: (state, action) => {
       state.submitLoading = false;
@@ -631,7 +685,7 @@ export const ApiSlice = createSlice({
       state.submitLoading = false;
       state.response = action.payload;
       console.log(action?.payload?.data);
-      // state.addedLinks = action?.payload?.data;
+      state.addedLinks = action?.payload;
     },
     [deleteUserLink.rejected]: (state, action) => {
       state.submitLoading = false;
@@ -642,15 +696,15 @@ export const ApiSlice = createSlice({
     // rearrange User Links
     // (
     [rearrangeUserLinks.pending]: (state) => {
-      state.loading = true;
+      // state.loading = true;
     },
 
     [rearrangeUserLinks.fulfilled]: (state, action) => {
-      state.submitLoading = false;
+      // state.submitLoading = false;
       state.response = action.payload;
     },
     [rearrangeUserLinks.rejected]: (state, action) => {
-      state.submitLoading = false;
+      // state.submitLoading = false;
       state.response = action.payload;
     },
     // )
@@ -669,6 +723,23 @@ export const ApiSlice = createSlice({
     [getOrganization.rejected]: (state, action) => {
       state.loading = false;
       state.organization = action.payload;
+    },
+    // )
+
+    // update Employee Direct
+
+    // (
+    [updateEmployeeDirect.pending]: (state) => {
+      // state.loading = true;
+    },
+
+    [updateEmployeeDirect.fulfilled]: (state, action) => {
+      state.loading = false;
+      state.response = action.payload;
+    },
+    [updateEmployeeDirect.rejected]: (state, action) => {
+      state.loading = false;
+      state.response = action.payload;
     },
     // )
 
@@ -694,7 +765,28 @@ export const ApiSlice = createSlice({
     },
     // )
 
-    // update Organization method
+    // update Employee Direct
+
+    // (
+    [updateLead.pending]: (state) => {
+      state.submitLoading = true;
+    },
+
+    [updateLead.fulfilled]: (state, action) => {
+      action.payload.status === true
+        ? toast.success(action.payload.message)
+        : toast.error(action.payload.message);
+      state.submitLoading = false;
+      state.response = action.payload;
+    },
+    [updateLead.rejected]: (state, action) => {
+      state.submitLoading = false;
+      toast.error(action.payload.message);
+      state.response = action.payload;
+    },
+    // )
+
+    // Add employee
     // (
     [addEmployee.pending]: (state) => {
       // toast.loading("Please wait...");
@@ -708,6 +800,11 @@ export const ApiSlice = createSlice({
 
       state.submitLoading = false;
       state.response = action.payload;
+      if (action.payload?.data?.name) {
+        state.profiles?.data?.employees?.push(action.payload?.data);
+      }
+
+      console.log(action.payload);
     },
     [addEmployee.rejected]: (state, action) => {
       toast.error(action.payload.message);

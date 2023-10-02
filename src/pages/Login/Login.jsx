@@ -5,6 +5,7 @@ import vizzlogo from "../../imgs/vizzlogo.png";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { loginUser } from "../../redux/ApisSlice";
+import { toast } from "react-toastify";
 
 const Login = () => {
   let navigate = useNavigate();
@@ -15,8 +16,12 @@ const Login = () => {
   });
   let dispatch = useDispatch();
   let successNavigation = () => {
-    navigate("/home");
-    window.location.reload();
+    if (thedata?.email && thedata?.password) {
+      navigate("/home");
+      window.location.reload();
+    } else {
+      toast.error("Please enter complete credentials");
+    }
   };
 
   let loginFunc = () => {

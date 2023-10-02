@@ -31,6 +31,7 @@ const CreateCardModal = ({ cardModal, handlecardModal }) => {
     height: 200,
     bgcolor: "white",
     borderRadius: "18px",
+    outline: "none",
     // overflow: 'auto',
     // border: '2px solid #000',
     boxShadow: 24,
@@ -84,14 +85,21 @@ const CreateCardModal = ({ cardModal, handlecardModal }) => {
                 />
               </div>
             </div>
-            <button
-              className="createbtn"
-              onClick={() => {
-                dispatch(addEmployee(data)), handlecardModal();
-              }}
-            >
-              Create
-            </button>
+            <div></div>
+
+            <div className="btn-main">
+              <button className="editbtn" onClick={() => handlecardModal()}>
+                Cancel
+              </button>
+              <button
+                className="sharebtn"
+                onClick={() => {
+                  dispatch(addEmployee(data)), handlecardModal();
+                }}
+              >
+                Create
+              </button>
+            </div>
           </div>
         </Box>
       </Modal>

@@ -8,8 +8,8 @@ const PhoneContainer = () => {
   const email = useSelector((state) => state.profileInfoSlice.email);
   const color = useSelector((state) => state.profileInfoSlice.color);
   const phone = useSelector((state) => state.profileInfoSlice.phone);
-  const cover = useSelector((state) => state.profileInfoSlice.coverUrl);
-  const profile = useSelector((state) => state.profileInfoSlice.profileUrl);
+  const coverUrl = useSelector((state) => state.profileInfoSlice.coverUrl);
+  const profileUrl = useSelector((state) => state.profileInfoSlice.profileUrl);
   const address = useSelector((state) => state.profileInfoSlice.address);
   const bio = useSelector((state) => state.profileInfoSlice.bio);
   const links = useSelector((state) => state.profileInfoSlice.links);
@@ -18,8 +18,8 @@ const PhoneContainer = () => {
     email,
     color,
     phone,
-    cover,
-    profile,
+    coverUrl,
+    profileUrl,
     address,
     bio,
     links,
@@ -32,7 +32,7 @@ const PhoneContainer = () => {
         />
         View Card
       </div>
-      <Mobile mobileData={mobileData} />
+      <Mobile mobileData={mobileData} color={color} />
     </div>
   );
 };

@@ -98,6 +98,7 @@ const LinksModal = ({ check, userId }) => {
     height: 500,
     bgcolor: "white",
     borderRadius: "18px",
+    outline: "none",
     // overflow: 'auto',
     // border: '2px solid #000',
     boxShadow: 24,

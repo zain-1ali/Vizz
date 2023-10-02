@@ -10,7 +10,49 @@
   .lead-inner {
     width: 90%;
     height: 87%;
-    // border: 1px solid black;
+
+    .btns-main {
+      width: 430px;
+      margin-top: 15px;
+      margin-left: 20px;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      .btns-inner {
+        width: 237px;
+        display: flex;
+        justify-content: space-between;
+
+        .btns-parent {
+          width: 114px;
+          height: 40px;
+          border-radius: 36px;
+          font-family: Inter;
+          font-size: 12px;
+          font-weight: 600;
+          line-height: 15px;
+          letter-spacing: 0em;
+          cursor: pointer;
+        }
+
+        .cancel {
+          @extend .btns-parent;
+          border: 1px solid #000000;
+          background-color: white;
+          color: #000000;
+        }
+
+        .update {
+          @extend .btns-parent;
+          background-color: $c2;
+          color: white;
+          border: none;
+        }
+        .update:hover {
+          background-color: $c2hover;
+        }
+      }
+    }
   }
 
   .lead-direct {
@@ -30,11 +72,12 @@
   }
 
   .disc-toggle {
+    // border: 1px solid black;
     width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-top: 55px;
+    margin-top: 35px;
     .description {
       width: 85%;
       // border: 1px solid black;
@@ -141,7 +184,7 @@
     .option:hover {
       background-color: $c2;
       color: white;
-      border: none;
+      border: 1px solid $c2;
     }
   }
 }

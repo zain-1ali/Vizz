@@ -6,7 +6,7 @@ import bgplaceholder from "../../imgs/coverholder.png";
 import prflplaceholder from "../../imgs/prflplaceholder.png";
 import { CgColorPicker } from "react-icons/cg";
 import { AiFillEye, AiOutlinePlus } from "react-icons/ai";
-import { Switch } from "@mui/material";
+import { Box, CircularProgress, Switch } from "@mui/material";
 import LinksModal from "../../components/LinksModal/LinksModal";
 import {
   openLinkModal,
@@ -30,7 +30,7 @@ const Settings = () => {
   useEffect(() => {
     dispatch(getOrganization());
   }, []);
-
+  let loading = useSelector((state) => state.ApiSlice.submitLoading);
   let [data, setData] = useState({
     name: "",
     email: "",
@@ -55,8 +55,8 @@ const Settings = () => {
       // coverUrl: organisation?.data?.coverUrl,
       color: organisation?.data?.color,
     });
-    // setshowprfl(organisation?.data?.profileUrl);
-    // setshowbgimg(organisation?.data?.coverUrl);
+    setshowprfl(organisation?.data?.logoUrl);
+    setshowbgimg(organisation?.data?.coverUrl);
   }, [organisation?.data]);
 
   let [prflimg, setprflimg] = useState(null);
@@ -132,8 +132,10 @@ const Settings = () => {
   };
 
   let organizationBtmData = {
-    color: data.color,
+    // color: data.color,
   };
+  const responce = useSelector((state) => state.ApiSlice.response);
+  console.log(responce);
 
   showbgimg?.slice(0, 8) === "https://"
     ? null
@@ -141,7 +143,7 @@ const Settings = () => {
 
   showprfl?.slice(0, 8) === "https://"
     ? null
-    : (organizationBtmData.profileUrl = showprfl?.split("base64,")[1]);
+    : (organizationBtmData.logoUrl = showprfl?.split("base64,")[1]);
 
   let [prvModal, setprvModal] = useState(false);
 
@@ -323,9 +325,21 @@ const Settings = () => {
 
               <div className="account-security">
                 <div className="singlefieldIII">
-                  Account Security
-                  <div className="reset-btn">Reset</div>
-                  <input type="text" className="emailinput" />
+                  {/* Account Security */}
+                  <div
+                    className="reset-btn"
+                    onClick={() => dispatch(updateOrganization(data))}
+                  >
+                    {loading ? (
+                      <Box sx={{ color: "white" }}>
+                        <CircularProgress color="inherit" size={27} />{" "}
+                      </Box>
+                    ) : (
+                      "Save"
+                    )}
+                  </div>
+                  {/* <input type="text" className="emailinput" /> */}
+                  <div className="emailinput"></div>
                 </div>
               </div>
             </div>
@@ -335,6 +349,7 @@ const Settings = () => {
             <Content
               check="organization"
               userId="null"
+              directmode={{ status: 0, linkId: "" }}
               getLinkFunc={getOrganizationLinks}
             />
           </div>
@@ -600,9 +615,19 @@ const Settings = () => {
                 </div>
                 <div
                   className="save"
-                  onClick={() => dispatch(updateOrganization(data))}
+                  onClick={() =>
+                    dispatch(
+                      updateOrganization({ ...organizationBtmData, ...data })
+                    )
+                  }
                 >
-                  Save
+                  {loading ? (
+                    <Box sx={{ color: "white" }}>
+                      <CircularProgress color="inherit" size={27} />{" "}
+                    </Box>
+                  ) : (
+                    "Save"
+                  )}
                 </div>
               </div>
               <br />

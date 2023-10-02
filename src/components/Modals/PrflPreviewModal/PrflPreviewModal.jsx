@@ -72,6 +72,7 @@ const PrflPreviwModal = ({ prvModal, handlePrvModal }) => {
     height: 500,
     bgcolor: "white",
     borderRadius: "18px",
+    outline: "none",
     // overflow: 'auto',
     // border: '2px solid #000',
     boxShadow: 24,
@@ -88,6 +89,7 @@ const PrflPreviwModal = ({ prvModal, handlePrvModal }) => {
   //   console.log(linkEditmodal);
   // prvModal,
   let mobileData = {};
+  console.log(organisation?.data);
   return (
     <>
       <Modal
@@ -99,7 +101,10 @@ const PrflPreviwModal = ({ prvModal, handlePrvModal }) => {
         aria-describedby="modal-modal-description"
       >
         <Box sx={style2}>
-          <Mobile mobileData={organisation?.data} />
+          <Mobile
+            mobileData={organisation?.data}
+            color={organisation?.data?.color}
+          />
         </Box>
       </Modal>
       {/* <ToastContainer position="top-center" autoClose={2000} /> */}

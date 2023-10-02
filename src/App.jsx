@@ -14,9 +14,20 @@ import Contacts from "./pages/Contacts/Contacts";
 import Settings from "./pages/Settings/Settings";
 import { ToastContainer } from "react-toastify";
 import Analytics from "./pages/Analytics/Analytics";
+import { useSelector } from "react-redux";
+import Loader from "./components/Loader/Loader";
+// import PrivateRoute from "./PrivateRoute";
 // import Analytics from "./pages/Analytics/Analytics";
 function App() {
   let width = screen.width;
+  let theToken = localStorage.getItem("vizzToken");
+  const RequireAuth = ({ children }) => {
+    return theToken ? children : <Navigate to="/" />;
+  };
+
+  const RequireAuthlogin = ({ children }) => {
+    return !theToken ? children : <Navigate to="/home" />;
+  };
   return (
     <>
       {width > 900 ? (
@@ -24,7 +35,14 @@ function App() {
           <Routes>
             <Route path="/" element={<Login />} />
             <Route path="/signup" element={<SignUp />} />
-            <Route path="/home" element={<Home />} />
+            <Route
+              path="/home"
+              element={
+                <RequireAuth>
+                  <Home />
+                </RequireAuth>
+              }
+            />
             <Route path="/editcard/:id" element={<EditCard />} />
             <Route path="/contacts" element={<Contacts />} />
             <Route path="/settings" element={<Settings />} />
@@ -45,18 +63,7 @@ function App() {
           Please open the application on your laptop or desktop
         </div>
       )}
-      <ToastContainer
-        position="top-center"
-        autoClose={5000}
-        // hideProgressBar={false}
-        // newestOnTop={false}
-        // closeOnClick
-        // rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        // theme="light"
-      />
+      <ToastContainer position="top-center" autoClose={1000} />
     </>
   );
 }

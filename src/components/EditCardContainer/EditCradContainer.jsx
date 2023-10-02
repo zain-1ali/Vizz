@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import "./EditCardContainer.scss";
 import content from "../../imgs/content.png";
 import about from "../../imgs/about.png";
@@ -17,7 +17,6 @@ import About from "../EditCardContainerComponents/About/About";
 import Qr from "../EditCardContainerComponents/Qr/Qr";
 import Lead from "../EditCardContainerComponents/Lead/Lead";
 import QrContainer from "../EditCardContainerComponents/QrContainer/QrContainer";
-import { getUserLinks } from "../../redux/ApisSlice";
 
 const EditCradContainer = ({ id }) => {
   const iscontent = useSelector((state) => state.profileEditHandeler.isContent);
@@ -29,7 +28,8 @@ const EditCradContainer = ({ id }) => {
   );
   console.log(singleProfile);
   const dispatch = useDispatch();
-
+  let userdirect = useSelector((state) => state.profileInfoSlice.direct);
+  console.log(userdirect);
   return (
     <>
       <div className="container-main">
@@ -74,11 +74,11 @@ const EditCradContainer = ({ id }) => {
           </div>
         </div>
         {iscontent && (
-          <Content check="user" userId={id} getLinkFunc={getUserLinks} />
+          <Content check="user" userId={id} directmode={userdirect} />
         )}
         {isabout && <About id={id} />}
         {isqr && <Qr />}
-        {islead && <Lead />}
+        {islead && <Lead userId={id} />}
 
         {isqr ? <QrContainer /> : <PhoneContainer />}
       </div>

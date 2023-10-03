@@ -29,55 +29,65 @@ const EditCradContainer = ({ id }) => {
   console.log(singleProfile);
   const dispatch = useDispatch();
   let userdirect = useSelector((state) => state.profileInfoSlice.direct);
+  let leadMode = useSelector((state) => state.profileInfoSlice.leadMode);
   console.log(userdirect);
+
+  let MenuBar = () => {
+    return (
+      <div className="container-menue-bar">
+        <div className="sidebar-option-main">
+          <div
+            className="single-option"
+            onClick={() => dispatch(openContent())}
+            style={
+              iscontent ? { backgroundColor: "rgba(47, 47, 47, 1)" } : null
+            }
+          >
+            <img src={content} alt="" className="optionicon" />
+            <p>Content</p>
+          </div>
+          <div
+            className="single-option"
+            onClick={() => dispatch(openAbout())}
+            style={isabout ? { backgroundColor: "rgba(47, 47, 47, 1)" } : null}
+          >
+            <img src={about} alt="" className="optionicon" />
+            <p>About</p>
+          </div>
+          <div
+            className="single-option"
+            onClick={() => dispatch(openQr())}
+            style={isqr ? { backgroundColor: "rgba(47, 47, 47, 1)" } : null}
+          >
+            <img src={qr} alt="" className="optionicon" />
+            <p>Qr Code</p>
+          </div>
+          <div
+            className="single-option"
+            onClick={() => dispatch(openLead())}
+            style={islead ? { backgroundColor: "rgba(47, 47, 47, 1)" } : null}
+          >
+            <img src={lead} alt="" className="optionicon" />
+            <p>Lead Capture</p>
+          </div>
+        </div>
+      </div>
+    );
+  };
   return (
     <>
       <div className="container-main">
-        <div className="container-menue-bar">
-          <div className="sidebar-option-main">
-            <div
-              className="single-option"
-              onClick={() => dispatch(openContent())}
-              style={
-                iscontent ? { backgroundColor: "rgba(47, 47, 47, 1)" } : null
-              }
-            >
-              <img src={content} alt="" className="optionicon" />
-              <p>Content</p>
-            </div>
-            <div
-              className="single-option"
-              onClick={() => dispatch(openAbout())}
-              style={
-                isabout ? { backgroundColor: "rgba(47, 47, 47, 1)" } : null
-              }
-            >
-              <img src={about} alt="" className="optionicon" />
-              <p>About</p>
-            </div>
-            <div
-              className="single-option"
-              onClick={() => dispatch(openQr())}
-              style={isqr ? { backgroundColor: "rgba(47, 47, 47, 1)" } : null}
-            >
-              <img src={qr} alt="" className="optionicon" />
-              <p>Qr Code</p>
-            </div>
-            <div
-              className="single-option"
-              onClick={() => dispatch(openLead())}
-              style={islead ? { backgroundColor: "rgba(47, 47, 47, 1)" } : null}
-            >
-              <img src={lead} alt="" className="optionicon" />
-              <p>Lead Capture</p>
-            </div>
-          </div>
-        </div>
+        <MenuBar />
         {iscontent && (
-          <Content check="user" userId={id} directmode={userdirect} />
+          <Content
+            check="user"
+            userId={id}
+            directmode={userdirect}
+            leadMode={leadMode}
+          />
         )}
         {isabout && <About id={id} />}
-        {isqr && <Qr />}
+        {isqr && <Qr userId={id} />}
         {islead && <Lead userId={id} />}
 
         {isqr ? <QrContainer /> : <PhoneContainer />}

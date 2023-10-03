@@ -43,7 +43,7 @@ const Lead = (userId) => {
   let updateLeadMode = () => {
     dispatch(
       updateLead({
-        userId,
+        id: userId,
         formHeader,
         nameVisible,
         emailVisible,
@@ -77,7 +77,7 @@ const Lead = (userId) => {
           <h2 className="heading">Form Header</h2>
           <input
             type="text"
-            onChange={(e) => setFormHeader(e.target.value)}
+            onChange={(e) => dispatch(setFormHeader(e.target.value))}
             value={formHeader}
           />
         </div>
@@ -92,36 +92,66 @@ const Lead = (userId) => {
           <div
             className="option"
             onClick={() => changeVisibility(setNameVisible, nameVisible)}
+            style={
+              nameVisible === 1
+                ? { backgroundColor: "rgba(222, 165, 39, 1)" }
+                : null
+            }
           >
             Full Name
           </div>
           <div
             className="option"
             onClick={() => changeVisibility(setEmailVisible, emailVisible)}
+            style={
+              emailVisible === 1
+                ? { backgroundColor: "rgba(222, 165, 39, 1)" }
+                : null
+            }
           >
             Email
           </div>
           <div
             className="option"
             onClick={() => changeVisibility(setPhoneVisible, phoneVisible)}
+            style={
+              phoneVisible === 1
+                ? { backgroundColor: "rgba(222, 165, 39, 1)" }
+                : null
+            }
           >
             Phone Number
           </div>
           <div
             className="option"
             onClick={() => changeVisibility(setJobVisible, jobVisible)}
+            style={
+              jobVisible === 1
+                ? { backgroundColor: "rgba(222, 165, 39, 1)" }
+                : null
+            }
           >
             Job Title
           </div>
           <div
             className="option"
             onClick={() => changeVisibility(setCompanyVisible, companyVisible)}
+            style={
+              companyVisible === 1
+                ? { backgroundColor: "rgba(222, 165, 39, 1)" }
+                : null
+            }
           >
             Company
           </div>
           <div
             className="option"
             onClick={() => changeVisibility(setNoteVisible, noteVisible)}
+            style={
+              noteVisible === 1
+                ? { backgroundColor: "rgba(222, 165, 39, 1)" }
+                : null
+            }
           >
             Note
           </div>

@@ -24,6 +24,9 @@ const initialState = {
   jobVisible: 0,
   noteVisible: 0,
   phoneVisible: 0,
+  qrLogo: "",
+  qrColor: "black",
+  leadMode: 0,
 };
 
 export const profileInfoSlice = createSlice({
@@ -91,6 +94,16 @@ export const profileInfoSlice = createSlice({
     setPhoneVisible: (state, action) => {
       state.phoneVisible = action.payload;
     },
+    setQrLogo: (state, action) => {
+      state.qrLogo = action.payload;
+    },
+    setQrColor: (state, action) => {
+      state.qrColor = action.payload;
+    },
+    setLead: (state, action) => {
+      state.leadMode = action.payload;
+    },
+
     setAllNull: (state) => {
       state.name = "";
       state.email = "";
@@ -127,6 +140,9 @@ export const {
   setNoteVisible,
   setJobVisible,
   setPhoneVisible,
+  setQrColor,
+  setQrLogo,
+  setLead,
 } = profileInfoSlice.actions;
 
 export default profileInfoSlice.reducer;

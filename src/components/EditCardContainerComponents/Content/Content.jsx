@@ -16,14 +16,15 @@ import {
   getUserLinks,
   rearrangeLinks,
   rearrangeUserLinks,
+  submitAbout,
   updateEmployeeDirect,
 } from "../../../redux/ApisSlice";
 import { closeCustomModal, openCustomModal } from "../../../redux/Modalslice";
 import CustomModal from "../../Modals/CustomModal/CustomModal";
-import { setDirect, setLinks } from "../../../redux/profileInfoSlice";
+import { setDirect, setLead, setLinks } from "../../../redux/profileInfoSlice";
 import FadeLoader from "react-spinners/FadeLoader";
 import { toast } from "react-toastify";
-const Content = ({ check, userId, directmode }) => {
+const Content = ({ check, userId, directmode, leadMode }) => {
   const theme = createTheme({
     palette: {
       switchClr: {
@@ -168,6 +169,23 @@ const Content = ({ check, userId, directmode }) => {
     }
   };
 
+  let handleChangeLead = () => {
+    if (check === "user") {
+      if (leadMode === 0) {
+        // setDirect({ status: 1, linkId: items[0]?.linkId });
+        dispatch(setLead(1));
+        dispatch(submitAbout({ leadMode: 1, id: userId }));
+      } else if (leadMode === 1) {
+        dispatch(setLead(0));
+        dispatch(submitAbout({ leadMode: 0, id: userId }));
+      }
+
+      // setDirect(userdirect);
+    } else {
+      // dispatch(getOrganizationLinks(userId));
+    }
+  };
+
   let [directLink, setDirectLink] = useState({});
 
   return (
@@ -178,206 +196,210 @@ const Content = ({ check, userId, directmode }) => {
         userId={userId}
         linkId={linkId}
       />
-      {!loading ? (
-        <>
-          <div className="content-upper">
-            <div className="lead-direct">
-              <div className="lead">
-                {/* <ThemeProvider theme={theme}> */}
-                <Switch defaultChecked size="small" />
-                {/* </ThemeProvider> */}
+      {/* {!loading ? ( */}
+      <>
+        <div className="content-upper">
+          <div className="lead-direct">
+            <div className="lead">
+              {/* <ThemeProvider theme={theme}> */}
+              <Switch
+                size="small"
+                checked={leadMode}
+                onChange={() => handleChangeLead()}
+              />
+              {/* </ThemeProvider> */}
 
-                <p>Lead Mode</p>
-              </div>
-              <div className="direct">
-                {/* <ThemeProvider theme={theme}> */}
-                <Switch
-                  size="small"
-                  checked={directmode?.status}
-                  onChange={() => handleChangeDirect()}
-                />
-                {/* </ThemeProvider> */}
-                <p>Direct</p>
-              </div>
+              <p>Lead Mode</p>
             </div>
-            <div
-              className="add-link"
-              onClick={() => {
-                dispatch(openModal()), dispatch(openLinkModal());
-              }}
-            >
-              <AiOutlinePlus
-                style={{ color: "white", fontSize: "20px", marginRight: "5px" }}
-              />{" "}
-              Add Links and Contacts
+            <div className="direct">
+              {/* <ThemeProvider theme={theme}> */}
+              <Switch
+                size="small"
+                checked={directmode?.status}
+                onChange={() => handleChangeDirect()}
+              />
+              {/* </ThemeProvider> */}
+              <p>Direct</p>
             </div>
           </div>
-          {directmode?.status === 1 ? (
-            <div className="content-links">
-              {items?.map((elm, index) => (
-                <>
-                  <div
-                    className="single-link"
-                    //  {...provided.draggableProps}
-                    //  {...provided.dragHandleProps}
-                    //  ref={provided.innerRef}
-                    style={
-                      directmode?.linkId != elm?.linkId
-                        ? { display: "none" }
-                        : null
-                    }
-                  >
-                    <div className="link-inner">
+          <div
+            className="add-link"
+            onClick={() => {
+              dispatch(openModal()), dispatch(openLinkModal());
+            }}
+          >
+            <AiOutlinePlus
+              style={{ color: "white", fontSize: "20px", marginRight: "5px" }}
+            />{" "}
+            Add Links and Contacts
+          </div>
+        </div>
+        {directmode?.status === 1 ? (
+          <div className="content-links">
+            {items?.map((elm, index) => (
+              <>
+                <div
+                  className="single-link"
+                  //  {...provided.draggableProps}
+                  //  {...provided.dragHandleProps}
+                  //  ref={provided.innerRef}
+                  style={
+                    directmode?.linkId != elm?.linkId
+                      ? { display: "none" }
+                      : null
+                  }
+                >
+                  <div className="link-inner">
+                    <div
+                      className="link-left"
+                      // style={{ opacity: "30%" }}
+                      // style={{ border: "1px solid black" }}
+                    >
+                      {/* <RiDraggable /> */}
+                      <div style={{ width: "20px" }}></div>
+                      <div className="icon-container">
+                        {returnIcons(elm.name, 16)}
+                      </div>
+                      <p>{elm?.name}</p>
+                    </div>
+
+                    <div className="link-right">
+                      {/* <div
+                          className="remove-btn"
+                          onClick={() => {
+                            setlinkId(elm.linkId), dispatch(openCustomModal());
+                          }}
+                        >
+                          Remove Link
+                        </div> */}
+                      {/* <div style={{ width: "30px" }}></div> */}
+                    </div>
+                  </div>
+                </div>
+              </>
+            ))}
+            {/* allLinks */}
+
+            {items?.map((elm, index) => (
+              <>
+                <div
+                  className="single-link"
+                  //  {...provided.draggableProps}
+                  //  {...provided.dragHandleProps}
+                  //  ref={provided.innerRef}
+                  style={
+                    directmode?.linkId === elm?.linkId
+                      ? { display: "none" }
+                      : null
+                  }
+                >
+                  <div className="link-inner">
+                    <div
+                      className="link-left"
+                      style={{ opacity: "30%" }}
+                      // style={{ border: "1px solid black" }}
+                    >
+                      {/* <RiDraggable /> */}
+                      <div style={{ width: "20px" }}></div>
+                      <div className="icon-container">
+                        {returnIcons(elm.name, 16)}
+                      </div>
+                      <p>{elm?.name}</p>
+                    </div>
+
+                    <div className="link-right">
+                      {/* <div
+                          className="remove-btn"
+                          onClick={() => {
+                            setlinkId(elm.linkId), dispatch(openCustomModal());
+                          }}
+                        >
+                          Remove Link
+                        </div> */}
+                      {/* <div style={{ width: "30px" }}></div> */}
                       <div
-                        className="link-left"
+                        className="open-btn"
+                        style={{ marginLeft: "50px", opacity: "100%" }}
                         // style={{ opacity: "30%" }}
-                        // style={{ border: "1px solid black" }}
+                        onClick={() => makeDirect(elm?.linkId)}
                       >
-                        {/* <RiDraggable /> */}
-                        <div style={{ width: "20px" }}></div>
-                        <div className="icon-container">
-                          {returnIcons(elm.name, 16)}
-                        </div>
-                        <p>{elm?.name}</p>
-                      </div>
-
-                      <div className="link-right">
-                        {/* <div
-                          className="remove-btn"
-                          onClick={() => {
-                            setlinkId(elm.linkId), dispatch(openCustomModal());
-                          }}
-                        >
-                          Remove Link
-                        </div> */}
-                        {/* <div style={{ width: "30px" }}></div> */}
+                        Make direct
                       </div>
                     </div>
                   </div>
-                </>
-              ))}
-              {/* allLinks */}
-
-              {items?.map((elm, index) => (
-                <>
-                  <div
-                    className="single-link"
-                    //  {...provided.draggableProps}
-                    //  {...provided.dragHandleProps}
-                    //  ref={provided.innerRef}
-                    style={
-                      directmode?.linkId === elm?.linkId
-                        ? { display: "none" }
-                        : null
-                    }
-                  >
-                    <div className="link-inner">
-                      <div
-                        className="link-left"
-                        style={{ opacity: "30%" }}
-                        // style={{ border: "1px solid black" }}
-                      >
-                        {/* <RiDraggable /> */}
-                        <div style={{ width: "20px" }}></div>
-                        <div className="icon-container">
-                          {returnIcons(elm.name, 16)}
-                        </div>
-                        <p>{elm?.name}</p>
-                      </div>
-
-                      <div className="link-right">
-                        {/* <div
-                          className="remove-btn"
-                          onClick={() => {
-                            setlinkId(elm.linkId), dispatch(openCustomModal());
-                          }}
-                        >
-                          Remove Link
-                        </div> */}
-                        {/* <div style={{ width: "30px" }}></div> */}
-                        <div
-                          className="open-btn"
-                          style={{ marginLeft: "50px", opacity: "100%" }}
-                          // style={{ opacity: "30%" }}
-                          onClick={() => makeDirect(elm?.linkId)}
-                        >
-                          Make direct
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </>
-              ))}
-            </div>
-          ) : (
-            <DragDropContext onDragEnd={handleDragEnd}>
-              <Droppable droppableId="droppable">
-                {(provided) => (
-                  <div
-                    {...provided.droppableProps}
-                    ref={provided.innerRef}
-                    className="content-links"
-                  >
-                    {/* allLinks */}
-                    {items?.map((elm, index) => (
-                      <Draggable
-                        key={elm.linkId}
-                        draggableId={elm.name}
-                        index={index}
-                      >
-                        {(provided) => (
-                          <>
-                            <div
-                              className="single-link"
-                              {...provided.draggableProps}
-                              {...provided.dragHandleProps}
-                              ref={provided.innerRef}
-                            >
-                              <div className="link-inner">
-                                <div
-                                  className="link-left"
-                                  // style={{ border: "1px solid black" }}
-                                >
-                                  <RiDraggable />
-                                  <div className="icon-container">
-                                    {/* <FaRedditAlien style={{ color: "white" }} /> */}
-                                    {returnIcons(elm.name, 16)}
-                                  </div>
-                                  <p>{elm?.name}</p>
+                </div>
+              </>
+            ))}
+          </div>
+        ) : (
+          <DragDropContext onDragEnd={handleDragEnd}>
+            <Droppable droppableId="droppable">
+              {(provided) => (
+                <div
+                  {...provided.droppableProps}
+                  ref={provided.innerRef}
+                  className="content-links"
+                >
+                  {/* allLinks */}
+                  {items?.map((elm, index) => (
+                    <Draggable
+                      key={elm.linkId}
+                      draggableId={elm.name}
+                      index={index}
+                    >
+                      {(provided) => (
+                        <>
+                          <div
+                            className="single-link"
+                            {...provided.draggableProps}
+                            {...provided.dragHandleProps}
+                            ref={provided.innerRef}
+                          >
+                            <div className="link-inner">
+                              <div
+                                className="link-left"
+                                // style={{ border: "1px solid black" }}
+                              >
+                                <RiDraggable />
+                                <div className="icon-container">
+                                  {/* <FaRedditAlien style={{ color: "white" }} /> */}
+                                  {returnIcons(elm.name, 16)}
                                 </div>
+                                <p>{elm?.name}</p>
+                              </div>
 
-                                <div className="link-right">
-                                  <div
-                                    className="remove-btn"
-                                    onClick={() => {
-                                      setlinkId(elm.linkId),
-                                        dispatch(openCustomModal());
-                                    }}
-                                  >
-                                    Remove Link
-                                  </div>
-                                  <div
-                                    className="open-btn"
-                                    onClick={() => openUrl(elm?.value)}
-                                  >
-                                    Open Link
-                                  </div>
+                              <div className="link-right">
+                                <div
+                                  className="remove-btn"
+                                  onClick={() => {
+                                    setlinkId(elm.linkId),
+                                      dispatch(openCustomModal());
+                                  }}
+                                >
+                                  Remove Link
+                                </div>
+                                <div
+                                  className="open-btn"
+                                  onClick={() => openUrl(elm?.value)}
+                                >
+                                  Open Link
                                 </div>
                               </div>
                             </div>
-                          </>
-                        )}
-                      </Draggable>
-                    ))}
-                    {provided.placeholder}
-                  </div>
-                )}
-              </Droppable>
-            </DragDropContext>
-          )}
+                          </div>
+                        </>
+                      )}
+                    </Draggable>
+                  ))}
+                  {provided.placeholder}
+                </div>
+              )}
+            </Droppable>
+          </DragDropContext>
+        )}
 
-          {/* ----------------------------------- */}
-          {/* {links?.map((elm) => {
+        {/* ----------------------------------- */}
+        {/* {links?.map((elm) => {
           return (
             <div className="single-link">
               <div className="link-inner">
@@ -407,7 +429,7 @@ const Content = ({ check, userId, directmode }) => {
             </div>
           );
         })} */}
-          {/* <div className="single-link">
+        {/* <div className="single-link">
           <div className="link-inner">
             <div className="link-left">
               <RiDraggable />
@@ -474,29 +496,29 @@ const Content = ({ check, userId, directmode }) => {
             </div>
           </div>
         </div> */}
-          <div className="add-link-btm">
-            <div
-              className="add-link-btn"
-              onClick={() => {
-                dispatch(openModal()), dispatch(openLinkModal());
+        <div className="add-link-btm">
+          <div
+            className="add-link-btn"
+            onClick={() => {
+              dispatch(openModal()), dispatch(openLinkModal());
+            }}
+          >
+            <AiOutlinePlus
+              style={{
+                color: "#878787",
+                fontSize: "16px",
+                marginRight: "5px",
               }}
-            >
-              <AiOutlinePlus
-                style={{
-                  color: "#878787",
-                  fontSize: "16px",
-                  marginRight: "5px",
-                }}
-              />
-              Add Links and Contacts
-            </div>
+            />
+            Add Links and Contacts
           </div>
-        </>
-      ) : (
+        </div>
+      </>
+      {/* ) : (
         <div className="progress-container">
           <FadeLoader color="rgba(222, 165, 39, 1)" />
         </div>
-      )}
+      )} */}
     </div>
   );
 };

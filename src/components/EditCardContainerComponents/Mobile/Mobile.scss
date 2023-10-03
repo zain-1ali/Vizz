@@ -7,6 +7,61 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  .form-container {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    z-index: 200;
+    margin-left: 3px;
+    .form-main {
+      height: 70%;
+      width: 75%;
+      border-radius: 15px;
+      background-color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      // border: 1px solid black;
+      .form-inner {
+        height: 90%;
+        width: 90%;
+        // border: 1px solid black;
+        .form-header {
+          width: 100%;
+          height: 20px;
+          border-bottom: 1px solid black;
+          display: flex;
+          align-items: center;
+          margin-top: 5px;
+          font-family: Inter;
+          font-size: 11px;
+          font-weight: 400;
+          line-height: 10px;
+          letter-spacing: 0em;
+          margin-bottom: 12px;
+        }
+        .form-single-field {
+          margin-top: 20px;
+          height: 27px;
+          width: 95%;
+          border: 1px solid black;
+          border-radius: 10px;
+          display: flex;
+          align-items: center;
+          margin-top: 5px;
+          font-family: Inter;
+          font-size: 11px;
+          font-weight: 400;
+          line-height: 10px;
+          letter-spacing: 0em;
+          padding-left: 5%;
+        }
+      }
+    }
+  }
   .mobile-inner {
     width: 186px;
     height: 405px;

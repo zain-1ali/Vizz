@@ -30,6 +30,7 @@ let theBio =
 const Mobile = ({ mobileData, color }) => {
   // console.log(mobileData);
   let loading = useSelector((state) => state.ApiSlice.loading);
+  let leadMode = useSelector((state) => state.profileInfoSlice.leadMode);
 
   let hexToRGBA = (hex) => {
     // Remove the '#' character if present
@@ -45,8 +46,44 @@ const Mobile = ({ mobileData, color }) => {
 
     return rgba;
   };
+  let formField = ["Name", "Email", "Phone", "Company", "Job", "Note"];
+
+  const formHeader = useSelector((state) => state.profileInfoSlice.formHeader);
+  const nameVisible = useSelector(
+    (state) => state.profileInfoSlice.nameVisible
+  );
+  const emailVisible = useSelector(
+    (state) => state.profileInfoSlice.emailVisible
+  );
+  const companyVisible = useSelector(
+    (state) => state.profileInfoSlice.companyVisible
+  );
+  const jobVisible = useSelector((state) => state.profileInfoSlice.jobVisible);
+  const noteVisible = useSelector(
+    (state) => state.profileInfoSlice.noteVisible
+  );
+  const phoneVisible = useSelector(
+    (state) => state.profileInfoSlice.phoneVisible
+  );
   return (
     <div className="mobile-main">
+      {leadMode === 1 && (
+        <div className="form-container">
+          <div className="form-main">
+            <div className="form-inner">
+              <div className="form-header">{formHeader}</div>
+              {formField?.map((elm) => {
+                return <div className="form-single-field">{elm}</div>;
+              })}
+
+              {/* <div className="form-single-field"></div>
+              <div className="form-single-field"></div>
+              <div className="form-single-field"></div>
+              <div className="form-single-field"></div> */}
+            </div>
+          </div>
+        </div>
+      )}
       <div
         className="mobile-inner"
         style={{ backgroundColor: hexToRGBA(color) }}

@@ -19,6 +19,16 @@ import {
   setBio,
   setLinks,
   setDirect,
+  setQrLogo,
+  setQrColor,
+  setFormHeader,
+  setNameVisible,
+  setEmailVisible,
+  setPhoneVisible,
+  setJobVisible,
+  setCompanyVisible,
+  setNoteVisible,
+  setLead,
 } from "../../redux/profileInfoSlice.js";
 import { ToastContainer } from "react-toastify";
 
@@ -51,6 +61,18 @@ const EditCard = () => {
         linkId: singleProfile?.data?.directLinkId,
       })
     );
+    dispatch(setQrLogo(singleProfile?.data?.qrLogoUrl));
+    dispatch(setQrColor(singleProfile?.data?.qrColor));
+    dispatch(setLead(singleProfile?.data?.leadMode));
+    dispatch(setFormHeader(singleProfile?.data?.leadFields?.formHeader));
+    dispatch(setNameVisible(singleProfile?.data?.leadFields?.nameVisible));
+    dispatch(setEmailVisible(singleProfile?.data?.leadFields?.emailVisible));
+    dispatch(setPhoneVisible(singleProfile?.data?.leadFields?.phoneVisible));
+    dispatch(setJobVisible(singleProfile?.data?.leadFields?.jobVisible));
+    dispatch(
+      setCompanyVisible(singleProfile?.data?.leadFields?.companyVisible)
+    );
+    dispatch(setNoteVisible(singleProfile?.data?.leadFields?.noteVisible));
   }, [singleProfile]);
 
   return (

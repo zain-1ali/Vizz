@@ -12,6 +12,9 @@ const PhoneContainer = () => {
   const profileUrl = useSelector((state) => state.profileInfoSlice.profileUrl);
   const address = useSelector((state) => state.profileInfoSlice.address);
   const bio = useSelector((state) => state.profileInfoSlice.bio);
+  const designation = useSelector(
+    (state) => state.profileInfoSlice.designation
+  );
   const links = useSelector((state) => state.profileInfoSlice.links);
   let mobileData = {
     name,
@@ -23,6 +26,7 @@ const PhoneContainer = () => {
     address,
     bio,
     links,
+    designation,
   };
   return (
     <div className="phone-container-main">
@@ -32,7 +36,7 @@ const PhoneContainer = () => {
         />
         View Card
       </div>
-      <Mobile mobileData={mobileData} color={color} />
+      <Mobile mobileData={mobileData} color={color} check="user" />
     </div>
   );
 };

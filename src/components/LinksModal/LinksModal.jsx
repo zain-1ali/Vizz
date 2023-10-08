@@ -59,11 +59,11 @@ const LinksModal = ({ check, userId }) => {
 
   useEffect(() => {
     dispatch(getAllSocialLinks());
-    if (check === "user") {
-      dispatch(getUserLinks(userId));
-    } else {
-      dispatch(getOrganizationLinks());
-    }
+    // if (check === "user") {
+    //   dispatch(getUserLinks(userId));
+    // } else {
+    //   dispatch(getOrganizationLinks());
+    // }
   }, []);
 
   let allLinks = useSelector((state) => state.ApiSlice.allLinks);
@@ -102,7 +102,7 @@ const LinksModal = ({ check, userId }) => {
     // overflow: 'auto',
     // border: '2px solid #000',
     boxShadow: 24,
-    p: linkModal ? "30px" : "2px",
+    p: linkModal ? "20px" : "12px",
   };
 
   let [selectedLink, setSelectedLink] = useState({});
@@ -124,7 +124,8 @@ const LinksModal = ({ check, userId }) => {
   //     dispatch(setLinkDescription(findlink[0]?.description));
   //     dispatch(setLinkHighlight(findlink[0]?.isHighLighted));
   //   };
-  console.log(linkEditmodal);
+  // console.log(linkEditmodal);
+  console.log(allLinks);
   return (
     <>
       <Modal
@@ -138,13 +139,24 @@ const LinksModal = ({ check, userId }) => {
         aria-describedby="modal-modal-description"
       >
         <Box sx={style2}>
+          <div
+            style={{
+              width: "100%",
+              display: "flex",
+              justifyContent: "flex-end",
+            }}
+          >
+            <RxCross2
+              style={{ fontSize: "18px", cursor: "pointer" }}
+              onClick={() => dispatch(closeAllModal())}
+            />
+          </div>
           {linkModal && (
             <div className="links-modal-main">
               <div className="links-upper">
-                <h2>Add Content</h2>
+                <h2>Add Social Links</h2>
                 <p>
-                  Lorem ipsum dolor sit amet consectetur. In eleifend
-                  suspendisse molestie nec arcu lacus lorem egestas massa.
+                  Select from our wide variety of links and contact info below.
                 </p>
               </div>
               {allLinks?.data?.map((elem) => {

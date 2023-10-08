@@ -22,10 +22,13 @@ import { submitAbout } from "../../../redux/ApisSlice";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.min.css";
 import { CgColorPicker } from "react-icons/cg";
+import { GrAddCircle } from "react-icons/gr";
+import { MdOutlineCancel } from "react-icons/md";
 
 const About = ({ id }) => {
   let date = Date.now();
   let dispatch = useDispatch();
+  let singleProfile = useSelector((state) => state.ApiSlice.singleEmployee);
   const name = useSelector((state) => state.profileInfoSlice.name);
   const email = useSelector((state) => state.profileInfoSlice.email);
   const color = useSelector((state) => state.profileInfoSlice.color);
@@ -34,9 +37,27 @@ const About = ({ id }) => {
   const profile = useSelector((state) => state.profileInfoSlice.profileUrl);
   const address = useSelector((state) => state.profileInfoSlice.address);
   const bio = useSelector((state) => state.profileInfoSlice.bio);
+  const designation = useSelector(
+    (state) => state.profileInfoSlice.designation
+  );
   const responce = useSelector((state) => state.ApiSlice.response);
 
   console.log(cover);
+
+  let handleCancel = () => {
+    dispatch(setName(singleProfile?.data?.name));
+    dispatch(setEmail(singleProfile?.data?.email));
+    dispatch(setColor(singleProfile?.data?.color));
+    dispatch(setPhone(singleProfile?.data?.phone));
+    dispatch(setCoverUrl(singleProfile?.data?.coverUrl));
+    dispatch(setProfileurl(singleProfile?.data?.profileUrl));
+    dispatch(setDesignation(singleProfile?.data?.designation));
+    dispatch(setAddress(singleProfile?.data?.address));
+    dispatch(setBio(singleProfile?.data?.bio));
+    dispatch(setDesignation(singleProfile?.data?.designation));
+  };
+
+  console.log(bio);
 
   let [prflimg, setprflimg] = useState(null);
 
@@ -119,6 +140,7 @@ const About = ({ id }) => {
     color,
     address,
     bio,
+    designation,
   };
 
   cover?.slice(0, 8) === "https://"
@@ -182,19 +204,18 @@ const About = ({ id }) => {
         aspect={4 / 2}
         setReduxState={setCoverUrl}
       />
-      <div className="about-upper">
+      {/* <div className="about-upper">
         <div className="lead-direct">
           <div className="lead">
-            {/* <ThemeProvider theme={theme}> */}
+            
             <Switch defaultChecked size="small" />
-            {/* </ThemeProvider> */}
+            
 
             <p>Lead Mode</p>
           </div>
           <div className="direct">
-            {/* <ThemeProvider theme={theme}> */}
-            <Switch defaultChecked size="small" />
-            {/* </ThemeProvider> */}
+        
+       
             <p>Direct</p>
           </div>
         </div>
@@ -204,7 +225,7 @@ const About = ({ id }) => {
           />{" "}
           Add Links and Contacts
         </div>
-      </div>
+      </div> */}
       <div className="cmplt-prfl-info">Complete your profile</div>
       <div className="select-clr-container">
         <h2>Card Color</h2>
@@ -274,50 +295,78 @@ const About = ({ id }) => {
       </div>
 
       <div className="imgs-input">
-        <label
-          htmlFor="prflImg"
-          // style={{ border: "1px solid black" }}
+        <div className="prfl-container">
+          <div className="prfl-inner">
+            {profile ? (
+              <MdOutlineCancel
+                style={{ fontSize: "25px" }}
+                className="prflImg-label"
+                onClick={() => dispatch(setProfileurl(null))}
+              />
+            ) : (
+              <label
+                htmlFor="prflImg"
+                className="prflImg-label"
+                // style={{ border: "1px solid black" }}
 
-          // className="prfl-img"
-        >
-          <img
-            src={profile ? profile : "https://placehold.co/112x112"}
-            alt=""
-            className="prfl-img"
-            // style={{ border: "1px solid black" }}
-          />
-          <input
-            type="file"
-            name="prflImg"
-            id="prflImg"
-            style={{ opacity: 0, width: "0px", height: "0px" }}
-            onChange={handlePrflImageChange}
-          />
-        </label>
+                // className="prfl-img"
+              >
+                <GrAddCircle style={{ fontSize: "25px" }} />
 
-        <label htmlFor="coverImg">
-          <img
-            src={cover ? cover : "https://placehold.co/600x180"}
-            alt=""
-            className="bg-img"
-          />
-          <input
-            type="file"
-            name="coverImg"
-            id="coverImg"
-            // className="opacity-0 w-[0px] h-[0px]"
-            style={{ opacity: 0, width: "0px", height: "0px" }}
-            onChange={handlebgImageChange}
-            //   ,setlogoImg,setBgImg
-          />
-        </label>
+                <input
+                  type="file"
+                  id="prflImg"
+                  style={{ opacity: 0, width: "0px", height: "0px" }}
+                  onChange={handlePrflImageChange}
+                />
+              </label>
+            )}
+
+            <img
+              src={profile ? profile : "https://placehold.co/112x112"}
+              alt=""
+              className="prfl-img"
+              // style={{ border: "1px solid black" }}
+            />
+          </div>
+        </div>
+        <div className="cover-container">
+          <div className="cover-inner">
+            {cover ? (
+              <MdOutlineCancel
+                style={{ fontSize: "25px" }}
+                className="coverImg-label"
+                onClick={() => dispatch(setCoverUrl(null))}
+              />
+            ) : (
+              <label htmlFor="coverImg" className="coverImg-label">
+                {<GrAddCircle style={{ fontSize: "25px" }} />}
+                <input
+                  type="file"
+                  name="coverImg"
+                  id="coverImg"
+                  // className="opacity-0 w-[0px] h-[0px]"
+                  style={{ opacity: 0, width: "0px", height: "0px" }}
+                  onChange={handlebgImageChange}
+                  //   ,setlogoImg,setBgImg
+                />
+              </label>
+            )}
+
+            <img
+              src={cover ? cover : "https://placehold.co/600x180"}
+              alt=""
+              className="bg-img"
+            />
+          </div>
+        </div>
       </div>
 
       <div className="first-field">
         <input
           type="text"
           className="input1"
-          placeholder="Company Name"
+          placeholder="Name"
           onChange={(e) => dispatch(setName(e.target.value))}
           value={name}
         />
@@ -346,6 +395,24 @@ const About = ({ id }) => {
           value={phone}
         />
       </div>
+
+      <div className="second-field">
+        <input
+          type="text"
+          className="input1"
+          placeholder="Designation"
+          onChange={(e) => dispatch(setDesignation(e.target.value))}
+          value={designation}
+        />
+        {/* <input
+          type="text"
+          className="input2"
+          placeholder="Phone Number"
+          onChange={(e) => dispatch(setPhone(e.target.value))}
+          value={phone}
+        /> */}
+      </div>
+
       <textarea
         name=""
         id=""
@@ -357,7 +424,9 @@ const About = ({ id }) => {
       ></textarea>
       <div className="btns-main">
         <div className="btns-inner">
-          <button className="cancel">Cancel</button>
+          <button className="cancel" onClick={() => handleCancel()}>
+            Cancel
+          </button>
           <button
             className="update"
             onClick={() => {

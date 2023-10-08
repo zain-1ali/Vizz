@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { loginUser } from "../../redux/ApisSlice";
 import { toast } from "react-toastify";
+import { PiEyeClosedBold, PiEyeBold } from "react-icons/pi";
 
 const Login = () => {
   let navigate = useNavigate();
@@ -14,6 +15,10 @@ const Login = () => {
     email: "",
     password: "",
   });
+  let [showPass, setShowPass] = useState(false);
+  let handleShowPass = () => {
+    setShowPass(!showPass);
+  };
   let dispatch = useDispatch();
   let successNavigation = () => {
     if (thedata?.email && thedata?.password) {
@@ -47,13 +52,32 @@ const Login = () => {
           onChange={(e) => setthedata({ ...thedata, email: e.target.value })}
           value={thedata?.email}
         />
-        <input
-          type="text"
-          className="input3"
-          placeholder="Password"
-          onChange={(e) => setthedata({ ...thedata, password: e.target.value })}
-          value={thedata?.password}
-        />
+        <div className="password-main">
+          <input
+            type={showPass ? "text" : "password"}
+            className="input3"
+            placeholder="Password"
+            onChange={(e) =>
+              setthedata({ ...thedata, password: e.target.value })
+            }
+            value={thedata?.password}
+          />
+
+          <div className="eye-container">
+            {showPass ? (
+              <PiEyeClosedBold
+                onClick={() => handleShowPass()}
+                style={{ fontSize: "20px" }}
+              />
+            ) : (
+              <PiEyeBold
+                onClick={() => handleShowPass()}
+                style={{ fontSize: "20px" }}
+              />
+            )}
+          </div>
+        </div>
+
         <div className="forget">
           <h2>Forgot password?</h2>
         </div>

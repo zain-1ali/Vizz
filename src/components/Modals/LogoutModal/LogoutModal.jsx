@@ -74,7 +74,7 @@ const LogoutModal = ({ handleLogoutModal, logoutmodal }) => {
         <Box sx={style2}>
           <>
             <div className="logout-warn">
-              <h2>Are You Sure to Logout From This Devise ?</h2>
+              <h2>Are you sure you want to logout from this device?</h2>
               <div className="btn-main">
                 <button className="editbtn" onClick={() => handleLogoutModal()}>
                   Cancel

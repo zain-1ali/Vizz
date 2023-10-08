@@ -6,7 +6,7 @@ import { MdKeyboardArrowLeft } from "react-icons/md";
 import EditCradContainer from "../../components/EditCardContainer/EditCradContainer";
 import { useDispatch, useSelector } from "react-redux";
 import { getEmployee } from "../../redux/ApisSlice";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import {
   setName,
   setEmail,
@@ -36,6 +36,7 @@ const EditCard = () => {
   let { id } = useParams();
   console.log(id);
   let dispatch = useDispatch();
+  let navigate = useNavigate();
   useEffect(() => {
     dispatch(getEmployee(id));
   }, []);
@@ -75,19 +76,27 @@ const EditCard = () => {
     dispatch(setNoteVisible(singleProfile?.data?.leadFields?.noteVisible));
   }, [singleProfile]);
 
+  let splitString = (string) => {
+    if (string.length <= 10) {
+      return string;
+    } else {
+      return string.slice(0, 10) + "...";
+    }
+  };
   return (
     <div className="edit-main">
       <Sidebar />
       <div className="edit-inner">
         <div className="edit-header">
-          <button className="editbtn1">
+          <button className="editbtn1" onClick={() => navigate(-1)}>
             <MdKeyboardArrowLeft
               style={{
                 fontSize: "26px",
                 marginRight: "4px",
               }}
             />
-            {singleProfile?.data?.name}
+            {splitString(singleProfile?.data?.name)}
+
             {/* Jone Mike */}
           </button>
           <button className="editbtn2">

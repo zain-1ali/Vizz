@@ -104,6 +104,7 @@ const PrflPreviwModal = ({ prvModal, handlePrvModal }) => {
           <Mobile
             mobileData={organisation?.data}
             color={organisation?.data?.color}
+            check="organization"
           />
         </Box>
       </Modal>

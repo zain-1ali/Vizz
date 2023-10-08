@@ -684,7 +684,6 @@ export const ApiSlice = createSlice({
         : toast.error(action.payload.message);
       state.submitLoading = false;
       state.response = action.payload;
-      console.log(action?.payload?.data);
       state.addedLinks = action?.payload;
     },
     [deleteUserLink.rejected]: (state, action) => {

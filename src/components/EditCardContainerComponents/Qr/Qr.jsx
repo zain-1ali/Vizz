@@ -6,6 +6,8 @@ import { useDispatch, useSelector } from "react-redux";
 import Cropper from "../../Cropper/Cropper";
 import { submitAbout } from "../../../redux/ApisSlice";
 import { Box, CircularProgress } from "@mui/material";
+import { MdOutlineCancel } from "react-icons/md";
+import { GrAddCircle } from "react-icons/gr";
 
 const Qr = ({ userId }) => {
   let dispatch = useDispatch();
@@ -45,9 +47,16 @@ const Qr = ({ userId }) => {
     }
   };
 
+  let singleProfile = useSelector((state) => state.ApiSlice.singleEmployee);
+
   const qrLogo = useSelector((state) => state.profileInfoSlice.qrLogo);
   const qrColor = useSelector((state) => state.profileInfoSlice.qrColor);
   let loading = useSelector((state) => state.ApiSlice.submitLoading);
+
+  let handleCancel = () => {
+    dispatch(setQrLogo(singleProfile?.data?.qrLogoUrl));
+    dispatch(setQrColor(singleProfile?.data?.qrColor));
+  };
 
   let aboutData = {
     id: userId,
@@ -82,17 +91,48 @@ const Qr = ({ userId }) => {
 
       <div className="qr-content">
         <div className="inner">
-          <label
-            htmlFor="qrlogo"
-            // style={{ border: "1px solid black" }}
+          <div className="qrlogo-inner">
+            {qrLogo ? (
+              <MdOutlineCancel
+                style={{ fontSize: "25px" }}
+                className="logoImg-label"
+                onClick={() => dispatch(setQrLogo(null))}
+              />
+            ) : (
+              <label
+                htmlFor="logoImg"
+                className="logoImg-label"
+                // style={{ border: "1px solid black" }}
 
-            // className="prfl-img"
-          >
+                // className="prfl-img"
+              >
+                <GrAddCircle style={{ fontSize: "25px" }} />
+
+                <input
+                  type="file"
+                  id="logoImg"
+                  style={{ opacity: 0, width: "0px", height: "0px" }}
+                  onChange={handlePrflImageChange}
+                />
+              </label>
+            )}
             <img
               src={qrLogo ? qrLogo : "https://placehold.co/100x100"}
               alt=""
               className="qr-img"
               // style={{ border: "1px solid black" }}
+            />
+          </div>
+
+          {/* <label
+            htmlFor="qrlogo"
+           
+          >
+            <img
+              src={qrLogo ? qrLogo : "https://placehold.co/100x100"}
+              alt=""
+              className="qr-img"
+            
             />
             <input
               type="file"
@@ -101,7 +141,7 @@ const Qr = ({ userId }) => {
               style={{ opacity: 0, width: "0px", height: "0px" }}
               onChange={handlePrflImageChange}
             />
-          </label>
+          </label> */}
           <h2>Add Custom Logo</h2>
           <p>Add custom logo to be displayed in the middle of the Qr Code.</p>
           <div className="select-clr-container">
@@ -155,20 +195,30 @@ const Qr = ({ userId }) => {
             </div>
           </div>
           <div className="chs-clr">Choose Color</div>
-          <button
-            className="update"
-            onClick={() => {
-              !loading ? dispatch(submitAbout(aboutData)) : null;
-            }}
-          >
-            {loading ? (
-              <Box sx={{ color: "white" }}>
-                <CircularProgress color="inherit" size={27} />{" "}
-              </Box>
-            ) : (
-              " Update"
-            )}
-          </button>
+          <div className="qr-btns">
+            <button
+              className="update"
+              onClick={() => {
+                !loading ? dispatch(submitAbout(aboutData)) : null;
+              }}
+            >
+              {loading ? (
+                <Box sx={{ color: "white" }}>
+                  <CircularProgress color="inherit" size={27} />{" "}
+                </Box>
+              ) : (
+                " Update"
+              )}
+            </button>
+            <button
+              className="cancel"
+              onClick={() => {
+                handleCancel();
+              }}
+            >
+              Cancel
+            </button>
+          </div>
         </div>
       </div>
     </div>

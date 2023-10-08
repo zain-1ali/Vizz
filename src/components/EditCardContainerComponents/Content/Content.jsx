@@ -47,14 +47,7 @@ const Content = ({ check, userId, directmode, leadMode }) => {
     // let getLinkFunc = check === "user" ? getUserLinks : getOrganizationLinks;
     if (check === "user") {
       dispatch(getUserLinks(userId));
-      dispatch(
-        setDirect({
-          status: 1,
-          linkId: items[0]?.linkId,
-        })
-      );
-      // setDirect(userdirect);
-    } else {
+    } else if (check === "organization") {
       dispatch(getOrganizationLinks(userId));
     }
   }, []);
@@ -124,8 +117,9 @@ const Content = ({ check, userId, directmode, leadMode }) => {
     } else {
     }
   };
-
+  // --------------------------------------------------Handle change Direct Mode----------------------------------------------
   let handleChangeDirect = () => {
+    console.log("test direct");
     if (items.length >= 1) {
       if (check === "user") {
         if (directmode?.status === 0) {
@@ -169,6 +163,8 @@ const Content = ({ check, userId, directmode, leadMode }) => {
     }
   };
 
+  // --------------------------------------------------Handle change Lead Mode----------------------------------------------
+
   let handleChangeLead = () => {
     if (check === "user") {
       if (leadMode === 0) {
@@ -187,7 +183,7 @@ const Content = ({ check, userId, directmode, leadMode }) => {
   };
 
   let [directLink, setDirectLink] = useState({});
-
+  console.log(check);
   return (
     <div className={check === "user" ? `content-main` : `content-main2`}>
       <LinksModal check={check} userId={userId} />
@@ -199,29 +195,31 @@ const Content = ({ check, userId, directmode, leadMode }) => {
       {/* {!loading ? ( */}
       <>
         <div className="content-upper">
-          <div className="lead-direct">
-            <div className="lead">
-              {/* <ThemeProvider theme={theme}> */}
-              <Switch
-                size="small"
-                checked={leadMode}
-                onChange={() => handleChangeLead()}
-              />
-              {/* </ThemeProvider> */}
+          {check === "user" && (
+            <div className="lead-direct">
+              <div className="lead">
+                {/* <ThemeProvider theme={theme}> */}
+                <Switch
+                  size="small"
+                  checked={leadMode}
+                  onChange={() => handleChangeLead()}
+                />
+                {/* </ThemeProvider> */}
 
-              <p>Lead Mode</p>
+                <p>Lead Mode</p>
+              </div>
+              <div className="direct">
+                {/* <ThemeProvider theme={theme}> */}
+                <Switch
+                  size="small"
+                  checked={directmode?.status}
+                  onChange={() => handleChangeDirect()}
+                />
+                {/* </ThemeProvider> */}
+                <p>Direct</p>
+              </div>
             </div>
-            <div className="direct">
-              {/* <ThemeProvider theme={theme}> */}
-              <Switch
-                size="small"
-                checked={directmode?.status}
-                onChange={() => handleChangeDirect()}
-              />
-              {/* </ThemeProvider> */}
-              <p>Direct</p>
-            </div>
-          </div>
+          )}
           <div
             className="add-link"
             onClick={() => {

@@ -13,24 +13,19 @@ import { useSelector } from "react-redux";
 import { returnIcons } from "../../../assets/ReturnSocialIcons";
 import FadeLoader from "react-spinners/FadeLoader";
 
-let returnSplitString = (string) => {
-  if (string) {
-    if (string?.length <= 96) {
-      return string;
-    } else {
-      return string?.slice(0, 95) + "...";
-    }
-  }
-};
-
 let theBio =
   "Short BIO about our company. Information that describes what we do, what we offer, etc. Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum ";
 // -----------------------------------------------state from redux----------------------------------------------
 
-const Mobile = ({ mobileData, color }) => {
+const Mobile = ({ mobileData, color, check, linkInfo }) => {
   // console.log(mobileData);
   let loading = useSelector((state) => state.ApiSlice.loading);
   let leadMode = useSelector((state) => state.profileInfoSlice.leadMode);
+  // let allLinks = useSelector((state) => state.ApiSlice.addedLinks);
+  let allLinks =
+    check === "user"
+      ? useSelector((state) => state.profileInfoSlice.links)
+      : useSelector((state) => state.ApiSlice.addedLinks?.data);
 
   let hexToRGBA = (hex) => {
     // Remove the '#' character if present
@@ -65,21 +60,65 @@ const Mobile = ({ mobileData, color }) => {
   const phoneVisible = useSelector(
     (state) => state.profileInfoSlice.phoneVisible
   );
+
+  let returnSplitString = (string) => {
+    if (string) {
+      if (string?.length <= 96) {
+        return string;
+      } else {
+        return string?.slice(0, 95) + "...";
+      }
+    }
+  };
+
+  let ifHideField = (name) => {
+    if (name === "Name") {
+      return nameVisible === 1 ? true : null;
+    }
+    if (name === "Email") {
+      return emailVisible === 1 ? true : null;
+    }
+    if (name === "Phone") {
+      return phoneVisible === 1 ? true : null;
+    }
+    if (name === "Company") {
+      return companyVisible === 1 ? true : null;
+    }
+    if (name === "Job") {
+      return jobVisible === 1 ? true : null;
+    }
+    if (name === "Note") {
+      return noteVisible === 1 ? true : null;
+    }
+  };
+  console.log(allLinks);
+  let returnNewLinkOrNot = () => {
+    return allLinks?.some((elm) => {
+      return elm?.linkId === linkInfo?.id;
+    });
+  };
   return (
     <div className="mobile-main">
       {leadMode === 1 && (
-        <div className="form-container">
+        <div
+          className="form-container"
+          style={{ display: check === "organization" ? "none" : "flex" }}
+        >
           <div className="form-main">
             <div className="form-inner">
               <div className="form-header">{formHeader}</div>
               {formField?.map((elm) => {
-                return <div className="form-single-field">{elm}</div>;
+                return (
+                  ifHideField(elm) && (
+                    <div className="form-single-field">{elm}</div>
+                  )
+                );
               })}
+              <div className="btns-container">
+                <button className="form-btn1">Cancel</button>
 
-              {/* <div className="form-single-field"></div>
-              <div className="form-single-field"></div>
-              <div className="form-single-field"></div>
-              <div className="form-single-field"></div> */}
+                <button className="form-btn2">Submit</button>
+              </div>
             </div>
           </div>
         </div>
@@ -124,7 +163,7 @@ const Mobile = ({ mobileData, color }) => {
                     <div className="primary-info">
                       <div className="phone-container">
                         {/* <FaPhoneAlt style={{ fontSize: "12px", marginRight: "4px" }} /> */}
-                        Job Title
+                        {mobileData?.designation}
                       </div>
                       <div className="job-container">
                         {/* <BiSolidBriefcaseAlt
@@ -162,7 +201,7 @@ const Mobile = ({ mobileData, color }) => {
 
               <div className="links-main">
                 <div className="links-inner">
-                  {mobileData?.links?.map((elm) => {
+                  {allLinks?.map((elm) => {
                     return (
                       <div className="icon-container-upper">
                         <div
@@ -177,6 +216,22 @@ const Mobile = ({ mobileData, color }) => {
                       </div>
                     );
                   })}
+                  {linkInfo && (
+                    <div
+                      className="icon-container-upper"
+                      style={returnNewLinkOrNot() ? { display: "none" } : null}
+                    >
+                      <div
+                        className="icon-container"
+                        style={{ backgroundColor: color }}
+                      >
+                        {/* <FaRedditAlien style={{ color: "white" }} />
+                         */}
+                        {returnIcons(linkInfo?.name, 14)}
+                      </div>
+                      <p>{linkInfo?.name}</p>
+                    </div>
+                  )}
                 </div>
               </div>
               <div className="prfl-btm">

@@ -9,11 +9,13 @@ import {
   setNoteVisible,
   setJobVisible,
   setPhoneVisible,
+  setLead,
 } from "../../../redux/profileInfoSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { updateLead } from "../../../redux/ApisSlice";
+import { submitAbout, updateLead } from "../../../redux/ApisSlice";
+import { toast } from "react-toastify";
 
-const Lead = (userId) => {
+const Lead = ({ userId }) => {
   let dispatch = useDispatch();
   const formHeader = useSelector((state) => state.profileInfoSlice.formHeader);
   const nameVisible = useSelector(
@@ -34,8 +36,23 @@ const Lead = (userId) => {
   );
 
   let changeVisibility = (cb, value) => {
+    let noteVisibles = [
+      nameVisible,
+      emailVisible,
+      companyVisible,
+      jobVisible,
+      noteVisible,
+      phoneVisible,
+    ].filter((elem) => {
+      return elem === 0;
+    });
+
     if (value === 1) {
-      dispatch(cb(0));
+      if (noteVisibles.length < 4) {
+        dispatch(cb(0));
+      } else {
+        toast.error("Form should contain atleast two fields");
+      }
     } else {
       dispatch(cb(1));
     }
@@ -55,6 +72,21 @@ const Lead = (userId) => {
     );
   };
 
+  // --------------------------------------------------Handle change Lead Mode----------------------------------------------
+  let leadMode = useSelector((state) => state.profileInfoSlice.leadMode);
+  let handleChangeLead = () => {
+    if (leadMode === 0) {
+      // setDirect({ status: 1, linkId: items[0]?.linkId });
+      dispatch(setLead(1));
+      dispatch(submitAbout({ leadMode: 1, id: userId }));
+    } else if (leadMode === 1) {
+      dispatch(setLead(0));
+      dispatch(submitAbout({ leadMode: 0, id: userId }));
+    }
+
+    // setDirect(userdirect);
+  };
+
   console.log(emailVisible);
   let loading = useSelector((state) => state.ApiSlice.submitLoading);
   return (
@@ -70,7 +102,11 @@ const Lead = (userId) => {
             </p>
           </div>
           <div className="toggle">
-            <Switch defaultChecked size="large" />
+            <Switch
+              size="large"
+              checked={leadMode}
+              onChange={() => handleChangeLead()}
+            />
           </div>
         </div>
         <div className="form-header">

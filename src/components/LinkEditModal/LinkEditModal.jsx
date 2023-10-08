@@ -16,6 +16,7 @@ import {
   addOrganizationLink,
   addUserLink,
   deleteOrganizationLink,
+  deleteUserLink,
   getAllSocialLinks,
   getOrganizationLinks,
 } from "../../redux/ApisSlice";
@@ -25,10 +26,10 @@ const LinkEditModal = ({ link, linkInfo, check, userId }) => {
   let dispatch = useDispatch();
   let theLinkValue = linkInfo?.replace(link?.baseUrl, "");
   let [value, setvalue] = useState(theLinkValue);
-  useEffect(() => {
-    dispatch(getAllSocialLinks());
-    dispatch(getOrganizationLinks());
-  }, []);
+  // useEffect(() => {
+  //   dispatch(getAllSocialLinks());
+  //   dispatch(getOrganizationLinks());
+  // }, []);
   console.log(check, userId);
 
   const responce = useSelector((state) => state.ApiSlice.response);
@@ -46,6 +47,15 @@ const LinkEditModal = ({ link, linkInfo, check, userId }) => {
     func: () => dispatch(openLinkModal()),
   };
 
+  // let deleteDataFunc = {
+  //   data: {
+  //     linkId: link?.id,
+  //     userId,
+  //   },
+  //   func: () => dispatch(openLinkModal()),
+  // };
+
+  // -------------------------------------add link function-----------------------------------------------------
   let addLink = () => {
     if (check === "user") {
       return dispatch(addUserLink(dataFunc));
@@ -54,7 +64,20 @@ const LinkEditModal = ({ link, linkInfo, check, userId }) => {
     }
   };
 
+  // -------------------------------------delete link function-----------------------------------------------------
+  let deleteLink = (linkid, userid) => {
+    if (check === "user") {
+      return dispatch(deleteUserLink({ linkId: linkid, userId: userid }));
+    } else {
+      return dispatch(deleteOrganizationLink({ linkId: linkid }));
+    }
+  };
+
   let color = useSelector((state) => state.profileInfoSlice.color);
+
+  let returnSplitString = (string, word) => {
+    return string?.replace("Enter", word);
+  };
 
   return (
     <div className="link-edit-main">
@@ -63,9 +86,9 @@ const LinkEditModal = ({ link, linkInfo, check, userId }) => {
           <div
             className="go-back"
             onClick={() => {
-              dispatch(openLinkModal()),
-                dispatch(getAllSocialLinks()),
-                dispatch(getOrganizationLinks());
+              dispatch(openLinkModal());
+              // dispatch(getAllSocialLinks()),
+              // dispatch(getOrganizationLinks());
             }}
           >
             <MdKeyboardArrowLeft style={{ fontSize: "25px" }} />
@@ -78,7 +101,9 @@ const LinkEditModal = ({ link, linkInfo, check, userId }) => {
         </div>
 
         <div className="left-input">
-          <p className="link-heading">{link?.name}*</p>
+          <p className="link-heading">
+            {returnSplitString(link?.placeholder, link?.name)}*
+          </p>
           <input
             type="text"
             placeholder={link?.placeholder}
@@ -94,24 +119,16 @@ const LinkEditModal = ({ link, linkInfo, check, userId }) => {
                 >
                   Cancel
                 </button>
-                <button
-                  className="btn2"
-                  onClick={() => {
-                    dispatch(addOrganizationLink(dataFunc));
-
-                    // dispatch(openLinkModal());
-                  }}
-                >
+                <button className="btn2" onClick={() => addLink()}>
                   Add
                 </button>
               </div>
               <div
                 className="del-btn"
                 onClick={() => {
-                  dispatch(deleteOrganizationLink({ linkId: link?.id })),
-                    dispatch(openLinkModal()),
-                    dispatch(getAllSocialLinks()),
-                    dispatch(getOrganizationLinks());
+                  deleteLink(link?.id, userId), dispatch(openLinkModal());
+                  // dispatch(getAllSocialLinks()),
+                  // dispatch(getOrganizationLinks());
                 }}
               >
                 <BsFillTrashFill style={{ marginRight: "5px" }} />
@@ -134,7 +151,7 @@ const LinkEditModal = ({ link, linkInfo, check, userId }) => {
         </div>
       </div>
       <div className="right">
-        <Mobile mobileData={mobileData} color={color} />
+        <Mobile mobileData={mobileData} color={color} linkInfo={link} />
       </div>
     </div>
   );

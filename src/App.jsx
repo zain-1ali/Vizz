@@ -63,7 +63,12 @@ function App() {
           Please open the application on your laptop or desktop
         </div>
       )}
-      <ToastContainer position="top-center" autoClose={1000} />
+      <ToastContainer
+        position="bottom-left"
+        autoClose={1000}
+        theme="colored"
+        hideProgressBar
+      />
     </>
   );
 }

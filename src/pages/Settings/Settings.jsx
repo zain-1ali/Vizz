@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./Settings.scss";
 import Sidebar from "../../components/Sidebar/Sidebar";
-import { BiHelpCircle } from "react-icons/bi";
+import { BiHelpCircle, BiSolidCopy } from "react-icons/bi";
 import bgplaceholder from "../../imgs/coverholder.png";
 import prflplaceholder from "../../imgs/prflplaceholder.png";
 import { CgColorPicker } from "react-icons/cg";
@@ -603,6 +603,19 @@ const Settings = () => {
                 </div> */}
               </div>
               <div className="btns">
+                <div
+                  className="preview"
+                  // onClick={() => handlePrvModal()}
+                >
+                  Copy Link
+                  <BiSolidCopy
+                    style={{
+                      fontSize: "25px",
+                      color: "#DEA527",
+                      marginLeft: "5px",
+                    }}
+                  />
+                </div>
                 <div className="preview" onClick={() => handlePrvModal()}>
                   Preview
                   <AiFillEye

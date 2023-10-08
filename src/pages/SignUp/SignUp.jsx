@@ -16,7 +16,12 @@ const SignUp = () => {
         <p>Get started with #1 digital bussiness card platform</p>
         <input type="text" className="input1" placeholder="Name" />
         <input type="text" className="input2" placeholder="Email" />
-        <input type="text" className="input3" placeholder="Password" />
+        <input
+          type="text"
+          className="input3"
+          placeholder="Password"
+          style={{ marginTop: "25px" }}
+        />
         <button>Create Account</button>
 
         <h3>

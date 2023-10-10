@@ -13,6 +13,7 @@ const Home = () => {
   let dispatch = useDispatch();
   let theToken = localStorage.getItem("vizzToken");
   let loading = useSelector((state) => state.ApiSlice.loading);
+  let [filtered, setfiltered] = useState([]);
   useEffect(() => {
     dispatch(getOrganizationProfiles());
   }, []);
@@ -22,16 +23,57 @@ const Home = () => {
 
   let employees = allProfiles?.data?.employees;
 
+  useEffect(() => {
+    setfiltered(allProfiles?.data?.employees);
+  }, [allProfiles]);
+
   // console.log(admin);
 
   let [cardModal, setcardModal] = useState(false);
   let handlecardModal = () => {
     setcardModal(!cardModal);
   };
+
+  //---------------------------------------------------(search functionality)-----------------------------------------------
+
+  let [search, setsearch] = useState("");
+
+  useEffect(() => {
+    const result = employees.filter((user) => {
+      return user?.name.toLowerCase().match(search.toLowerCase());
+    });
+
+    setfiltered(result);
+  }, [search]);
+
+  // -------------------------------------------------Sort functionality-------------------------------------------------
+
+  const sortByAscending = () => {
+    const sortedData = [...filtered].sort((a, b) =>
+      a.name.localeCompare(b.name)
+    );
+    setfiltered(sortedData);
+  };
+
+  const sortByDescending = () => {
+    const sortedData = [...filtered].sort((a, b) =>
+      b.name.localeCompare(a.name)
+    );
+    setfiltered(sortedData);
+  };
+
+  let handleSort = (e) => {
+    if (e.target.value === "aToz") {
+      sortByAscending();
+    } else {
+      sortByDescending();
+    }
+  };
+
   return (
     <div className="home-main">
       <Sidebar />
-      {employees ? (
+      {filtered ? (
         <div className="home-inner">
           <CreateCardModal
             cardModal={cardModal}
@@ -44,12 +86,25 @@ const Home = () => {
             </div>
 
             <div className="searchbar">
-              <input type="text" placeholder="Search" />
+              <input
+                type="text"
+                placeholder="Search"
+                onChange={(e) => setsearch(e.target.value)}
+                value={search}
+              />
               <BiSearchAlt className="searchicon" />
             </div>
             <div className="sortbtn">
-              <select name="" id="">
-                <option value="">Sort</option>
+              <select name="" id="" onChange={(e) => handleSort(e)}>
+                <option value="" disabled selected>
+                  Sort
+                </option>
+                <option value="aToz" onClick={() => sortByAscending()}>
+                  A to Z
+                </option>
+                <option value="zToa" onClick={() => sortByDescending()}>
+                  Z to A
+                </option>
               </select>
             </div>
           </div>
@@ -67,11 +122,11 @@ const Home = () => {
 
           <div className="contact-cards-main">
             <div className="contact-card-container">
-              {employees?.map((elm) => {
+              {filtered?.map((elm) => {
                 return (
                   <div
                     style={
-                      employees.length < 2 ? { marginRight: "100px" } : null
+                      filtered?.length < 2 ? { marginRight: "100px" } : null
                     }
                   >
                     <ContactCard data={elm} />

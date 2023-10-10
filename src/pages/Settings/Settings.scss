@@ -327,15 +327,20 @@
                   }
 
                   .options {
+                    width: 107px;
+                    height: 42px;
+                    border-radius: 36px;
+                    border: 1px solid $c2;
                     select {
-                      width: 107px;
-                      height: 42px;
+                      width: 100px;
+                      height: 37px;
                       border-radius: 36px;
                       border: 2px;
-                      border: 1px solid $c2;
+                      border: none;
                       outline: none;
                       padding-left: 5px;
                       padding-right: 5px;
+                      margin-left: 2px;
                     }
                   }
                 }
@@ -373,7 +378,6 @@
                 font-weight: 500;
                 line-height: 17px;
                 letter-spacing: 0em;
-
                 .emailinput {
                   width: 570px;
                   height: 47px;
@@ -385,6 +389,12 @@
                   outline: none;
                   // padding-top: 20px;
                   padding-left: 20px;
+                  // select {
+                  //   width: 565px;
+                  //   height: 44px;
+                  //   border-radius: 36px;
+
+                  // }
                 }
               }
             }
@@ -400,16 +410,24 @@
                 line-height: 17px;
                 letter-spacing: 0em;
 
-                .emailinput {
+                .role-select-main {
                   width: 590px;
                   height: 47px;
                   border-radius: 36px;
                   // background-color: #f7f7f7;
                   border: 1px solid #555555;
                   margin-top: 6px;
-                  // border: none;
-                  outline: none;
-                  padding-left: 20px;
+
+                  .role-select {
+                    width: 575px;
+                    height: 44px;
+                    border-radius: 36px;
+                    margin-left: 5px;
+                    border: none;
+                    outline: none;
+                    // padding-top: 20px;
+                    padding-left: 20px;
+                  }
                 }
               }
             }

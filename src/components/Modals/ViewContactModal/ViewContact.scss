@@ -1,0 +1,49 @@
+.view-contact-main {
+  width: 85%;
+  margin-left: 20px;
+  //   border: 1px solid black;
+  margin-top: 60px;
+  .double-fields {
+    width: 100;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+    // border: 1px solid black;
+    .single-field {
+      width: 45%;
+      height: 70px;
+      //   border: 1px solid black;
+      h2 {
+        font-size: 18px;
+        font-weight: 500;
+        color: #6e7883;
+        font-family: Inter;
+      }
+      p {
+        font-size: 16px;
+        font-weight: 500;
+        color: black;
+        font-family: Inter;
+        margin-top: 7px;
+      }
+    }
+    .single-field-note {
+      width: 90%;
+      height: 70px;
+      //   border: 1px solid black;
+      h2 {
+        font-size: 18px;
+        font-weight: 500;
+        color: #6e7883;
+        font-family: Inter;
+      }
+      p {
+        font-size: 15px;
+        font-weight: 400;
+        color: black;
+        font-family: Inter;
+        margin-top: 7px;
+      }
+    }
+  }
+}

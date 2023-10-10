@@ -37,6 +37,10 @@ const ContactCard = ({ data }) => {
   const handleClose = () => {
     setAnchorEl(null);
   };
+  let profileUrl = import.meta.env.VITE_PROFILE_URL;
+  let OpenProfile = (id) => {
+    window.open(profileUrl + id);
+  };
   return (
     <div className="contactcard">
       <div className="card-imgs">
@@ -68,7 +72,12 @@ const ContactCard = ({ data }) => {
             "aria-labelledby": "basic-button",
           }}
         >
-          <MenuItem onClick={handleClose} sx={{ color: "#eba21e" }}>
+          <MenuItem
+            onClick={() => {
+              handleClose(), OpenProfile(data?.id);
+            }}
+            sx={{ color: "#eba21e" }}
+          >
             <AiFillEye style={{ marginRight: "7px" }} />
             View
           </MenuItem>

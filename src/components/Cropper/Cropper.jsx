@@ -59,18 +59,19 @@ const Cropper = ({
   };
 
   const style2 = {
-    // position: 'absolute',
-    // top: '50%',
-    // left: '50%',
-    // transform: 'translate(-50%, -50%)',
-    width: "100%",
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    // width: "100%",
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-    height: "100%",
+    height: "95%",
+    width: "80%",
     // bgcolor: 'background.paper',
     // border: '2px solid #000',
-    boxShadow: 24,
+    // boxShadow: 24,
     // p: 2,
   };
 
@@ -94,7 +95,11 @@ const Cropper = ({
               src={theimg}
               alt="img"
               onLoad={(e) => setmyimg(e.target)}
-              //   style={{ maxWidth: "995px", maxHeight: "calc(100vh - 150px)" }}
+              style={{
+                maxWidth: "995px",
+                maxHeight: "calc(100vh - 150px)",
+                // objectFit: "contain",
+              }}
             />
           </ReactCrop>
           <div
@@ -106,28 +111,11 @@ const Cropper = ({
             }}
           >
             <button
-              onClick={() => getProfileCropImage()}
-              style={{
-                backgroundColor: "black",
-                outline: "none",
-                marginRight: "10px",
-                border: "none",
-                color: "white",
-                height: "40px",
-                width: "105px",
-                borderRadius: "20px",
-                cursor: "pointer",
-              }}
-            >
-              Crop
-            </button>
-
-            <button
               onClick={() => handleclosecropper()}
               style={{
                 backgroundColor: "white",
                 outline: "none",
-                marginLeft: "10px",
+                marginRight: "10px",
                 border: "none",
                 color: "black",
                 height: "40px",
@@ -138,6 +126,22 @@ const Cropper = ({
               className="hover: bg-gray-500"
             >
               Cancel
+            </button>
+            <button
+              onClick={() => getProfileCropImage()}
+              style={{
+                backgroundColor: "black",
+                outline: "none",
+                marginLeft: "10px",
+                border: "none",
+                color: "white",
+                height: "40px",
+                width: "105px",
+                borderRadius: "20px",
+                cursor: "pointer",
+              }}
+            >
+              Crop
             </button>
           </div>
         </Box>

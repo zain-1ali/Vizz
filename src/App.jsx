@@ -16,6 +16,7 @@ import { ToastContainer } from "react-toastify";
 import Analytics from "./pages/Analytics/Analytics";
 import { useSelector } from "react-redux";
 import Loader from "./components/Loader/Loader";
+import Forget from "./pages/ForgetPassword/Forget";
 // import PrivateRoute from "./PrivateRoute";
 // import Analytics from "./pages/Analytics/Analytics";
 function App() {
@@ -35,6 +36,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Login />} />
             <Route path="/signup" element={<SignUp />} />
+            <Route path="/forgetpasswor" element={<Forget />} />
             <Route
               path="/home"
               element={

@@ -416,9 +416,11 @@ const Settings = () => {
                 <div className="role-field">
                   <div className="singlefieldII">
                     Role
-                    <select name="" id="" className="emailinput">
-                      <option value="">Admin</option>
-                    </select>
+                    <div className="role-select-main">
+                      <select name="" id="" className="role-select">
+                        <option value="">Admin</option>
+                      </select>
+                    </div>
                   </div>
                 </div>
               </div>

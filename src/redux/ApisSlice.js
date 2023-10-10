@@ -449,6 +449,57 @@ export const updateLead = createAsyncThunk(
   }
 );
 
+export const getAllLeads = createAsyncThunk(
+  "getAllLeads",
+  async (data, { rejectWithValue }) => {
+    const response = await fetch(`${baseUrl}/api/getAllLeads`, {
+      headers: {
+        Authorization: `Bearer ${theToken[1]}`,
+      },
+    });
+    try {
+      const result = await response.json();
+      return result;
+    } catch (error) {
+      rejectWithValue(error);
+    }
+  }
+);
+
+export const getEmpNames = createAsyncThunk(
+  "getEmpNames",
+  async (data, { rejectWithValue }) => {
+    const response = await fetch(`${baseUrl}/api/getEmpNames`, {
+      headers: {
+        Authorization: `Bearer ${theToken[1]}`,
+      },
+    });
+    try {
+      const result = await response.json();
+      return result;
+    } catch (error) {
+      rejectWithValue(error);
+    }
+  }
+);
+
+export const getSingleLeadContacts = createAsyncThunk(
+  "getSingleLeadContacts",
+  async (id, { rejectWithValue }) => {
+    const response = await fetch(`${baseUrl}/api/getLeadContacts/${id}`, {
+      headers: {
+        Authorization: `Bearer ${theToken[1]}`,
+      },
+    });
+    try {
+      const result = await response.json();
+      return result;
+    } catch (error) {
+      rejectWithValue(error);
+    }
+  }
+);
+
 const initialState = {
   response: {},
   profiles: { data: { employees: [] } },
@@ -459,6 +510,9 @@ const initialState = {
   loading: false,
   submitLoading: false,
   error: null,
+  leadsLoading: false,
+  leads: {},
+  employeeList: {},
 };
 
 export const ApiSlice = createSlice({
@@ -809,6 +863,52 @@ export const ApiSlice = createSlice({
       toast.error(action.payload.message);
       state.submitLoading = false;
       state.response = action.payload;
+    },
+    // )
+
+    // get All Leads
+    // (
+    [getAllLeads.pending]: (state) => {
+      state.leadsLoading = true;
+    },
+
+    [getAllLeads.fulfilled]: (state, action) => {
+      state.leadsLoading = false;
+      state.leads = action.payload;
+    },
+    [getAllLeads.rejected]: (state, action) => {
+      state.leadsLoading = false;
+      state.leads = action.payload;
+    },
+    // )
+    // get All Leads
+    // (
+    [getSingleLeadContacts.pending]: (state) => {
+      state.leadsLoading = true;
+    },
+
+    [getSingleLeadContacts.fulfilled]: (state, action) => {
+      state.leadsLoading = false;
+      state.leads = action.payload;
+    },
+    [getSingleLeadContacts.rejected]: (state, action) => {
+      state.leadsLoading = false;
+      state.leads = action.payload;
+    },
+    // )
+    // get Emp Names
+    // (
+    [getEmpNames.pending]: (state) => {
+      state.leadsLoading = true;
+    },
+
+    [getEmpNames.fulfilled]: (state, action) => {
+      state.leadsLoading = false;
+      state.employeeList = action.payload;
+    },
+    [getEmpNames.rejected]: (state, action) => {
+      state.leadsLoading = false;
+      state.employeeList = action.payload;
     },
     // )
   },

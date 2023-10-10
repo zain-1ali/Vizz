@@ -18,7 +18,7 @@ let theBio =
 // -----------------------------------------------state from redux----------------------------------------------
 
 const Mobile = ({ mobileData, color, check, linkInfo }) => {
-  // console.log(mobileData);
+  console.log(mobileData);
   let loading = useSelector((state) => state.ApiSlice.loading);
   let leadMode = useSelector((state) => state.profileInfoSlice.leadMode);
   // let allLinks = useSelector((state) => state.ApiSlice.addedLinks);
@@ -61,12 +61,12 @@ const Mobile = ({ mobileData, color, check, linkInfo }) => {
     (state) => state.profileInfoSlice.phoneVisible
   );
 
-  let returnSplitString = (string) => {
+  let returnSplitString = (string, num) => {
     if (string) {
-      if (string?.length <= 96) {
+      if (string?.length <= num) {
         return string;
       } else {
-        return string?.slice(0, 95) + "...";
+        return string?.slice(0, num) + "...";
       }
     }
   };
@@ -106,7 +106,9 @@ const Mobile = ({ mobileData, color, check, linkInfo }) => {
         >
           <div className="form-main">
             <div className="form-inner">
-              <div className="form-header">{formHeader}</div>
+              <div className="form-header">
+                {returnSplitString(formHeader, 27)}
+              </div>
               {formField?.map((elm) => {
                 return (
                   ifHideField(elm) && (
@@ -134,8 +136,12 @@ const Mobile = ({ mobileData, color, check, linkInfo }) => {
               <div className="bg-prfl-container">
                 <img
                   src={
-                    mobileData?.profileUrl
+                    check === "user"
                       ? mobileData?.profileUrl
+                        ? mobileData?.profileUrl
+                        : "https://placehold.co/63x63"
+                      : mobileData?.logoUrl
+                      ? mobileData?.logoUrl
                       : "https://placehold.co/63x63"
                   }
                   alt=""
@@ -173,7 +179,7 @@ const Mobile = ({ mobileData, color, check, linkInfo }) => {
                       </div>
 
                       <div className="location-container">
-                        {returnSplitString(mobileData?.bio)}
+                        {returnSplitString(mobileData?.bio, 96)}
                       </div>
                     </div>
                   </div>

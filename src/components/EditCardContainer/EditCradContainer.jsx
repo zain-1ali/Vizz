@@ -90,7 +90,7 @@ const EditCradContainer = ({ id }) => {
         {isqr && <Qr userId={id} />}
         {islead && <Lead userId={id} />}
 
-        {isqr ? <QrContainer /> : <PhoneContainer />}
+        {isqr ? <QrContainer userId={id} /> : <PhoneContainer userId={id} />}
       </div>
       <br />
     </>

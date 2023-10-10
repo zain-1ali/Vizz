@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Sidebar from "../../components/Sidebar/Sidebar";
 import { BiSearchAlt } from "react-icons/bi";
 import "./Contact.scss";
@@ -8,14 +8,87 @@ import { PiWarningCircleThin } from "react-icons/pi";
 import people from "../../imgs/images.jpg";
 import { AiFillEye } from "react-icons/ai";
 import { BsTrashFill } from "react-icons/bs";
-import { colors } from "@mui/material";
+import { CircularProgress, colors } from "@mui/material";
+import {
+  getAllLeads,
+  getEmpNames,
+  getSingleLeadContacts,
+} from "../../redux/ApisSlice";
+import { useDispatch, useSelector } from "react-redux";
+import ViewContactModal from "../../components/Modals/ViewContactModal/ViewContactModal";
+import DeleteLeadModal from "../../components/Modals/DeleteLeadModal/DeleteLeadModal";
+import DownloadExcel from "../../components/DownloadExel/DownloadExel";
 
 const Contacts = () => {
   //   console.log(screen.width);
+  let [filtered, setfiltered] = useState([]);
+  let dispatch = useDispatch();
+  let leadsLoading = useSelector((state) => state.ApiSlice.leadsLoading);
+  let employeeList = useSelector((state) => state.ApiSlice.employeeList);
+  let leads = useSelector((state) => state.ApiSlice.leads?.data);
+  useEffect(() => {
+    dispatch(getAllLeads());
+    dispatch(getEmpNames());
+    // setfiltered(leads);
+  }, []);
+
+  //---------------------------------------------------(search functionality)-----------------------------------------------
+
+  let [search, setsearch] = useState("");
+
+  // useEffect(() => {
+  //   const result = leads?.filter((contact) => {
+  //     return (
+  //       contact?.name.toLowerCase().match(search.toLowerCase()) ||
+  //       contact?.email.toLowerCase().match(search.toLowerCase())
+  //     );
+  //   });
+
+  //   setfiltered(result);
+  // }, [search]);
+
+  let [viewData, setViewData] = useState({});
+
+  console.log(leads);
+  let slicedString = (string, num) => {
+    if (string?.length <= num) {
+      return string;
+    } else {
+      return string?.slice(0, num) + "...";
+    }
+  };
+  let [viewModal, setViewModal] = useState(false);
+  let handleviewModal = () => {
+    setViewModal(!viewModal);
+  };
+  let SingleLeads = (e) => {
+    if (e.target.value === "all") {
+      dispatch(getAllLeads());
+      // setfiltered(leads);
+    } else {
+      dispatch(getSingleLeadContacts(e.target.value));
+      // setfiltered(leads);
+      // console.log("testing..");
+    }
+  };
+  let [deletemodal, setdeletemodal] = useState(false);
+  let handledeleteModal = () => {
+    setdeletemodal(!deletemodal);
+  };
+
   return (
     <div className="contact-main">
       <Sidebar />
       <div className="contact-inner">
+        <ViewContactModal
+          viewModal={viewModal}
+          handleviewModal={handleviewModal}
+          viewData={viewData}
+        />
+        <DeleteLeadModal
+          handledeleteModal={handledeleteModal}
+          deletemodal={deletemodal}
+        />
         {/*-------------------------------header section-------------------------------------*/}
         <div className="contact-header">
           <div className="profilebtn">
@@ -23,14 +96,39 @@ const Contacts = () => {
           </div>
 
           <div className="searchbar">
-            <input type="text" placeholder="Search" />
+            <input
+              type="text"
+              placeholder="Search"
+              onChange={(e) => setsearch(e.target.value)}
+            />
             <BiSearchAlt className="searchicon" />
           </div>
+          <div className="sortbtn">
+            <select name="" id="" onChange={(e) => SingleLeads(e)}>
+              <option
+                value="all"
+                // onClick={() => dispatch(getSingleLeadContacts(elm?.id))}
+              >
+                All
+              </option>
+              {employeeList?.data?.map((elm) => {
+                return (
+                  <option
+                    value={elm?.id}
+                    // onClick={() => dispatch(getSingleLeadContacts(elm?.id))}
+                  >
+                    {elm?.name}
+                  </option>
+                );
+              })}
+            </select>
+          </div>
+
           <div className="csvbtn">
             <AiOutlineDownload
               style={{ fontSize: "20px", marginRight: "5px" }}
             />
-            Export via CVS
+            {leads ? <DownloadExcel Data={leads} /> : "Export via csv"}
           </div>
         </div>
 
@@ -64,7 +162,7 @@ const Contacts = () => {
                       style={{ fontSize: "15px", cursor: "pointer" }}
                     />
                   </span>
-                  <h2>75</h2>
+                  <h2>{leads?.length}</h2>
                 </div>
                 <div className="pi-chart">
                   <div className="circle"></div>
@@ -85,7 +183,77 @@ const Contacts = () => {
             <h2 className="col-heading">Actions</h2>
           </div>
           <div className="table-rows">
-            <div className="table-row">
+            {leadsLoading ? (
+              <div
+                style={{
+                  color: "#eba21e",
+                  height: "100%",
+                  width: "100%",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <CircularProgress color="inherit" size={50} />
+              </div>
+            ) : leads?.length > 0 ? (
+              leads?.map((elm) => {
+                return (
+                  <div className="table-row">
+                    <div className="contact-name">
+                      <img
+                        src="https://placehold.co/36x36"
+                        alt=""
+                        className="contact-img"
+                      />
+                      <h2 className="name">{slicedString(elm?.name, 20)}</h2>
+                    </div>
+                    <div className="contact-email">
+                      {slicedString(elm?.email, 14)}
+                    </div>
+
+                    <div className="contact-name">
+                      <img
+                        src="https://placehold.co/36x36"
+                        alt=""
+                        className="contact-img"
+                      />
+                      <h2 className="name">
+                        {slicedString(elm?.contactedWith, 20)}
+                      </h2>
+                    </div>
+
+                    <div className="date">{elm?.date}</div>
+
+                    <div className="actions">
+                      <AiFillEye
+                        style={{
+                          fontSize: "30px",
+                          color: "#DEA527",
+                          cursor: "pointer",
+                        }}
+                        onClick={() => {
+                          handleviewModal(), setViewData(elm);
+                        }}
+                      />
+                      <BsTrashFill
+                        style={{
+                          fontSize: "30px",
+                          color: "black",
+                          marginLeft: "5px",
+                          cursor: "pointer",
+                        }}
+                        onClick={() => handledeleteModal()}
+                      />
+                    </div>
+                  </div>
+                );
+              })
+            ) : (
+              <div className="no-leads">No leads found</div>
+            )}
+
+            {/* <div className="table-row">
               <div className="contact-name">
                 <img src={people} alt="" className="contact-img" />
                 <h2 className="name">Name</h2>
@@ -182,40 +350,7 @@ const Contacts = () => {
                   }}
                 />
               </div>
-            </div>
-
-            <div className="table-row">
-              <div className="contact-name">
-                <img src={people} alt="" className="contact-img" />
-                <h2 className="name">Name</h2>
-              </div>
-              <div className="contact-email">Name@gmail.com</div>
-
-              <div className="contact-name">
-                <img src={people} alt="" className="contact-img" />
-                <h2 className="name">Name</h2>
-              </div>
-
-              <div className="date">January 25, 2023</div>
-
-              <div className="actions">
-                <AiFillEye
-                  style={{
-                    fontSize: "30px",
-                    color: "#DEA527",
-                    cursor: "pointer",
-                  }}
-                />
-                <BsTrashFill
-                  style={{
-                    fontSize: "30px",
-                    color: "black",
-                    marginLeft: "5px",
-                    cursor: "pointer",
-                  }}
-                />
-              </div>
-            </div>
+            </div> */}
             <br />
           </div>
         </div>

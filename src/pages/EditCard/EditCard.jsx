@@ -77,10 +77,10 @@ const EditCard = () => {
   }, [singleProfile]);
 
   let splitString = (string) => {
-    if (string.length <= 10) {
+    if (string?.length <= 10) {
       return string;
     } else {
-      return string.slice(0, 10) + "...";
+      return string?.slice(0, 10) + "...";
     }
   };
   return (

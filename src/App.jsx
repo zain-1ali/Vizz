@@ -13,10 +13,11 @@ import EditCard from "./pages/EditCard/EditCard";
 import Contacts from "./pages/Contacts/Contacts";
 import Settings from "./pages/Settings/Settings";
 import { ToastContainer } from "react-toastify";
-import Analytics from "./pages/Analytics/Analytics";
+// import Analytics from "./pages/Analytics/AnalyticsPage";
 import { useSelector } from "react-redux";
 import Loader from "./components/Loader/Loader";
 import Forget from "./pages/ForgetPassword/Forget";
+import AnalyticsPage from "./pages/Analytics/AnalyticsPage";
 // import PrivateRoute from "./PrivateRoute";
 // import Analytics from "./pages/Analytics/Analytics";
 function App() {
@@ -48,7 +49,7 @@ function App() {
             <Route path="/editcard/:id" element={<EditCard />} />
             <Route path="/contacts" element={<Contacts />} />
             <Route path="/settings" element={<Settings />} />
-            <Route path="/analytics" element={<Analytics />} />
+            <Route path="/analyticsPage" element={<AnalyticsPage />} />
           </Routes>
         </BrowserRouter>
       ) : (

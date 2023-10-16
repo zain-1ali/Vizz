@@ -69,7 +69,7 @@ const Home = () => {
       sortByDescending();
     }
   };
-
+  let profileUrl = import.meta.env.VITE_PROFILE_URL;
   return (
     <div className="home-main">
       <Sidebar />

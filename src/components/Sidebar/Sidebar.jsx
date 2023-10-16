@@ -57,9 +57,9 @@ const Sidebar = () => {
         </div>
         <div
           className="single-option"
-          onClick={() => navigate("/analytics")}
+          onClick={() => navigate("/analyticsPage")}
           style={
-            pathname === "/analytics"
+            pathname === "/analyticsPage"
               ? { backgroundColor: "rgba(47, 47, 47, 1)" }
               : null
           }

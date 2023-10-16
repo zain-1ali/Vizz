@@ -340,6 +340,7 @@ export const rearrangeUserLinks = createAsyncThunk(
   }
 );
 
+// other ------------------------------
 export const getOrganization = createAsyncThunk(
   "getOrganization",
   async (data, { rejectWithValue }) => {
@@ -466,6 +467,23 @@ export const getAllLeads = createAsyncThunk(
   }
 );
 
+export const getAnalytics = createAsyncThunk(
+  "getAnalytics",
+  async (data, { rejectWithValue }) => {
+    const response = await fetch(`${baseUrl}/api/getAnalytics`, {
+      headers: {
+        Authorization: `Bearer ${theToken[1]}`,
+      },
+    });
+    try {
+      const result = await response.json();
+      return result;
+    } catch (error) {
+      rejectWithValue(error);
+    }
+  }
+);
+
 export const getEmpNames = createAsyncThunk(
   "getEmpNames",
   async (data, { rejectWithValue }) => {
@@ -513,6 +531,8 @@ const initialState = {
   leadsLoading: false,
   leads: {},
   employeeList: {},
+  analyticsData: {},
+  analyticsLoading: false,
 };
 
 export const ApiSlice = createSlice({
@@ -909,6 +929,22 @@ export const ApiSlice = createSlice({
     [getEmpNames.rejected]: (state, action) => {
       state.leadsLoading = false;
       state.employeeList = action.payload;
+    },
+    // )
+
+    // get Analytics
+    // (
+    [getAnalytics.pending]: (state) => {
+      state.analyticsLoading = true;
+    },
+
+    [getAnalytics.fulfilled]: (state, action) => {
+      state.analyticsLoading = false;
+      state.analyticsData = action.payload;
+    },
+    [getAnalytics.rejected]: (state, action) => {
+      state.analyticsLoading = false;
+      state.analyticsData = action.payload;
     },
     // )
   },

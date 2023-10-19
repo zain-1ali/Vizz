@@ -78,6 +78,7 @@ const PrflPreviwModal = ({ prvModal, handlePrvModal }) => {
     boxShadow: 24,
     display: "flex",
     justifyContent: "center",
+    flexDirection: "column",
     alignItems: "center",
     // p: linkModal ? "30px" : "2px",
   };
@@ -101,6 +102,18 @@ const PrflPreviwModal = ({ prvModal, handlePrvModal }) => {
         aria-describedby="modal-modal-description"
       >
         <Box sx={style2}>
+          <div
+            style={{
+              width: "96%",
+              display: "flex",
+              justifyContent: "flex-end",
+              marginBottom: "7px",
+              fontSize: "20px",
+              cursor: "pointer",
+            }}
+          >
+            <RxCross2 onClick={() => handlePrvModal()} />
+          </div>
           <Mobile
             mobileData={organisation?.data}
             color={organisation?.data?.color}

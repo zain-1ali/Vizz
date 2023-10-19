@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Sidebar from "../../components/Sidebar/Sidebar";
 import "./EditCard.scss";
 import { BsShareFill } from "react-icons/bs";
@@ -31,6 +31,7 @@ import {
   setLead,
 } from "../../redux/profileInfoSlice.js";
 import { ToastContainer } from "react-toastify";
+import ShareCardModal from "../../components/Modals/ShareCardModal/ShareCardModal";
 
 const EditCard = () => {
   let { id } = useParams();
@@ -83,10 +84,20 @@ const EditCard = () => {
       return string?.slice(0, 10) + "...";
     }
   };
+
+  let [shareModal, setShareModal] = useState(false);
+  let handleShareModal = () => {
+    setShareModal(!shareModal);
+  };
   return (
     <div className="edit-main">
       <Sidebar />
       <div className="edit-inner">
+        <ShareCardModal
+          handleShareModal={handleShareModal}
+          shareModal={shareModal}
+          userId={id}
+        />
         <div className="edit-header">
           <button className="editbtn1" onClick={() => navigate(-1)}>
             <MdKeyboardArrowLeft
@@ -99,7 +110,7 @@ const EditCard = () => {
 
             {/* Jone Mike */}
           </button>
-          <button className="editbtn2">
+          <button className="editbtn2" onClick={() => handleShareModal()}>
             <BsShareFill
               style={{
                 fontSize: "16px",

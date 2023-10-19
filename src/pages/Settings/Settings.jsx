@@ -24,6 +24,7 @@ import {
 } from "../../redux/ApisSlice";
 import Cropper from "../../components/Cropper/Cropper";
 import PrflPreviwModal from "../../components/Modals/PrflPreviewModal/PrflPreviewModal";
+import { toast } from "react-toastify";
 
 const Settings = () => {
   let dispatch = useDispatch();
@@ -151,6 +152,8 @@ const Settings = () => {
     setprvModal(!prvModal);
   };
 
+  let profileUrl = import.meta.env.VITE_PROFILE_URL;
+
   return (
     <div className="settings-main">
       <Sidebar />
@@ -194,7 +197,7 @@ const Settings = () => {
               <BiHelpCircle
                 style={{
                   color: "#353535",
-                  fontSize: "22px",
+                  fontSize: "18px",
                   marginRight: "6px",
                 }}
               />
@@ -607,7 +610,12 @@ const Settings = () => {
               <div className="btns">
                 <div
                   className="preview"
-                  // onClick={() => handlePrvModal()}
+                  onClick={() => {
+                    navigator.clipboard.writeText(
+                      profileUrl + organisation?.data?.id
+                    ),
+                      toast.success("Profile url copied to clipboard");
+                  }}
                 >
                   Copy Link
                   <BiSolidCopy

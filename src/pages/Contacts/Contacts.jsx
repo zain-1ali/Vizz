@@ -10,6 +10,7 @@ import { AiFillEye } from "react-icons/ai";
 import { BsTrashFill } from "react-icons/bs";
 import { CircularProgress, colors } from "@mui/material";
 import {
+  deleteLead,
   getAllLeads,
   getEmpNames,
   getSingleLeadContacts,
@@ -22,6 +23,7 @@ import DownloadExcel from "../../components/DownloadExel/DownloadExel";
 const Contacts = () => {
   //   console.log(screen.width);
   let [filtered, setfiltered] = useState([]);
+  let [leadId, setLeadId] = useState("");
   let dispatch = useDispatch();
   let leadsLoading = useSelector((state) => state.ApiSlice.leadsLoading);
   let employeeList = useSelector((state) => state.ApiSlice.employeeList);
@@ -76,6 +78,12 @@ const Contacts = () => {
     setdeletemodal(!deletemodal);
   };
 
+  let deleteSingleLead = (id) => {
+    dispatch(deleteLead(id));
+
+    // , handledeleteModal();
+  };
+
   return (
     <div className="contact-main">
       <Sidebar />
@@ -88,6 +96,9 @@ const Contacts = () => {
         <DeleteLeadModal
           handledeleteModal={handledeleteModal}
           deletemodal={deletemodal}
+          deleteSingleLead={() => {
+            deleteSingleLead(leadId), handledeleteModal();
+          }}
         />
         {/*-------------------------------header section-------------------------------------*/}
         <div className="contact-header">
@@ -112,14 +123,7 @@ const Contacts = () => {
                 All
               </option>
               {employeeList?.data?.map((elm) => {
-                return (
-                  <option
-                    value={elm?.id}
-                    // onClick={() => dispatch(getSingleLeadContacts(elm?.id))}
-                  >
-                    {elm?.name}
-                  </option>
-                );
+                return <option value={elm?.id}>{elm?.name}</option>;
               })}
             </select>
           </div>
@@ -243,7 +247,9 @@ const Contacts = () => {
                           marginLeft: "5px",
                           cursor: "pointer",
                         }}
-                        onClick={() => handledeleteModal()}
+                        onClick={() => {
+                          handledeleteModal(), setLeadId(elm?.id);
+                        }}
                       />
                     </div>
                   </div>

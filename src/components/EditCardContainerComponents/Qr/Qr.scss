@@ -7,7 +7,7 @@
   .Qr-upper {
     width: 100%;
     display: flex;
-    justify-content: space-evenly;
+    // justify-content: space-evenly;
     margin-top: 20px;
 
     .lead-direct {
@@ -24,6 +24,8 @@
       font-weight: 500;
       line-height: 19px;
       letter-spacing: 0em;
+      margin-left: 20px;
+      margin-top: 20px;
     }
 
     .add-link {

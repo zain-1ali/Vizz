@@ -2,7 +2,12 @@
 
 import { MdCall } from "react-icons/md";
 import { MdEmail } from "react-icons/md";
-import { BiLogoInstagramAlt, BiSolidMessageDetail } from "react-icons/bi";
+import {
+  BiLogoDiscordAlt,
+  BiLogoInstagramAlt,
+  BiLogoPinterest,
+  BiSolidMessageDetail,
+} from "react-icons/bi";
 import { BsFillPersonFill } from "react-icons/bs";
 import { RiWhatsappFill } from "react-icons/ri";
 
@@ -12,6 +17,7 @@ import { BsDiscord } from "react-icons/bs";
 import { ImSoundcloud } from "react-icons/im";
 import { BiLogoSnapchat, BiLogoSpotify, BiLogoTelegram } from "react-icons/bi";
 import { FaFacebookF } from "react-icons/fa";
+import { BiLogoTwitter, BiLogoLinkedin } from "react-icons/bi";
 import { useSelector } from "react-redux";
 
 // import instagram from "./socialLink/instagram.png";
@@ -123,12 +129,12 @@ export const socialIcons = [
   //     img: twitch,
   //     placeholder: "Twitch Username*",
   //   },
-  //   {
-  //     name: "Pinterest",
-  //     title: "Pinterest",
-  //     img: pinterest,
-  //     placeholder: "Pinterest Username*",
-  //   },
+  {
+    name: "Pinterest",
+    title: "Pinterest",
+    img: <BiLogoPinterest style={{ color: "white" }} />,
+    placeholder: "Pinterest Username*",
+  },
 
   {
     name: "Youtube",
@@ -159,6 +165,12 @@ export const socialIcons = [
     title: "SoundCloud",
     img: <ImSoundcloud style={{ color: "white" }} />,
     placeholder: "SoundCloud username*",
+  },
+  {
+    name: "Twitter",
+    title: "Twitter",
+    img: <BiLogoTwitter style={{ color: "white" }} />,
+    placeholder: "Twitter*",
   },
 
   //   {
@@ -254,10 +266,18 @@ export let returnIcons = (name, size) => {
     return <BiLogoSnapchat style={{ color: "white", fontSize: `${size}px` }} />;
   } else if (name === "Facebook") {
     return <FaFacebookF style={{ color: "white", fontSize: `${size}px` }} />;
+  } else if (name === "Twitter") {
+    return <BiLogoTwitter style={{ color: "white", fontSize: `${size}px` }} />;
+  } else if (name === "Pinterest") {
+    return (
+      <BiLogoPinterest style={{ color: "white", fontSize: `${size}px` }} />
+    );
   } else if (name === "Instagram") {
     return (
       <BiLogoInstagramAlt style={{ color: "white", fontSize: `${size}px` }} />
     );
+  } else if (name === "Linkedin") {
+    return <BiLogoLinkedin style={{ color: "white", fontSize: `${size}px` }} />;
   }
   // else if (name === "Twitter") {
   //   return twitter;
@@ -266,9 +286,9 @@ export let returnIcons = (name, size) => {
   //   return twitch;
   // }
   else if (name === "Youtube") {
-    return <RiYoutubeFill style={{ color: "white", fontSize: "50px" }} />;
+    return <RiYoutubeFill style={{ color: "white", fontSize: `${size}px` }} />;
   } else if (name === "Telegram") {
-    return <BiLogoTelegram style={{ color: "white", fontSize: "50px" }} />;
+    return <BiLogoTelegram style={{ color: "white", fontSize: `${size}px` }} />;
   }
   // else if (name === "Pinterest") {
   //   return pinterest;
@@ -283,19 +303,19 @@ export let returnIcons = (name, size) => {
   //   return reddit;
   // }
   else if (name === "Discord") {
-    return <BsDiscord style={{ color: "white", fontSize: "50px" }} />;
+    return <BsDiscord style={{ color: "white", fontSize: `${size}px` }} />;
   }
   // else if (name === "Tumblr") {
   //   return tumblr;
   // }
   else if (name === "Spotify") {
-    return <BiLogoSpotify style={{ color: "white", fontSize: "50px" }} />;
+    return <BiLogoSpotify style={{ color: "white", fontSize: `${size}px` }} />;
   }
   // else if (name === "Apple Music") {
   //   return applemusic;
   // }
   else if (name === "SoundCloud") {
-    return <ImSoundcloud style={{ color: "white", fontSize: "50px" }} />;
+    return <ImSoundcloud style={{ color: "white", fontSize: `${size}px` }} />;
   }
   // else if (name === "Cash App") {
   //   return applemusic;

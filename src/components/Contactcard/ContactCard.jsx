@@ -12,6 +12,9 @@ import { setAllNull } from "../../redux/profileInfoSlice";
 import { useDispatch } from "react-redux";
 import { Button, IconButton, Menu, MenuItem } from "@mui/material";
 import { AiFillEye } from "react-icons/ai";
+import DeleteCardModal from "../Modals/DeleteCardModal/DeleteCardModal";
+import { deleteEmployee } from "../../redux/ApisSlice";
+import ShareCardModal from "../Modals/ShareCardModal/ShareCardModal";
 
 const ContactCard = ({ data }) => {
   const navigate = useNavigate();
@@ -22,6 +25,12 @@ const ContactCard = ({ data }) => {
     } else {
       return str?.slice(0, numVal) + "...";
     }
+  };
+
+  let [deletemodal, setDeleteModal] = useState(false);
+
+  let handledeleteModal = () => {
+    setDeleteModal(!deletemodal);
   };
 
   // let [openMenu, setOpenMenu] = useState(false);
@@ -38,11 +47,30 @@ const ContactCard = ({ data }) => {
     setAnchorEl(null);
   };
   let profileUrl = import.meta.env.VITE_PROFILE_URL;
+  console.log(profileUrl);
   let OpenProfile = (id) => {
     window.open(profileUrl + id);
   };
+  let [shareModal, setShareModal] = useState(false);
+  let handleShareModal = () => {
+    setShareModal(!shareModal);
+  };
+
   return (
     <div className="contactcard">
+      <ShareCardModal
+        handleShareModal={handleShareModal}
+        shareModal={shareModal}
+        userId={data?.id}
+      />
+      <DeleteCardModal
+        handledeleteModal={handledeleteModal}
+        deletemodal={deletemodal}
+        deleteEmployee={() => {
+          dispatch(deleteEmployee(data?.id)), handledeleteModal();
+        }}
+      />
+
       <div className="card-imgs">
         <div
           className="menu-icon"
@@ -81,7 +109,12 @@ const ContactCard = ({ data }) => {
             <AiFillEye style={{ marginRight: "7px" }} />
             View
           </MenuItem>
-          <MenuItem onClick={handleClose} sx={{ color: "red" }}>
+          <MenuItem
+            onClick={() => {
+              handledeleteModal(), handleClose;
+            }}
+            sx={{ color: "red" }}
+          >
             <BsFillTrashFill style={{ marginRight: "7px", color: "red" }} />
             Delete
           </MenuItem>
@@ -145,7 +178,7 @@ const ContactCard = ({ data }) => {
           />
           Edit Card
         </button>
-        <button className="sharebtn">
+        <button className="sharebtn" onClick={() => handleShareModal()}>
           <BsShareFill
             style={{
               fontSize: "10px",

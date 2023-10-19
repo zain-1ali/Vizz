@@ -17,7 +17,9 @@ import { toast } from "react-toastify";
 
 const Lead = ({ userId }) => {
   let dispatch = useDispatch();
+  let singleProfile = useSelector((state) => state.ApiSlice.singleEmployee);
   const formHeader = useSelector((state) => state.profileInfoSlice.formHeader);
+
   const nameVisible = useSelector(
     (state) => state.profileInfoSlice.nameVisible
   );
@@ -70,6 +72,18 @@ const Lead = ({ userId }) => {
         phoneVisible,
       })
     );
+  };
+
+  let handleCancelBtn = () => {
+    dispatch(setFormHeader(singleProfile?.data?.leadFields?.formHeader));
+    dispatch(setNameVisible(singleProfile?.data?.leadFields?.nameVisible));
+    dispatch(setEmailVisible(singleProfile?.data?.leadFields?.emailVisible));
+    dispatch(setPhoneVisible(singleProfile?.data?.leadFields?.phoneVisible));
+    dispatch(setJobVisible(singleProfile?.data?.leadFields?.jobVisible));
+    dispatch(
+      setCompanyVisible(singleProfile?.data?.leadFields?.companyVisible)
+    );
+    dispatch(setNoteVisible(singleProfile?.data?.leadFields?.noteVisible));
   };
 
   // --------------------------------------------------Handle change Lead Mode----------------------------------------------
@@ -195,7 +209,9 @@ const Lead = ({ userId }) => {
 
         <div className="btns-main">
           <div className="btns-inner">
-            <button className="cancel">Cancel</button>
+            <button className="cancel" onClick={() => handleCancelBtn()}>
+              Cancel
+            </button>
             <button
               className="update"
               onClick={() => {

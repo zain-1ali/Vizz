@@ -81,12 +81,12 @@ const Qr = ({ userId }) => {
       />
       <div className="Qr-upper">
         <div className="lead-direct">QR Code</div>
-        <div className="add-link">
+        {/* <div className="add-link">
           <AiOutlineDownload
             style={{ color: "white", fontSize: "20px", marginRight: "5px" }}
           />{" "}
           Download Event badge
-        </div>
+        </div> */}
       </div>
 
       <div className="qr-content">

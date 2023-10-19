@@ -8,11 +8,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { getEmployee, getOrganizationProfiles } from "../../redux/ApisSlice";
 import CreateCardModal from "../../components/Modals/CreateCardModal/CreateModal";
 import FadeLoader from "react-spinners/FadeLoader";
+import DeleteCardModal from "../../components/Modals/DeleteCardModal/DeleteCardModal";
 
 const Home = () => {
   let dispatch = useDispatch();
   let theToken = localStorage.getItem("vizzToken");
-  let loading = useSelector((state) => state.ApiSlice.loading);
+  let profilesLoading = useSelector((state) => state.ApiSlice.profilesLoading);
   let [filtered, setfiltered] = useState([]);
   useEffect(() => {
     dispatch(getOrganizationProfiles());
@@ -30,6 +31,7 @@ const Home = () => {
   // console.log(admin);
 
   let [cardModal, setcardModal] = useState(false);
+
   let handlecardModal = () => {
     setcardModal(!cardModal);
   };
@@ -73,12 +75,13 @@ const Home = () => {
   return (
     <div className="home-main">
       <Sidebar />
-      {filtered ? (
+      {!profilesLoading ? (
         <div className="home-inner">
           <CreateCardModal
             cardModal={cardModal}
             handlecardModal={handlecardModal}
           />
+
           {/*-------------------------------heade section-------------------------------------*/}
           <div className="home-header">
             <div className="profilebtn">

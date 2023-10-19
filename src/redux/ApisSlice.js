@@ -3,27 +3,6 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 let baseUrl = import.meta.env.VITE_BASE_URL;
-// create action
-export const createUser = createAsyncThunk(
-  "createUser",
-  async (data, { rejectWithValue }) => {
-    const response = await fetch(
-      "https://64e1f4bfab00373588188910.mockapi.io/crud",
-      {
-        method: "Post",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      }
-    );
-    try {
-      const result = await response.json();
-    } catch (error) {
-      rejectWithValue(error);
-    }
-  }
-);
 
 // login action
 export const loginUser = createAsyncThunk(
@@ -430,7 +409,6 @@ export const updateEmployeeDirect = createAsyncThunk(
 
 export const updateLead = createAsyncThunk(
   "updateLead",
-
   async (data, { rejectWithValue }) => {
     const response = await fetch(`${baseUrl}/api/updateLeadFields`, {
       method: "Post",
@@ -471,9 +449,12 @@ export const getAnalytics = createAsyncThunk(
   "getAnalytics",
   async (data, { rejectWithValue }) => {
     const response = await fetch(`${baseUrl}/api/getAnalytics`, {
+      method: "Post",
       headers: {
         Authorization: `Bearer ${theToken[1]}`,
+        "Content-Type": "application/json",
       },
+      body: JSON.stringify(data),
     });
     try {
       const result = await response.json();
@@ -518,6 +499,40 @@ export const getSingleLeadContacts = createAsyncThunk(
   }
 );
 
+export const deleteLead = createAsyncThunk(
+  "deleteLead",
+  async (id, { rejectWithValue }) => {
+    const response = await fetch(`${baseUrl}/api/deleteLead/${id}`, {
+      headers: {
+        Authorization: `Bearer ${theToken[1]}`,
+      },
+    });
+    try {
+      const result = await response.json();
+      return result;
+    } catch (error) {
+      rejectWithValue(error);
+    }
+  }
+);
+
+export const deleteEmployee = createAsyncThunk(
+  "deleteEmployee",
+  async (id, { rejectWithValue }) => {
+    const response = await fetch(`${baseUrl}/api/deleteEmployee/${id}`, {
+      headers: {
+        Authorization: `Bearer ${theToken[1]}`,
+      },
+    });
+    try {
+      const result = await response.json();
+      return result;
+    } catch (error) {
+      rejectWithValue(error);
+    }
+  }
+);
+
 const initialState = {
   response: {},
   profiles: { data: { employees: [] } },
@@ -526,6 +541,7 @@ const initialState = {
   addedLinks: {},
   organization: {},
   loading: false,
+  profilesLoading: false,
   submitLoading: false,
   error: null,
   leadsLoading: false,
@@ -540,18 +556,18 @@ export const ApiSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: {
-    [createUser.pending]: (state) => {
-      state.loading = true;
-    },
+    // [createUser.pending]: (state) => {
+    //   state.loading = true;
+    // },
 
-    [createUser.fulfilled]: (state, action) => {
-      state.loading = false;
-      state.users.push(action.payload);
-    },
-    [createUser.rejected]: (state, action) => {
-      state.loading = false;
-      state.users = action.payload;
-    },
+    // [createUser.fulfilled]: (state, action) => {
+    //   state.loading = false;
+    //   state.users.push(action.payload);
+    // },
+    // [createUser.rejected]: (state, action) => {
+    //   state.loading = false;
+    //   state.users = action.payload;
+    // },
 
     // Login method
     // (
@@ -575,15 +591,15 @@ export const ApiSlice = createSlice({
     // get organization profile
     // (
     [getOrganizationProfiles.pending]: (state) => {
-      state.loading = true;
+      state.profilesLoading = true;
     },
 
     [getOrganizationProfiles.fulfilled]: (state, action) => {
-      state.loading = false;
+      state.profilesLoading = false;
       state.profiles = action.payload;
     },
     [getOrganizationProfiles.rejected]: (state, action) => {
-      state.loading = false;
+      state.profilesLoading = false;
       state.profiles = action.payload;
     },
     // )
@@ -945,6 +961,50 @@ export const ApiSlice = createSlice({
     [getAnalytics.rejected]: (state, action) => {
       state.analyticsLoading = false;
       state.analyticsData = action.payload;
+    },
+    // )
+
+    // delete Lead
+    // (
+    [deleteLead.pending]: (state) => {
+      // state.analyticsLoading = true;
+    },
+
+    [deleteLead.fulfilled]: (state, action) => {
+      // state.analyticsLoading = false;
+      action.payload.status === true
+        ? toast.success(action.payload.message)
+        : toast.error(action.payload.message);
+      if (action.payload.status === true) {
+        state.leads = action.payload;
+      }
+      state.response = action.payload;
+    },
+    [deleteLead.rejected]: (state, action) => {
+      toast.error(action.payload.message);
+      state.response = action.payload;
+    },
+    // )
+
+    // delete Employee
+    // (
+    [deleteEmployee.pending]: (state) => {
+      // state.analyticsLoading = true;
+    },
+
+    [deleteEmployee.fulfilled]: (state, action) => {
+      // state.analyticsLoading = false;
+      action.payload.status === true
+        ? toast.success(action.payload.message)
+        : toast.error(action.payload.message);
+      if (action.payload.status === true) {
+        state.profiles = action.payload;
+      }
+      state.response = action.payload;
+    },
+    [deleteEmployee.rejected]: (state, action) => {
+      toast.error(action.payload.message);
+      state.response = action.payload;
     },
     // )
   },

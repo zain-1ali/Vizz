@@ -169,13 +169,13 @@ const Mobile = ({ mobileData, color, check, linkInfo }) => {
                     <div className="primary-info">
                       <div className="phone-container">
                         {/* <FaPhoneAlt style={{ fontSize: "12px", marginRight: "4px" }} /> */}
-                        {mobileData?.designation}
+                        {returnSplitString(mobileData?.designation, 47)}
                       </div>
                       <div className="job-container">
                         {/* <BiSolidBriefcaseAlt
                   style={{ fontSize: "25px", marginRight: "2px" }}
                 /> */}
-                        Company Name
+                        {returnSplitString(mobileData?.organizationName, 47)}
                       </div>
 
                       <div className="location-container">

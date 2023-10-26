@@ -19,6 +19,7 @@ export const loginUser = createAsyncThunk(
     try {
       const result = await response.json();
       localStorage.setItem("vizzToken", result?.data?.token);
+      localStorage.setItem("vizzRole", result?.data?.role);
       console.log(result);
       if (result?.status === true) {
         data.successNavigation();
@@ -533,6 +534,48 @@ export const deleteEmployee = createAsyncThunk(
   }
 );
 
+// -------------------------------------------------->(Super Admin apis)<----------------------------------------
+
+export const getallOrganization = createAsyncThunk(
+  "getallOrganization",
+  async (data, { rejectWithValue }) => {
+    const response = await fetch(`${baseUrl}/api/getallOrganization`, {
+      headers: {
+        Authorization: `Bearer ${theToken[1]}`,
+      },
+    });
+    try {
+      const result = await response.json();
+      console.log(result);
+      return result;
+    } catch (error) {
+      rejectWithValue(error);
+    }
+  }
+);
+
+export const addOrganization = createAsyncThunk(
+  "addOrganization",
+
+  async (data, { rejectWithValue }) => {
+    const response = await fetch(`${baseUrl}/api/createOrganization`, {
+      method: "Post",
+      headers: {
+        Authorization: `Bearer ${theToken[1]}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+    try {
+      const result = await response.json();
+      console.log("res");
+      return result;
+    } catch (error) {
+      rejectWithValue(error);
+    }
+  }
+);
+
 const initialState = {
   response: {},
   profiles: { data: { employees: [] } },
@@ -1004,6 +1047,48 @@ export const ApiSlice = createSlice({
     },
     [deleteEmployee.rejected]: (state, action) => {
       toast.error(action.payload.message);
+      state.response = action.payload;
+    },
+    // )
+    // get All Organization
+    // (
+    [getallOrganization.pending]: (state) => {
+      state.profilesLoading = true;
+    },
+
+    [getallOrganization.fulfilled]: (state, action) => {
+      state.profilesLoading = false;
+      state.profiles = action.payload;
+    },
+    [getallOrganization.rejected]: (state, action) => {
+      toast.error(action.payload.message);
+      state.response = action.payload;
+    },
+    // )
+
+    // addOrganization
+    // (
+    [addOrganization.pending]: (state) => {
+      // toast.loading("Please wait...");
+      state.submitLoading = true;
+    },
+
+    [addOrganization.fulfilled]: (state, action) => {
+      action.payload.status === true
+        ? toast.success(action.payload.message)
+        : toast.error(action.payload.message);
+
+      state.submitLoading = false;
+      state.response = action.payload;
+      if (action.payload?.data?.name) {
+        state.profiles?.data?.employees?.push(action.payload?.data);
+      }
+
+      console.log(action.payload);
+    },
+    [addOrganization.rejected]: (state, action) => {
+      toast.error(action.payload.message);
+      state.submitLoading = false;
       state.response = action.payload;
     },
     // )

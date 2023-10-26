@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./Sidebar.scss";
 import vizzlogo from "../../imgs/vizzlogo.png";
 import { BsPersonFill, BsPersonVcardFill } from "react-icons/bs";
@@ -6,7 +6,7 @@ import { SiGoogleanalytics } from "react-icons/Si";
 import { IoMdSettings } from "react-icons/io";
 import { RiLogoutCircleLine } from "react-icons/ri";
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   closeCustomModal,
   openCustomModal,
@@ -14,6 +14,7 @@ import {
 } from "../../redux/Modalslice";
 import CustomModal from "../Modals/CustomModal/CustomModal";
 import LogoutModal from "../Modals/LogoutModal/LogoutModal";
+import { getOrganization } from "../../redux/ApisSlice";
 
 const Sidebar = () => {
   let navigate = useNavigate();
@@ -23,13 +24,27 @@ const Sidebar = () => {
   let handleLogoutModal = () => {
     setlogoutmodal(!logoutmodal);
   };
+
+  useEffect(() => {
+    dispatch(getOrganization());
+  }, []);
+
+  let organisation = useSelector((state) => state.ApiSlice.organization);
+
   return (
     <div className="sidebar-main">
       <LogoutModal
         logoutmodal={logoutmodal}
         handleLogoutModal={handleLogoutModal}
       />
-      <img src={vizzlogo} alt="logo" />
+      <img
+        src={
+          organisation?.data?.logoUrl
+            ? organisation?.data?.logoUrl
+            : "https://placehold.co/70x66"
+        }
+        alt="logo"
+      />
       <div className="sidebar-option-main">
         <div
           className="single-option"

@@ -15,11 +15,17 @@ import {
 import { AiOutlineArrowRight, AiOutlineMinus } from "react-icons/ai";
 import { MdModeEdit } from "react-icons/md";
 import Mobile from "../../EditCardContainerComponents/Mobile/Mobile";
-import { addEmployee, getOrganization } from "../../../redux/ApisSlice";
+import {
+  addEmployee,
+  addOrganization,
+  getOrganization,
+} from "../../../redux/ApisSlice";
 import "./CreateCardModal.scss";
 
 const CreateCardModal = ({ cardModal, handlecardModal }) => {
   const dispatch = useDispatch();
+
+  let vizzRole = localStorage.getItem("vizzRole");
 
   // Modal box style
   const style2 = {
@@ -38,6 +44,17 @@ const CreateCardModal = ({ cardModal, handlecardModal }) => {
 
     // p: linkModal ? "30px" : "2px",
   };
+  let [data, setData] = useState({
+    name: "",
+    email: "",
+  });
+  let CreateCard = () => {
+    if (vizzRole === "admin") {
+      dispatch(addOrganization(data));
+    } else {
+      dispatch(addEmployee(data));
+    }
+  };
 
   useEffect(() => {
     dispatch(getOrganization());
@@ -46,10 +63,6 @@ const CreateCardModal = ({ cardModal, handlecardModal }) => {
   //   console.log(linkEditmodal);
   // prvModal,
 
-  let [data, setData] = useState({
-    name: "",
-    email: "",
-  });
   return (
     <>
       <Modal
@@ -94,7 +107,7 @@ const CreateCardModal = ({ cardModal, handlecardModal }) => {
               <button
                 className="sharebtn"
                 onClick={() => {
-                  dispatch(addEmployee(data)), handlecardModal();
+                  CreateCard(), handlecardModal();
                 }}
               >
                 Create

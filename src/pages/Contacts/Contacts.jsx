@@ -200,16 +200,16 @@ const Contacts = () => {
               >
                 <CircularProgress color="inherit" size={50} />
               </div>
-            ) : leads?.length > 0 ? (
+            ) : leads?.length > 0 ? ( 
               leads?.map((elm) => {
                 return (
                   <div className="table-row">
                     <div className="contact-name">
-                      <img
+                      {/* <img
                         src="https://placehold.co/36x36"
                         alt=""
                         className="contact-img"
-                      />
+                      /> */}
                       <h2 className="name">{slicedString(elm?.name, 20)}</h2>
                     </div>
                     <div className="contact-email">
@@ -217,11 +217,11 @@ const Contacts = () => {
                     </div>
 
                     <div className="contact-name">
-                      <img
+                      {/* <img
                         src="https://placehold.co/36x36"
                         alt=""
                         className="contact-img"
-                      />
+                      /> */}
                       <h2 className="name">
                         {slicedString(elm?.contactedWith, 20)}
                       </h2>

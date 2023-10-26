@@ -7,6 +7,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+
   .form-container {
     height: 100%;
     width: 100%;
@@ -99,6 +100,8 @@
   .mobile-inner {
     width: 186px;
     height: 405px;
+    // overflow-y: scroll;
+    // z-index: 400;
     .progress-container {
       width: 100%;
       height: 100%;
@@ -111,6 +114,7 @@
     .bg-prfl-container {
       width: 100%;
       height: 27%;
+
       //   border: 1px solid black;
       position: relative;
       .prfl-img {
@@ -167,7 +171,7 @@
               font-family: Inter;
               font-size: 11px;
               font-weight: 400;
-              line-height: 10px;
+              line-height: 13px;
               letter-spacing: 0em;
               // text-align: left;
               color: black;
@@ -197,7 +201,8 @@
               line-height: 12px;
               letter-spacing: 0em;
               // text-align: left;
-              color: #cccccc;
+              // color: #cccccc;
+              color: black;
             }
           }
         }

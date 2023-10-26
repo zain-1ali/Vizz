@@ -399,7 +399,7 @@ const About = ({ id }) => {
       <div className="second-field">
         <input
           type="text"
-          className="input1"
+          className="designation"
           placeholder="Designation"
           onChange={(e) => dispatch(setDesignation(e.target.value))}
           value={designation}

@@ -5,27 +5,44 @@ import { BiSearchAlt } from "react-icons/bi";
 import { FiPlus } from "react-icons/fi";
 import ContactCard from "../../components/Contactcard/ContactCard";
 import { useDispatch, useSelector } from "react-redux";
-import { getEmployee, getOrganizationProfiles } from "../../redux/ApisSlice";
+import {
+  getEmployee,
+  getallOrganization,
+  getOrganizationProfiles,
+} from "../../redux/ApisSlice";
 import CreateCardModal from "../../components/Modals/CreateCardModal/CreateModal";
 import FadeLoader from "react-spinners/FadeLoader";
 import DeleteCardModal from "../../components/Modals/DeleteCardModal/DeleteCardModal";
 
 const Home = () => {
   let dispatch = useDispatch();
-  let theToken = localStorage.getItem("vizzToken");
+  let vizzRole = localStorage.getItem("vizzRole");
+  console.log(vizzRole);
+
   let profilesLoading = useSelector((state) => state.ApiSlice.profilesLoading);
   let [filtered, setfiltered] = useState([]);
   useEffect(() => {
-    dispatch(getOrganizationProfiles());
+    if (vizzRole === "admin") {
+      dispatch(getallOrganization());
+    } else if (vizzRole === "teamAdmin") {
+      dispatch(getOrganizationProfiles());
+    }
   }, []);
+
   let allProfiles = useSelector((state) => state.ApiSlice.profiles);
+  let resp = useSelector((state) => state.ApiSlice.response);
+  console.log(resp);
 
   console.log(allProfiles);
 
   let employees = allProfiles?.data?.employees;
 
   useEffect(() => {
-    setfiltered(allProfiles?.data?.employees);
+    if (vizzRole === "admin") {
+      setfiltered(allProfiles?.data);
+    } else {
+      setfiltered(allProfiles?.data?.employees);
+    }
   }, [allProfiles]);
 
   // console.log(admin);
@@ -41,7 +58,7 @@ const Home = () => {
   let [search, setsearch] = useState("");
 
   useEffect(() => {
-    const result = employees.filter((user) => {
+    const result = employees?.filter((user) => {
       return user?.name.toLowerCase().match(search.toLowerCase());
     });
 

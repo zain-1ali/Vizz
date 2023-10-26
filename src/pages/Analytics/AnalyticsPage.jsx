@@ -13,6 +13,9 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { CircularProgress, TextField } from "@mui/material";
 import { returnIcons } from "../../assets/ReturnSocialIcons";
 import { RiArrowDownSFill, RiArrowUpSFill } from "react-icons/ri";
+import { Chart as ChartJs, ArcElement, Tooltip, Legend } from "chart.js";
+import { Doughnut } from "react-chartjs-2";
+import { FiRefreshCcw } from "react-icons/fi";
 
 const AnalyticsPage = () => {
   let dispatch = useDispatch();
@@ -23,9 +26,17 @@ const AnalyticsPage = () => {
   let employeeList = useSelector((state) => state.ApiSlice.employeeList);
   let analyticsData = useSelector((state) => state.ApiSlice.analyticsData);
   let [empName, setEmpName] = useState("");
-  let [value, setValue] = useState(
-    `${theDate.getFullYear()}-${theDate.getMonth() + 1}`
-  );
+  let [value, setValue] = useState({
+    startDate: `${theDate.getFullYear()}-${
+      theDate.getMonth() + 1
+    }-${theDate.getDate()}`,
+    endDate: `${theDate.getFullYear()}-${
+      theDate.getMonth() + 1
+    }-${theDate.getDate()}`,
+  });
+  // console.log(
+  //   `${theDate.getFullYear()}-${theDate.getMonth() + 1}-${theDate.getDate()}`
+  // );
   useEffect(() => {
     dispatch(getEmpNames());
     // dispatch(getAnalytics());
@@ -39,8 +50,8 @@ const AnalyticsPage = () => {
     dispatch(
       getAnalytics({
         userId: theadmin?.id,
-        month: returnSplitMonth(value),
-        year: returnSplitYear(value),
+        startDate: value?.startDate,
+        endDate: value?.endDate,
       })
     );
   }, [employeeList]);
@@ -68,6 +79,31 @@ const AnalyticsPage = () => {
     return theDateArray[0];
   };
   console.log(analyticsData);
+
+  // ---------------------------Chart Js--------------------------------------------
+  // let randomString = "0%";
+  // let b = randomString.slice(0, -1);
+  // console.log(b);
+
+  let removeLastWord = (str) => {
+    return str?.slice(0, -1);
+  };
+
+  ChartJs.register(ArcElement);
+
+  let returnGraphData = (val) => {
+    const data = {
+      datasets: [
+        {
+          data: [removeLastWord(val), "100"],
+          backgroundColor: ["#000000", "#DEA527"],
+        },
+      ],
+    };
+    return data;
+  };
+
+  console.log(value);
   return (
     <div className="analytics-main">
       <Sidebar />
@@ -78,24 +114,68 @@ const AnalyticsPage = () => {
             <div className="profilebtn">
               <p>Analytics</p>
             </div>
-            <input
-              type="month"
-              id="start"
-              name="start"
-              min="2023-01"
-              value={value}
-              onChange={(e) => {
-                setValue(e.target.value),
-                  dispatch(
-                    getAnalytics({
-                      userId: empName,
-                      month: returnSplitMonth(e.target.value),
-                      year: returnSplitYear(e.target.value),
-                    })
-                  );
-              }}
-              className="date-picker"
-            />
+
+            <div className="calender-box">
+              <div className="date-picker-upper">
+                <p>Start Date</p>
+                <input
+                  type="date"
+                  id="start"
+                  name="start"
+                  value={value.startDate}
+                  onChange={(e) => {
+                    setValue({ ...value, startDate: e.target.value }),
+                      dispatch(
+                        getAnalytics({
+                          userId: empName,
+                          startDate: e.target.value,
+                          endDate: value?.endDate,
+                        })
+                      );
+                  }}
+                  className="date-picker"
+                />
+              </div>
+              <div className="date-picker-upper">
+                <p>End Date</p>
+                <input
+                  type="date"
+                  id="end"
+                  name="end"
+                  // min="2023-01-05"
+                  value={value.endDate}
+                  // value="2023-10-23"
+                  onChange={(e) => {
+                    setValue({ ...value, endDate: e.target.value }),
+                      dispatch(
+                        getAnalytics({
+                          userId: empName,
+                          startDate: value?.endDate,
+                          endDate: e.target.value,
+                        })
+                      );
+                  }}
+                  className="date-picker"
+                />
+              </div>
+              <div className="date-picker-upper">
+                {/* <p>End Date</p> */}
+                <div
+                  className="refresh"
+                  onClick={() =>
+                    dispatch(
+                      getAnalytics({
+                        userId: empName,
+                        startDate: value?.startDate,
+                        endDate: value?.endDate,
+                      })
+                    )
+                  }
+                >
+                  Refresh <FiRefreshCcw style={{ marginLeft: "5px" }} />
+                </div>
+              </div>
+            </div>
             <div className="sortbtn">
               <select
                 name=""
@@ -105,8 +185,8 @@ const AnalyticsPage = () => {
                     dispatch(
                       getAnalytics({
                         userId: e.target.value,
-                        month: returnSplitMonth(value),
-                        year: returnSplitYear(value),
+                        startDate: value?.startDate,
+                        endDate: value?.endDate,
                       })
                     );
                 }}
@@ -147,7 +227,11 @@ const AnalyticsPage = () => {
                           : analyticsData?.data?.contacts}
                       </h2>
                       <div className="percentage-main">
-                        <RiArrowDownSFill style={{ fontSize: "18px" }} />
+                        {analyticsData?.data?.contactPercStatus === "inc" ? (
+                          <RiArrowUpSFill style={{ fontSize: "18px" }} />
+                        ) : (
+                          <RiArrowDownSFill style={{ fontSize: "18px" }} />
+                        )}
                         <p>
                           {analyticsData?.data?.contactPercentage
                             ? analyticsData?.data?.contactPercentage
@@ -156,8 +240,24 @@ const AnalyticsPage = () => {
                       </div>
                     </div>
                   </div>
-                  <div className="pi-chart">
+                  {/* <div className="pi-chart">
                     <div className="circle"></div>
+                  </div> */}
+                  <div className="pi-chart">
+                    <div
+                      className="h-[75px]  w-[75px] mt-1"
+                      style={{
+                        height: "90px",
+                        width: "90px",
+                        border: "5px",
+                      }}
+                    >
+                      <Doughnut
+                        data={returnGraphData(
+                          analyticsData?.data?.contactPercentage
+                        )}
+                      ></Doughnut>
+                    </div>
                   </div>
                 </div>
               )}
@@ -179,7 +279,11 @@ const AnalyticsPage = () => {
                           : analyticsData?.data?.clicks}
                       </h2>
                       <div className="percentage-main">
-                        <RiArrowDownSFill style={{ fontSize: "18px" }} />
+                        {analyticsData?.data?.clickPercStatus === "inc" ? (
+                          <RiArrowUpSFill style={{ fontSize: "18px" }} />
+                        ) : (
+                          <RiArrowDownSFill style={{ fontSize: "18px" }} />
+                        )}
                         <p>
                           {analyticsData?.data?.clickPercentage
                             ? analyticsData?.data?.clickPercentage
@@ -189,7 +293,20 @@ const AnalyticsPage = () => {
                     </div>
                   </div>
                   <div className="pi-chart">
-                    <div className="circle"></div>
+                    <div
+                      className="h-[75px]  w-[75px] mt-1"
+                      style={{
+                        height: "90px",
+                        width: "90px",
+                        border: "5px",
+                      }}
+                    >
+                      <Doughnut
+                        data={returnGraphData(
+                          analyticsData?.data?.clickPercentage
+                        )}
+                      ></Doughnut>
+                    </div>
                   </div>
                 </div>
               )}
@@ -211,7 +328,12 @@ const AnalyticsPage = () => {
                           : analyticsData?.data?.views}
                       </h2>
                       <div className="percentage-main">
-                        <RiArrowDownSFill style={{ fontSize: "18px" }} />
+                        {analyticsData?.data?.viewPercStatus === "inc" ? (
+                          <RiArrowUpSFill style={{ fontSize: "18px" }} />
+                        ) : (
+                          <RiArrowDownSFill style={{ fontSize: "18px" }} />
+                        )}
+
                         <p>
                           {analyticsData?.data?.viewPercentage
                             ? analyticsData?.data?.viewPercentage
@@ -221,7 +343,19 @@ const AnalyticsPage = () => {
                     </div>
                   </div>
                   <div className="pi-chart">
-                    <div className="circle"></div>
+                    <div
+                      className="h-[75px]  w-[75px] mt-1"
+                      style={{
+                        height: "90px",
+                        width: "90px",
+                      }}
+                    >
+                      <Doughnut
+                        data={returnGraphData(
+                          analyticsData?.data?.viewPercentage
+                        )}
+                      ></Doughnut>
+                    </div>
                   </div>
                 </div>
               )}

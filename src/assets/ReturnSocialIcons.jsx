@@ -15,8 +15,14 @@ import { RiWhatsappFill } from "react-icons/ri";
 import { RiYoutubeFill } from "react-icons/ri";
 import { BsDiscord } from "react-icons/bs";
 import { ImSoundcloud } from "react-icons/im";
-import { BiLogoSnapchat, BiLogoSpotify, BiLogoTelegram } from "react-icons/bi";
-import { FaFacebookF } from "react-icons/fa";
+import {
+  BiLogoSnapchat,
+  BiLogoSpotify,
+  BiLogoTelegram,
+  BiLogoTiktok,
+} from "react-icons/bi";
+import { FaFacebookF, FaTwitch } from "react-icons/fa";
+import { TiSocialTumbler } from "react-icons/ti";
 import { BiLogoTwitter, BiLogoLinkedin } from "react-icons/bi";
 import { useSelector } from "react-redux";
 
@@ -252,9 +258,9 @@ export const socialIcons = [
 
 export let returnIcons = (name, size) => {
   console.log(name);
-  if (name === "Call") {
+  if (name === "Phone") {
     return <MdCall style={{ color: "white", fontSize: `${size}px` }} />;
-  } else if (name === "Message") {
+  } else if (name === "Text") {
     return (
       <BiSolidMessageDetail style={{ color: "white", fontSize: `${size}px` }} />
     );
@@ -282,10 +288,9 @@ export let returnIcons = (name, size) => {
   // else if (name === "Twitter") {
   //   return twitter;
   // }
-  // else if (name === "Twitch") {
-  //   return twitch;
-  // }
-  else if (name === "Youtube") {
+  else if (name === "Twitch") {
+    return <FaTwitch style={{ color: "white", fontSize: `${size}px` }} />;
+  } else if (name === "Youtube") {
     return <RiYoutubeFill style={{ color: "white", fontSize: `${size}px` }} />;
   } else if (name === "Telegram") {
     return <BiLogoTelegram style={{ color: "white", fontSize: `${size}px` }} />;
@@ -293,9 +298,9 @@ export let returnIcons = (name, size) => {
   // else if (name === "Pinterest") {
   //   return pinterest;
   // }
-  // else if (name === "Tiktok") {
-  //   return tiktok;
-  // }
+  else if (name === "TikTok") {
+    return <BiLogoTiktok style={{ color: "white", fontSize: `${size}px` }} />;
+  }
   // else if (name === "Linkedin") {
   //   return linkedin;
   // }
@@ -304,11 +309,11 @@ export let returnIcons = (name, size) => {
   // }
   else if (name === "Discord") {
     return <BsDiscord style={{ color: "white", fontSize: `${size}px` }} />;
-  }
-  // else if (name === "Tumblr") {
-  //   return tumblr;
-  // }
-  else if (name === "Spotify") {
+  } else if (name === "Tumblr") {
+    return (
+      <TiSocialTumbler style={{ color: "white", fontSize: `${size}px` }} />
+    );
+  } else if (name === "Spotify") {
     return <BiLogoSpotify style={{ color: "white", fontSize: `${size}px` }} />;
   }
   // else if (name === "Apple Music") {

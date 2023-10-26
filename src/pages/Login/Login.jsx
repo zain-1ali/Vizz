@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./Login.scss";
-import vizzreg from "../../imgs/vizzreg.png";
+import vizzreg from "../../imgs/vizzreg3.png";
 import vizzlogo from "../../imgs/vizzlogo.png";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -10,7 +10,7 @@ import { PiEyeClosedBold, PiEyeBold } from "react-icons/pi";
 
 const Login = () => {
   let navigate = useNavigate();
-  let resp = useSelector((state) => state.ApiSlice.response);
+
   let [thedata, setthedata] = useState({
     email: "",
     password: "",
@@ -33,8 +33,6 @@ const Login = () => {
     let datafunc = { thedata, successNavigation };
     dispatch(loginUser(datafunc));
   };
-
-  console.log(resp);
 
   return (
     <div className="login-main">
@@ -83,10 +81,10 @@ const Login = () => {
         </div>
         <button onClick={() => loginFunc()}>Login</button>
 
-        <h3>
+        {/* <h3>
           Dont have an account?{" "}
           <span onClick={() => navigate("/signup")}>Signup</span>{" "}
-        </h3>
+        </h3> */}
       </div>
     </div>
   );

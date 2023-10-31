@@ -29,6 +29,7 @@ import {
   setCompanyVisible,
   setNoteVisible,
   setLead,
+  setPoweredVizz,
 } from "../../redux/profileInfoSlice.js";
 import { ToastContainer } from "react-toastify";
 import ShareCardModal from "../../components/Modals/ShareCardModal/ShareCardModal";
@@ -75,6 +76,7 @@ const EditCard = () => {
       setCompanyVisible(singleProfile?.data?.leadFields?.companyVisible)
     );
     dispatch(setNoteVisible(singleProfile?.data?.leadFields?.noteVisible));
+    dispatch(setPoweredVizz(singleProfile?.data?.poweredVizz));
   }, [singleProfile]);
 
   let splitString = (string) => {

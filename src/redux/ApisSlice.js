@@ -576,6 +576,28 @@ export const addOrganization = createAsyncThunk(
   }
 );
 
+export const adminAccess = createAsyncThunk(
+  "adminAccess",
+
+  async (data, { rejectWithValue }) => {
+    const response = await fetch(`${baseUrl}/api/adminAccess`, {
+      method: "Post",
+      headers: {
+        Authorization: `Bearer ${theToken[1]}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+    try {
+      const result = await response.json();
+      console.log("res");
+      return result;
+    } catch (error) {
+      rejectWithValue(error);
+    }
+  }
+);
+
 const initialState = {
   response: {},
   profiles: { data: { employees: [] } },
@@ -1087,6 +1109,27 @@ export const ApiSlice = createSlice({
       console.log(action.payload);
     },
     [addOrganization.rejected]: (state, action) => {
+      toast.error(action.payload.message);
+      state.submitLoading = false;
+      state.response = action.payload;
+    },
+    // )
+
+    // adminAccess
+    // (
+    [adminAccess.pending]: (state) => {
+      // toast.loading("Please wait...");
+      state.submitLoading = true;
+    },
+
+    [adminAccess.fulfilled]: (state, action) => {
+      action.payload.status === true
+        ? toast.success(action.payload.message)
+        : toast.error(action.payload.message);
+      state.response = action.payload;
+      state.submitLoading = false;
+    },
+    [adminAccess.rejected]: (state, action) => {
       toast.error(action.payload.message);
       state.submitLoading = false;
       state.response = action.payload;

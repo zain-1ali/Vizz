@@ -224,7 +224,7 @@
             width: 600px;
             // border: 1px solid black;
 
-            margin-top: 20px;
+            margin-top: 30px;
             .singlefieldIII {
               font-family: Inter;
               font-size: 20px;
@@ -336,6 +336,14 @@
                     height: 42px;
                     border-radius: 36px;
                     border: 1px solid $c2;
+                    font-family: Inter;
+                    font-size: 14px;
+                    font-weight: 400;
+                    line-height: 17px;
+                    letter-spacing: 0em;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
                     select {
                       width: 100px;
                       height: 37px;

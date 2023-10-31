@@ -15,6 +15,7 @@ import {
 import CustomModal from "../Modals/CustomModal/CustomModal";
 import LogoutModal from "../Modals/LogoutModal/LogoutModal";
 import { getOrganization } from "../../redux/ApisSlice";
+import { setOrgLogo } from "../../redux/profileInfoSlice";
 
 const Sidebar = () => {
   let navigate = useNavigate();
@@ -28,8 +29,15 @@ const Sidebar = () => {
   useEffect(() => {
     dispatch(getOrganization());
   }, []);
-
   let organisation = useSelector((state) => state.ApiSlice.organization);
+
+  useEffect(() => {
+    dispatch(setOrgLogo(organisation?.data?.logoUrl));
+  }, [organisation]);
+
+  let organizationLogo = useSelector(
+    (state) => state.profileInfoSlice.organizationLogo
+  );
 
   return (
     <div className="sidebar-main">
@@ -37,14 +45,19 @@ const Sidebar = () => {
         logoutmodal={logoutmodal}
         handleLogoutModal={handleLogoutModal}
       />
-      <img
-        src={
-          organisation?.data?.logoUrl
-            ? organisation?.data?.logoUrl
-            : "https://placehold.co/70x66"
-        }
-        alt="logo"
-      />
+      <div className="logo-main">
+        <div className="logo-inner">
+          <img
+            src={
+              organizationLogo
+                ? organizationLogo
+                : "https://placehold.co/110x110"
+            }
+            alt="logo"
+          />
+        </div>
+      </div>
+
       <div className="sidebar-option-main">
         <div
           className="single-option"

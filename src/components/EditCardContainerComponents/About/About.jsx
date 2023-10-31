@@ -15,6 +15,7 @@ import {
   setDesignation,
   setAddress,
   setBio,
+  setPoweredVizz,
 } from "../../../redux/profileInfoSlice.js";
 import { useSelector } from "react-redux";
 import Cropper from "../../Cropper/Cropper";
@@ -37,6 +38,10 @@ const About = ({ id }) => {
   const profile = useSelector((state) => state.profileInfoSlice.profileUrl);
   const address = useSelector((state) => state.profileInfoSlice.address);
   const bio = useSelector((state) => state.profileInfoSlice.bio);
+  const poweredVizz = useSelector(
+    (state) => state.profileInfoSlice.poweredVizz
+  );
+
   const designation = useSelector(
     (state) => state.profileInfoSlice.designation
   );
@@ -177,6 +182,17 @@ const About = ({ id }) => {
 
   // }, []);
   let loading = useSelector((state) => state.ApiSlice.submitLoading);
+  let handleBottomTextToggle = (value) => {
+    if (value === 1) {
+      dispatch(submitAbout({ id, poweredVizz: 0 }));
+      dispatch(setPoweredVizz(0));
+    } else {
+      dispatch(submitAbout({ id, poweredVizz: 1 }));
+      dispatch(setPoweredVizz(1));
+    }
+  };
+
+  console.log(poweredVizz);
   return (
     <div className="about-main">
       {/* --------------------------------------------croper for profile image------------------------------------------------  */}
@@ -292,6 +308,15 @@ const About = ({ id }) => {
             onClick={() => dispatch(setColor("#DEA527"))}
           ></div>
         </div>
+      </div>
+
+      <div className="show-hide-main">
+        <h2>Show or hide text at the bottom of profile</h2>
+        <Switch
+          size="small"
+          checked={poweredVizz}
+          onChange={() => handleBottomTextToggle(poweredVizz)}
+        />
       </div>
 
       <div className="imgs-input">
@@ -443,6 +468,7 @@ const About = ({ id }) => {
           </button>
         </div>
       </div>
+      <br />
       {/* <ToastContainer position="top-center" autoClose={2000} /> */}
     </div>
   );

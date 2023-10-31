@@ -23,6 +23,7 @@ const AnalyticsPage = () => {
   let analyticsLoading = useSelector(
     (state) => state.ApiSlice.analyticsLoading
   );
+  let [userType, setUserType] = useState("employee");
   let employeeList = useSelector((state) => state.ApiSlice.employeeList);
   let analyticsData = useSelector((state) => state.ApiSlice.analyticsData);
   let [empName, setEmpName] = useState("");
@@ -34,24 +35,27 @@ const AnalyticsPage = () => {
       theDate.getMonth() + 1
     }-${theDate.getDate()}`,
   });
-  // console.log(
-  //   `${theDate.getFullYear()}-${theDate.getMonth() + 1}-${theDate.getDate()}`
-  // );
+  console.log(
+    // `${theDate.getFullYear()}-${theDate.getMonth() + 1}-${theDate.getDate()}`
+    value
+  );
   useEffect(() => {
     dispatch(getEmpNames());
     // dispatch(getAnalytics());
     // setfiltered(leads);
   }, []);
-
   useEffect(() => {
     let theadmin = employeeList?.data?.find((elm) => {
       return elm?.isAdmin === 1;
     });
+    console.log(theadmin);
+    setEmpName(theadmin?.id);
     dispatch(
       getAnalytics({
-        userId: theadmin?.id,
+        id: theadmin?.id,
         startDate: value?.startDate,
         endDate: value?.endDate,
+        type: "organization",
       })
     );
   }, [employeeList]);
@@ -63,6 +67,17 @@ const AnalyticsPage = () => {
     });
     return theadmin;
   };
+
+  let isAdmin = (id) => {
+    let adminOrNot = employeeList?.data?.some((elm) => {
+      if (id === elm?.id) {
+        return elm?.isAdmin === 1;
+      }
+    });
+    return adminOrNot;
+  };
+
+  // console.log(isAdmin(1));
 
   let returnSplitMonth = (dateString) => {
     let theDateArray = dateString?.split("-");
@@ -103,7 +118,7 @@ const AnalyticsPage = () => {
     return data;
   };
 
-  console.log(value);
+  // console.log(returnAdminVal()?.id);
   return (
     <div className="analytics-main">
       <Sidebar />
@@ -127,9 +142,10 @@ const AnalyticsPage = () => {
                     setValue({ ...value, startDate: e.target.value }),
                       dispatch(
                         getAnalytics({
-                          userId: empName,
+                          id: empName,
                           startDate: e.target.value,
                           endDate: value?.endDate,
+                          type: isAdmin(empName) ? "organization" : "employee",
                         })
                       );
                   }}
@@ -149,9 +165,10 @@ const AnalyticsPage = () => {
                     setValue({ ...value, endDate: e.target.value }),
                       dispatch(
                         getAnalytics({
-                          userId: empName,
+                          id: empName,
                           startDate: value?.endDate,
                           endDate: e.target.value,
+                          type: isAdmin(empName) ? "organization" : "employee",
                         })
                       );
                   }}
@@ -165,9 +182,10 @@ const AnalyticsPage = () => {
                   onClick={() =>
                     dispatch(
                       getAnalytics({
-                        userId: empName,
+                        id: empName,
                         startDate: value?.startDate,
                         endDate: value?.endDate,
+                        type: isAdmin(empName) ? "organization" : "employee",
                       })
                     )
                   }
@@ -184,14 +202,21 @@ const AnalyticsPage = () => {
                   setEmpName(e.target.value),
                     dispatch(
                       getAnalytics({
-                        userId: e.target.value,
+                        id: e.target.value,
                         startDate: value?.startDate,
                         endDate: value?.endDate,
+                        type: isAdmin(e.target.value)
+                          ? "organization"
+                          : "employee",
                       })
                     );
                 }}
               >
-                <option value={returnAdminVal()?.id}>
+                <option
+                  value={returnAdminVal()?.id}
+                  // onChange={() => setUserType("organization")}
+                  // onClick={() => setUserType("organization")}
+                >
                   {returnAdminVal()?.name}
                 </option>
                 {employeeList?.data?.map((elm) => {

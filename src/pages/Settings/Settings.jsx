@@ -18,6 +18,7 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import Content from "../../components/EditCardContainerComponents/Content/Content";
 import {
+  adminAccess,
   getOrganization,
   getOrganizationLinks,
   updateOrganization,
@@ -25,6 +26,7 @@ import {
 import Cropper from "../../components/Cropper/Cropper";
 import PrflPreviwModal from "../../components/Modals/PrflPreviewModal/PrflPreviewModal";
 import { toast } from "react-toastify";
+import { setOrgLogo } from "../../redux/profileInfoSlice";
 
 const Settings = () => {
   let dispatch = useDispatch();
@@ -40,10 +42,14 @@ const Settings = () => {
     bio: "",
     color: "",
   });
+  let [requestEmail, setRequestEmail] = useState("");
   let [fontClr, setFontClr] = useState("black");
   let [showprfl, setshowprfl] = useState(null);
   let [showbgimg, setshowbgimg] = useState(null);
   let organisation = useSelector((state) => state.ApiSlice.organization);
+  let organizationLogo = useSelector(
+    (state) => state.profileInfoSlice.organizationLogo
+  );
   console.log(organisation?.data);
   useEffect(() => {
     setData({
@@ -56,7 +62,7 @@ const Settings = () => {
       // coverUrl: organisation?.data?.coverUrl,
       color: organisation?.data?.color,
     });
-    setshowprfl(organisation?.data?.logoUrl);
+    dispatch(setOrgLogo(organisation?.data?.logoUrl));
     setshowbgimg(organisation?.data?.coverUrl);
   }, [organisation?.data]);
 
@@ -142,9 +148,9 @@ const Settings = () => {
     ? null
     : (organizationBtmData.coverUrl = showbgimg?.split("base64,")[1]);
 
-  showprfl?.slice(0, 8) === "https://"
+  organizationLogo?.slice(0, 8) === "https://"
     ? null
-    : (organizationBtmData.logoUrl = showprfl?.split("base64,")[1]);
+    : (organizationBtmData.logoUrl = organizationLogo?.split("base64,")[1]);
 
   let [prvModal, setprvModal] = useState(false);
 
@@ -168,8 +174,7 @@ const Settings = () => {
           setcrop={setCropPrfl}
           crop={cropPrfl}
           aspect={1 / 1}
-          setReduxState={setshowprfl}
-          isSettings={true}
+          setReduxState={setOrgLogo}
         />
 
         {/* --------------------------------------------croper for Cover image------------------------------------------------  */}
@@ -360,21 +365,31 @@ const Settings = () => {
 
           <div className="organization-setting-form">
             <div className="form-content">
-              <div className="oraganization-name">
-                <div className="singlefieldIII">
-                  Organization Settings
-                  <div className="reset-btn">Save</div>
-                  <input type="text" className="emailinput" />
-                </div>
-              </div>
-
               <div className="admin-accounts">
                 <h2 className="heading">Admin accounts</h2>
                 <p className="para">
                   You can assign accounts as administrative accounts.
                 </p>
                 <div className="accounts">
-                  <div className="single-account">
+                  {organisation?.data?.admins?.map((elm) => {
+                    return (
+                      <div className="single-account">
+                        <div className="single-account-inner">
+                          <div className="name-email">
+                            <h2 className="name">{elm?.name}</h2>
+                            <p className="email">{elm?.email}</p>
+                          </div>
+                          <div className="options">
+                            {/* <select name="" id="">
+      <option value="">Admin</option>
+    </select> */}{" "}
+                            Admin
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })}
+                  {/* <div className="single-account">
                     <div className="single-account-inner">
                       <div className="name-email">
                         <h2 className="name">Jhon Mike</h2>
@@ -386,21 +401,7 @@ const Settings = () => {
                         </select>
                       </div>
                     </div>
-                  </div>
-
-                  <div className="single-account">
-                    <div className="single-account-inner">
-                      <div className="name-email">
-                        <h2 className="name">Jhon Mike</h2>
-                        <p className="email">Johnmike@gmail.com</p>
-                      </div>
-                      <div className="options">
-                        <select name="" id="">
-                          <option value="">Admin</option>
-                        </select>
-                      </div>
-                    </div>
-                  </div>
+                  </div> */}
                 </div>
               </div>
 
@@ -413,10 +414,36 @@ const Settings = () => {
                 <div className="email-field">
                   <div className="singlefieldII">
                     Email
-                    <input type="text" className="emailinput" />
+                    <input
+                      type="text"
+                      className="emailinput"
+                      value={requestEmail}
+                      onChange={(e) => setRequestEmail(e.target.value)}
+                    />
                   </div>
                 </div>
-                <div className="role-field">
+                <div className="oraganization-name">
+                  <div className="singlefieldIII">
+                    {/* Organization Settings */}
+                    <div
+                      className="reset-btn"
+                      onClick={() =>
+                        dispatch(adminAccess({ email: requestEmail }))
+                      }
+                    >
+                      {loading ? (
+                        <Box sx={{ color: "white" }}>
+                          <CircularProgress color="inherit" size={27} />{" "}
+                        </Box>
+                      ) : (
+                        "Invite"
+                      )}
+                    </div>
+                    <div className="emailinput"></div>
+                    {/* <input type="text" className="emailinput" /> */}
+                  </div>
+                </div>
+                {/* <div className="role-field">
                   <div className="singlefieldII">
                     Role
                     <div className="role-select-main">
@@ -425,7 +452,7 @@ const Settings = () => {
                       </select>
                     </div>
                   </div>
-                </div>
+                </div> */}
               </div>
             </div>
           </div>
@@ -450,7 +477,7 @@ const Settings = () => {
                   // className="prfl-img"
                 >
                   <img
-                    src={showprfl ? showprfl : prflplaceholder}
+                    src={organizationLogo ? organizationLogo : prflplaceholder}
                     alt=""
                     className="prfl-img"
                     // style={{ border: "1px solid black" }}

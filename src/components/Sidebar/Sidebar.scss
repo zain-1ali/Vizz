@@ -5,12 +5,24 @@
   width: 22%;
   background-color: $c1;
   position: relative;
-
-  img {
+  .logo-main {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    // border: 1px solid white;
+    align-items: center;
     margin-top: 25px;
-    margin-left: 6%;
-    width: 70px;
-    height: 66px;
+    .logo-inner {
+      height: 120px;
+      width: 120px;
+
+      img {
+        // margin-left: 6%;
+        border-radius: 100%;
+        max-width: 90%;
+        max-height: 90%;
+      }
+    }
   }
 
   .sidebar-option-main {

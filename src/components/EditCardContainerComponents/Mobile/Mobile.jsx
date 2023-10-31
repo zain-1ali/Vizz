@@ -97,6 +97,10 @@ const Mobile = ({ mobileData, color, check, linkInfo }) => {
       return elm?.linkId === linkInfo?.id;
     });
   };
+
+  const poweredVizz = useSelector(
+    (state) => state.profileInfoSlice.poweredVizz
+  );
   return (
     <div className="mobile-main">
       {leadMode === 1 && (
@@ -240,16 +244,29 @@ const Mobile = ({ mobileData, color, check, linkInfo }) => {
                   )}
                 </div>
               </div>
-              <div className="prfl-btm">
-                <div className="btm-inner">
-                  <p style={{ color }}>
-                    Powered by <span>VIZZ</span>
-                  </p>
-                  <div className="web-address" style={{ color }}>
-                    www.vizz.store
+              {check === "organization" ? (
+                <div className="prfl-btm">
+                  <div className="btm-inner">
+                    <p style={{ color }}>
+                      Powered by <span>VIZZ</span>
+                    </p>
+                    <div className="web-address" style={{ color }}>
+                      www.vizz.store
+                    </div>
                   </div>
                 </div>
-              </div>
+              ) : poweredVizz === 1 ? (
+                <div className="prfl-btm">
+                  <div className="btm-inner">
+                    <p style={{ color }}>
+                      Powered by <span>VIZZ</span>
+                    </p>
+                    <div className="web-address" style={{ color }}>
+                      www.vizz.store
+                    </div>
+                  </div>
+                </div>
+              ) : null}
             </>
           ) : (
             <div className="progress-container">

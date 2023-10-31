@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./Login.scss";
-import vizzreg from "../../imgs/vizzreg3.png";
+import vizzreg from "../../imgs/Login.png";
 import vizzlogo from "../../imgs/vizzlogo.png";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";

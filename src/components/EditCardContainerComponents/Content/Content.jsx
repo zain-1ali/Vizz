@@ -196,41 +196,48 @@ const Content = ({ check, userId, directmode, leadMode }) => {
       <>
         <div className="content-upper">
           {check === "user" && (
-            <div className="lead-direct">
-              <div className="lead">
-                {/* <ThemeProvider theme={theme}> */}
-                <Switch
-                  size="small"
-                  checked={leadMode}
-                  onChange={() => handleChangeLead()}
-                />
-                {/* </ThemeProvider> */}
+            <>
+              <div className="lead-direct">
+                <div className="lead">
+                  {/* <ThemeProvider theme={theme}> */}
+                  <Switch
+                    size="small"
+                    checked={leadMode}
+                    onChange={() => handleChangeLead()}
+                  />
+                  {/* </ThemeProvider> */}
 
-                <p>Lead Mode</p>
+                  <p>Lead Mode</p>
+                </div>
+                <div className="direct">
+                  {/* <ThemeProvider theme={theme}> */}
+                  <Switch
+                    size="small"
+                    checked={directmode?.status}
+                    onChange={() => handleChangeDirect()}
+                  />
+                  {/* </ThemeProvider> */}
+                  <p>Direct</p>
+                </div>
               </div>
-              <div className="direct">
-                {/* <ThemeProvider theme={theme}> */}
-                <Switch
-                  size="small"
-                  checked={directmode?.status}
-                  onChange={() => handleChangeDirect()}
-                />
-                {/* </ThemeProvider> */}
-                <p>Direct</p>
+
+              <div
+                className="add-link"
+                onClick={() => {
+                  dispatch(openModal()), dispatch(openLinkModal());
+                }}
+              >
+                <AiOutlinePlus
+                  style={{
+                    color: "white",
+                    fontSize: "20px",
+                    marginRight: "5px",
+                  }}
+                />{" "}
+                Add Links and Contacts
               </div>
-            </div>
+            </>
           )}
-          <div
-            className="add-link"
-            onClick={() => {
-              dispatch(openModal()), dispatch(openLinkModal());
-            }}
-          >
-            <AiOutlinePlus
-              style={{ color: "white", fontSize: "20px", marginRight: "5px" }}
-            />{" "}
-            Add Links and Contacts
-          </div>
         </div>
         {directmode?.status === 1 ? (
           <div className="content-links">

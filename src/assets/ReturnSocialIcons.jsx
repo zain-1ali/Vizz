@@ -5,6 +5,7 @@ import { MdEmail } from "react-icons/md";
 import {
   BiLogoDiscordAlt,
   BiLogoInstagramAlt,
+  BiLogoPaypal,
   BiLogoPinterest,
   BiSolidMessageDetail,
 } from "react-icons/bi";
@@ -25,6 +26,9 @@ import { FaFacebookF, FaTwitch } from "react-icons/fa";
 import { TiSocialTumbler } from "react-icons/ti";
 import { BiLogoTwitter, BiLogoLinkedin } from "react-icons/bi";
 import { useSelector } from "react-redux";
+import { SiApplemusic, SiCashapp } from "react-icons/Si";
+import { AiOutlineLink } from "react-icons/ai";
+import { LuLink2 } from "react-icons/lu";
 
 // import instagram from "./socialLink/instagram.png";
 // import facebook from "./socialLink/facebook.png";
@@ -51,7 +55,7 @@ import { useSelector } from "react-redux";
 
 // import payment icons
 
-// import cashapp from "./socialLink/cash.svg";
+// import SiCashapp from "react-icons/si";
 // import paypal from "./socialLink/paypal.png";
 
 // import payment icons
@@ -319,22 +323,25 @@ export let returnIcons = (name, size) => {
   // else if (name === "Apple Music") {
   //   return applemusic;
   // }
-  else if (name === "SoundCloud") {
+  else if (name === "Sound Cloud") {
     return <ImSoundcloud style={{ color: "white", fontSize: `${size}px` }} />;
+  } else if (name === "Cash App") {
+    return <SiCashapp style={{ color: "white", fontSize: `${size}px` }} />;
+  } else if (name === "Paypal") {
+    return <BiLogoPaypal style={{ color: "white", fontSize: `${size}px` }} />;
   }
-  // else if (name === "Cash App") {
-  //   return applemusic;
-  // } else if (name === "PayPal") {
-  //   return paypal;
-  // } else if (name === "Calendly") {
+  // else if (name === "Calendly") {
   //   return calendly;
-  // } else if (name === "Website") {
-  //   return website;
-  // } else if (name === "Custom") {
-  //   return custom;
-  // } else if (name === "CashApp") {
-  //   return cashapp;
-  // } else if (name === "AppleMusic") {
-  //   return applemusic;
   // }
+  else if (name === "Website") {
+    return <AiOutlineLink style={{ color: "white", fontSize: `${size}px` }} />;
+  } else if (name === "Custom Link") {
+    return <LuLink2 style={{ color: "white", fontSize: `${size}px` }} />;
+  }
+  //  else if (name === "CashApp") {
+  //   return cashapp;
+  // }
+  else if (name === "Apple Music") {
+    return <SiApplemusic style={{ color: "white", fontSize: `${size}px` }} />;
+  }
 };

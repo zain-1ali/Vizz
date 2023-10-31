@@ -26,7 +26,9 @@ const initialState = {
   phoneVisible: 0,
   qrLogo: "",
   qrColor: "black",
+  poweredVizz: 1,
   leadMode: 0,
+  organizationLogo: "",
 };
 
 export const profileInfoSlice = createSlice({
@@ -103,6 +105,12 @@ export const profileInfoSlice = createSlice({
     setLead: (state, action) => {
       state.leadMode = action.payload;
     },
+    setPoweredVizz: (state, action) => {
+      state.poweredVizz = action.payload;
+    },
+    setOrgLogo: (state, action) => {
+      state.organizationLogo = action.payload;
+    },
 
     setAllNull: (state) => {
       state.name = "";
@@ -143,6 +151,8 @@ export const {
   setQrColor,
   setQrLogo,
   setLead,
+  setOrgLogo,
+  setPoweredVizz,
 } = profileInfoSlice.actions;
 
 export default profileInfoSlice.reducer;

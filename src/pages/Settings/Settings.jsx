@@ -26,7 +26,15 @@ import {
 import Cropper from "../../components/Cropper/Cropper";
 import PrflPreviwModal from "../../components/Modals/PrflPreviewModal/PrflPreviewModal";
 import { toast } from "react-toastify";
-import { setOrgLogo } from "../../redux/profileInfoSlice";
+import {
+  setOrgLogo,
+  setOrgTextColor,
+  setOrgColor,
+  setOrglinkColor,
+  setOrglinkBgColor,
+  setOrgbtnColor,
+} from "../../redux/profileInfoSlice";
+import HelpModal from "../../components/Modals/HelpModal/HelpModal";
 
 const Settings = () => {
   let dispatch = useDispatch();
@@ -40,7 +48,6 @@ const Settings = () => {
     phone: "",
     address: "",
     bio: "",
-    color: "",
   });
   let [requestEmail, setRequestEmail] = useState("");
   let [fontClr, setFontClr] = useState("black");
@@ -50,6 +57,22 @@ const Settings = () => {
   let organizationLogo = useSelector(
     (state) => state.profileInfoSlice.organizationLogo
   );
+  let orgTextColor = useSelector(
+    (state) => state.profileInfoSlice.orgTextColor
+  );
+
+  let orgColor = useSelector((state) => state.profileInfoSlice.orgColor);
+
+  let orgBtnColor = useSelector((state) => state.profileInfoSlice.orgBtnColor);
+
+  let orgLinkBgColor = useSelector(
+    (state) => state.profileInfoSlice.orgLinkBgColor
+  );
+
+  let orgLinkColor = useSelector(
+    (state) => state.profileInfoSlice.orgLinkColor
+  );
+
   console.log(organisation?.data);
   useEffect(() => {
     setData({
@@ -58,14 +81,22 @@ const Settings = () => {
       phone: organisation?.data?.phone,
       address: organisation?.data?.address,
       bio: organisation?.data?.bio,
+      // textColor: orgTextColor,
       // profileUrl: organisation?.data?.profileUrl,
       // coverUrl: organisation?.data?.coverUrl,
       color: organisation?.data?.color,
     });
     dispatch(setOrgLogo(organisation?.data?.logoUrl));
+    dispatch(setOrgTextColor(organisation?.data?.textColor));
+
+    dispatch(setOrgbtnColor(organisation?.data?.btnColor));
+    dispatch(setOrgColor(organisation?.data?.color));
+    dispatch(setOrglinkColor(organisation?.data?.linkColor));
+    dispatch(setOrglinkBgColor(organisation?.data?.linkBgColor));
+
     setshowbgimg(organisation?.data?.coverUrl);
   }, [organisation?.data]);
-
+  // console.log(orgTextColor);
   let [prflimg, setprflimg] = useState(null);
 
   // ----------------------------------------------------State setup for profile img crop---------------------------------------------
@@ -159,6 +190,10 @@ const Settings = () => {
   };
 
   let profileUrl = import.meta.env.VITE_PROFILE_URL;
+  let [helpmodal, sethelpmodal] = useState(false);
+  let handlehelpModal = () => {
+    sethelpmodal(!helpmodal);
+  };
 
   return (
     <div className="settings-main">
@@ -186,11 +221,12 @@ const Settings = () => {
           setmyimg={setmybgimg}
           setcrop={setCropbg}
           crop={cropbg}
-          aspect={4 / 2}
+          aspect={186 / 130}
           setReduxState={setshowbgimg}
           isSettings={true}
         />
         <LinksModal />
+        <HelpModal handlehelpModal={handlehelpModal} helpmodal={helpmodal} />
         <PrflPreviwModal handlePrvModal={handlePrvModal} prvModal={prvModal} />
         <div className="settings-innerII">
           <div className="settings-header">
@@ -198,7 +234,7 @@ const Settings = () => {
               <p>Settings</p>
             </div>
 
-            <div className="sortbtn">
+            <div className="sortbtn" onClick={() => handlehelpModal()}>
               <BiHelpCircle
                 style={{
                   color: "#353535",
@@ -535,12 +571,12 @@ const Settings = () => {
                       <div
                         className="color-circle"
                         style={
-                          data.color
-                            ? { backgroundColor: data.color }
+                          orgColor
+                            ? { backgroundColor: orgColor }
                             : { backgroundColor: "black" }
                         }
                       ></div>
-                      {data?.color}
+                      {orgColor}
                       <label htmlFor="bgclr" className="color-picker-circle">
                         <div>
                           <CgColorPicker style={{ fontSize: "20px" }} />
@@ -554,7 +590,7 @@ const Settings = () => {
                             width: "0px",
                           }}
                           onChange={(e) =>
-                            setData({ ...data, color: e.target.value })
+                            dispatch(setOrgColor(e.target.value))
                           }
                           value={data.color}
                         />
@@ -566,9 +602,9 @@ const Settings = () => {
                     <div className="single-color-field">
                       <div
                         className="color-circle"
-                        style={{ backgroundColor: fontClr }}
+                        style={{ backgroundColor: orgTextColor }}
                       ></div>
-                      {fontClr}
+                      {orgTextColor}
                       <label htmlFor="textclr" className="color-picker-circle">
                         <div>
                           <CgColorPicker style={{ fontSize: "20px" }} />
@@ -581,58 +617,107 @@ const Settings = () => {
                             height: "0px",
                             width: "0px",
                           }}
-                          onChange={(e) => setFontClr(e.target.value)}
-                          value={fontClr}
+                          onChange={(e) =>
+                            dispatch(setOrgTextColor(e.target.value))
+                          }
+                          value={orgTextColor}
                         />
                       </label>
                     </div>
                   </div>
                 </div>
 
-                {/* <div className="twice-colors">
+                <div className="twice-colors">
                   <div className="single-color-field-upper">
-                    Page background color
+                    Buttons color
                     <div className="single-color-field">
-                      <div className="color-circle"></div>
-                      #dea527
-                      <label htmlFor="bgclr" className="color-picker-circle">
+                      <div
+                        className="color-circle"
+                        style={{ backgroundColor: orgBtnColor }}
+                      ></div>
+                      {orgBtnColor}
+                      <label htmlFor="btnclr" className="color-picker-circle">
                         <div>
                           <CgColorPicker style={{ fontSize: "20px" }} />
                         </div>
                         <input
                           type="color"
-                          id="bgclr"
+                          id="btnclr"
                           style={{
                             opacity: "0px",
                             height: "0px",
                             width: "0px",
                           }}
+                          onChange={(e) =>
+                            dispatch(setOrgbtnColor(e.target.value))
+                          }
+                          value={orgBtnColor}
                         />
                       </label>
                     </div>
                   </div>
                   <div className="single-color-field-upper">
-                    Text color
+                    Link color
                     <div className="single-color-field">
-                      <div className="color-circle"></div>
-                      #dea527
-                      <label htmlFor="bgclr" className="color-picker-circle">
+                      <div
+                        className="color-circle"
+                        style={{ backgroundColor: orgLinkColor }}
+                      ></div>
+                      {orgLinkColor}
+                      <label htmlFor="linkclr" className="color-picker-circle">
                         <div>
                           <CgColorPicker style={{ fontSize: "20px" }} />
                         </div>
                         <input
                           type="color"
-                          id="bgclr"
+                          id="linkclr"
                           style={{
                             opacity: "0px",
                             height: "0px",
                             width: "0px",
                           }}
+                          onChange={(e) =>
+                            dispatch(setOrglinkColor(e.target.value))
+                          }
+                          value={orgLinkColor}
                         />
                       </label>
                     </div>
                   </div>
-                </div> */}
+                </div>
+                <div className="twice-colors">
+                  <div className="single-color-field-upper">
+                    Link background color
+                    <div className="single-color-field">
+                      <div
+                        className="color-circle"
+                        style={{ backgroundColor: orgLinkBgColor }}
+                      ></div>
+                      {orgLinkBgColor}
+                      <label
+                        htmlFor="linkbgclr"
+                        className="color-picker-circle"
+                      >
+                        <div>
+                          <CgColorPicker style={{ fontSize: "20px" }} />
+                        </div>
+                        <input
+                          type="color"
+                          id="linkbgclr"
+                          style={{
+                            opacity: "0px",
+                            height: "0px",
+                            width: "0px",
+                          }}
+                          onChange={(e) =>
+                            dispatch(setOrglinkBgColor(e.target.value))
+                          }
+                          value={orgLinkBgColor}
+                        />
+                      </label>
+                    </div>
+                  </div>
+                </div>
               </div>
               <div className="btns">
                 <div
@@ -667,7 +752,15 @@ const Settings = () => {
                   className="save"
                   onClick={() =>
                     dispatch(
-                      updateOrganization({ ...organizationBtmData, ...data })
+                      updateOrganization({
+                        ...organizationBtmData,
+                        ...data,
+                        color: orgColor,
+                        textColor: orgTextColor,
+                        linkBgColor: orgLinkBgColor,
+                        linkColor: orgLinkColor,
+                        btnColor: orgBtnColor,
+                      })
                     )
                   }
                 >

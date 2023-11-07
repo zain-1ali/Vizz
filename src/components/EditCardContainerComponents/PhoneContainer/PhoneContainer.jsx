@@ -3,7 +3,7 @@ import "./PhoneContainer.scss";
 import Mobile from "../Mobile/Mobile";
 import { FiExternalLink } from "react-icons/fi";
 import { useSelector } from "react-redux";
-const PhoneContainer = ({ userId }) => {
+const PhoneContainer = ({ userId, orgPhone }) => {
   const name = useSelector((state) => state.profileInfoSlice.name);
   const email = useSelector((state) => state.profileInfoSlice.email);
   const color = useSelector((state) => state.profileInfoSlice.color);
@@ -27,6 +27,7 @@ const PhoneContainer = ({ userId }) => {
     bio,
     links,
     designation,
+    orgPhone,
   };
   let cardUrl = import.meta.env.VITE_PROFILE_URL;
   return (

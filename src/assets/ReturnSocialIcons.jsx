@@ -260,50 +260,100 @@ export const socialIcons = [
 //   },
 // ];
 
-export let returnIcons = (name, size) => {
-  console.log(name);
+export let returnIcons = (name, size, color) => {
+  console.log(color);
   if (name === "Phone") {
-    return <MdCall style={{ color: "white", fontSize: `${size}px` }} />;
+    return (
+      <MdCall
+        style={{ color: color ? color : "white", fontSize: `${size}px` }}
+      />
+    );
   } else if (name === "Text") {
     return (
-      <BiSolidMessageDetail style={{ color: "white", fontSize: `${size}px` }} />
+      <BiSolidMessageDetail
+        style={{ color: color ? color : "white", fontSize: `${size}px` }}
+      />
     );
   } else if (name === "Whatsapp") {
-    return <RiWhatsappFill style={{ color: "white", fontSize: `${size}px` }} />;
+    return (
+      <RiWhatsappFill
+        style={{ color: color ? color : "white", fontSize: `${size}px` }}
+      />
+    );
   } else if (name === "Email") {
-    return <MdEmail style={{ color: "white", fontSize: `${size}px` }} />;
+    return (
+      <MdEmail
+        style={{ color: color ? color : "white", fontSize: `${size}px` }}
+      />
+    );
   } else if (name === "Snapchat") {
-    return <BiLogoSnapchat style={{ color: "white", fontSize: `${size}px` }} />;
+    return (
+      <BiLogoSnapchat
+        style={{ color: color ? color : "white", fontSize: `${size}px` }}
+      />
+    );
   } else if (name === "Facebook") {
-    return <FaFacebookF style={{ color: "white", fontSize: `${size}px` }} />;
+    return (
+      <FaFacebookF
+        style={{ color: color ? color : "white", fontSize: `${size}px` }}
+      />
+    );
   } else if (name === "Twitter") {
-    return <BiLogoTwitter style={{ color: "white", fontSize: `${size}px` }} />;
+    return (
+      <BiLogoTwitter
+        style={{ color: color ? color : "white", fontSize: `${size}px` }}
+      />
+    );
   } else if (name === "Pinterest") {
     return (
-      <BiLogoPinterest style={{ color: "white", fontSize: `${size}px` }} />
+      <BiLogoPinterest
+        style={{ color: color ? color : "white", fontSize: `${size}px` }}
+      />
     );
   } else if (name === "Instagram") {
     return (
-      <BiLogoInstagramAlt style={{ color: "white", fontSize: `${size}px` }} />
+      <BiLogoInstagramAlt
+        style={{ color: color ? color : "white", fontSize: `${size}px` }}
+      />
     );
   } else if (name === "Linkedin") {
-    return <BiLogoLinkedin style={{ color: "white", fontSize: `${size}px` }} />;
+    return (
+      <BiLogoLinkedin
+        style={{ color: color ? color : "white", fontSize: `${size}px` }}
+      />
+    );
   }
   // else if (name === "Twitter") {
   //   return twitter;
   // }
   else if (name === "Twitch") {
-    return <FaTwitch style={{ color: "white", fontSize: `${size}px` }} />;
+    return (
+      <FaTwitch
+        style={{ color: color ? color : "white", fontSize: `${size}px` }}
+      />
+    );
   } else if (name === "Youtube") {
-    return <RiYoutubeFill style={{ color: "white", fontSize: `${size}px` }} />;
+    return (
+      <RiYoutubeFill
+        style={{ color: color ? color : "white", fontSize: `${size}px` }}
+      />
+    );
   } else if (name === "Telegram") {
-    return <BiLogoTelegram style={{ color: "white", fontSize: `${size}px` }} />;
+    return (
+      <BiLogoTelegram
+        style={{ color: color ? color : "white", fontSize: `${size}px` }}
+      />
+    );
   }
   // else if (name === "Pinterest") {
   //   return pinterest;
   // }
   else if (name === "TikTok") {
-    return <BiLogoTiktok style={{ color: "white", fontSize: `${size}px` }} />;
+    return (
+      <BiLogoTiktok
+        style={{ color: color ? color : "white", fontSize: `${size}px` }}
+      />
+    );
   }
   // else if (name === "Linkedin") {
   //   return linkedin;
@@ -312,36 +362,34 @@ export let returnIcons = (name, size) => {
   //   return reddit;
   // }
   else if (name === "Discord") {
-    return <BsDiscord style={{ color: "white", fontSize: `${size}px` }} />;
+    return <BsDiscord style={{ color: color, fontSize: `${size}px` }} />;
   } else if (name === "Tumblr") {
-    return (
-      <TiSocialTumbler style={{ color: "white", fontSize: `${size}px` }} />
-    );
+    return <TiSocialTumbler style={{ color: color, fontSize: `${size}px` }} />;
   } else if (name === "Spotify") {
-    return <BiLogoSpotify style={{ color: "white", fontSize: `${size}px` }} />;
+    return <BiLogoSpotify style={{ color: color, fontSize: `${size}px` }} />;
   }
   // else if (name === "Apple Music") {
   //   return applemusic;
   // }
   else if (name === "Sound Cloud") {
-    return <ImSoundcloud style={{ color: "white", fontSize: `${size}px` }} />;
+    return <ImSoundcloud style={{ color: color, fontSize: `${size}px` }} />;
   } else if (name === "Cash App") {
-    return <SiCashapp style={{ color: "white", fontSize: `${size}px` }} />;
+    return <SiCashapp style={{ color: color, fontSize: `${size}px` }} />;
   } else if (name === "Paypal") {
-    return <BiLogoPaypal style={{ color: "white", fontSize: `${size}px` }} />;
+    return <BiLogoPaypal style={{ color: color, fontSize: `${size}px` }} />;
   }
   // else if (name === "Calendly") {
   //   return calendly;
   // }
   else if (name === "Website") {
-    return <AiOutlineLink style={{ color: "white", fontSize: `${size}px` }} />;
+    return <AiOutlineLink style={{ color: color, fontSize: `${size}px` }} />;
   } else if (name === "Custom Link") {
-    return <LuLink2 style={{ color: "white", fontSize: `${size}px` }} />;
+    return <LuLink2 style={{ color: color, fontSize: `${size}px` }} />;
   }
   //  else if (name === "CashApp") {
   //   return cashapp;
   // }
   else if (name === "Apple Music") {
-    return <SiApplemusic style={{ color: "white", fontSize: `${size}px` }} />;
+    return <SiApplemusic style={{ color: color, fontSize: `${size}px` }} />;
   }
 };

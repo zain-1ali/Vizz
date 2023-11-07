@@ -18,7 +18,7 @@ import Qr from "../EditCardContainerComponents/Qr/Qr";
 import Lead from "../EditCardContainerComponents/Lead/Lead";
 import QrContainer from "../EditCardContainerComponents/QrContainer/QrContainer";
 
-const EditCradContainer = ({ id }) => {
+const EditCradContainer = ({ id, orgPhone }) => {
   const iscontent = useSelector((state) => state.profileEditHandeler.isContent);
   const isabout = useSelector((state) => state.profileEditHandeler.isAbout);
   const isqr = useSelector((state) => state.profileEditHandeler.isQr);
@@ -90,7 +90,11 @@ const EditCradContainer = ({ id }) => {
         {isqr && <Qr userId={id} />}
         {islead && <Lead userId={id} />}
 
-        {isqr ? <QrContainer userId={id} /> : <PhoneContainer userId={id} />}
+        {isqr ? (
+          <QrContainer userId={id} />
+        ) : (
+          <PhoneContainer userId={id} orgPhone={orgPhone} />
+        )}
       </div>
       <br />
     </>

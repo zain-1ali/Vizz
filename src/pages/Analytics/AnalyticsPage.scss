@@ -230,6 +230,9 @@
           width: 66%;
           height: 400px;
           border-radius: 36px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
           box-shadow: 0px 0px 32px 0px #00000033;
         }
         .recent-activity {

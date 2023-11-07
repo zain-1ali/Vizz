@@ -30,6 +30,10 @@ import {
   setNoteVisible,
   setLead,
   setPoweredVizz,
+  setTextColor,
+  setbtnColor,
+  setlinkColor,
+  setlinkBgColor,
 } from "../../redux/profileInfoSlice.js";
 import { ToastContainer } from "react-toastify";
 import ShareCardModal from "../../components/Modals/ShareCardModal/ShareCardModal";
@@ -45,7 +49,7 @@ const EditCard = () => {
   console.log("big parent");
   let singleProfile = useSelector((state) => state.ApiSlice.singleEmployee);
 
-  console.log(singleProfile);
+  console.log(singleProfile?.data?.organizationPhone);
 
   useEffect(() => {
     dispatch(setName(singleProfile?.data?.name));
@@ -77,6 +81,10 @@ const EditCard = () => {
     );
     dispatch(setNoteVisible(singleProfile?.data?.leadFields?.noteVisible));
     dispatch(setPoweredVizz(singleProfile?.data?.poweredVizz));
+    dispatch(setTextColor(singleProfile?.data?.textColor));
+    dispatch(setbtnColor(singleProfile?.data?.btnColor));
+    dispatch(setlinkColor(singleProfile?.data?.linkColor));
+    dispatch(setlinkBgColor(singleProfile?.data?.linkBgColor));
   }, [singleProfile]);
 
   let splitString = (string) => {
@@ -131,7 +139,10 @@ const EditCard = () => {
           pauseOnHover
           
         /> */}
-        <EditCradContainer id={id} />
+        <EditCradContainer
+          id={id}
+          orgPhone={singleProfile?.data?.organizationPhone}
+        />
       </div>
     </div>
   );

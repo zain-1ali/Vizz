@@ -26,9 +26,19 @@ const initialState = {
   phoneVisible: 0,
   qrLogo: "",
   qrColor: "black",
+  textColor: "black",
+  btnColor: "black",
+  linkBgColor: "black",
+  linkColor: "white",
   poweredVizz: 1,
   leadMode: 0,
   organizationLogo: "",
+  orgColor: "#DEA527",
+  orgTextColor: "black",
+  orgBtnColor: "black",
+  orgLinkBgColor: "black",
+  orgLinkColor: "white",
+
 };
 
 export const profileInfoSlice = createSlice({
@@ -102,6 +112,39 @@ export const profileInfoSlice = createSlice({
     setQrColor: (state, action) => {
       state.qrColor = action.payload;
     },
+    setTextColor: (state, action) => {
+      state.textColor = action.payload;
+    },
+    setbtnColor: (state, action) => {
+      state.btnColor = action.payload;
+    },
+    setlinkBgColor: (state, action) => {
+      state.linkBgColor = action.payload;
+    },
+    setlinkColor: (state, action) => {
+      state.linkColor = action.payload;
+    },
+
+    // ------------------------------------org clrs methods---------------------------------------
+
+    setOrgTextColor: (state, action) => {
+      state.orgTextColor = action.payload;
+    },
+    setOrgbtnColor: (state, action) => {
+      state.orgBtnColor = action.payload;
+    },
+    setOrglinkBgColor: (state, action) => {
+      state.orgLinkBgColor = action.payload;
+    },
+    setOrglinkColor: (state, action) => {
+      state.orgLinkColor = action.payload;
+    },
+    setOrgColor: (state, action) => {
+      state.orgColor = action.payload;
+    },
+
+    // ----------------------------------------------------
+
     setLead: (state, action) => {
       state.leadMode = action.payload;
     },
@@ -153,6 +196,15 @@ export const {
   setLead,
   setOrgLogo,
   setPoweredVizz,
+  setTextColor,
+  setbtnColor,
+  setlinkColor,
+  setlinkBgColor,
+  setOrgColor,
+  setOrglinkColor,
+  setOrglinkBgColor,
+  setOrgbtnColor,
+  setOrgTextColor,
 } = profileInfoSlice.actions;
 
 export default profileInfoSlice.reducer;

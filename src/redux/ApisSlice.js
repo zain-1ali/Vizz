@@ -128,7 +128,7 @@ export const submitAbout = createAsyncThunk(
     });
     try {
       const result = await response.json();
-      console.log("res");
+      console.log("res", result);
       return result;
     } catch (error) {
       rejectWithValue(error);

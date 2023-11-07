@@ -19,6 +19,7 @@ import { useDispatch, useSelector } from "react-redux";
 import ViewContactModal from "../../components/Modals/ViewContactModal/ViewContactModal";
 import DeleteLeadModal from "../../components/Modals/DeleteLeadModal/DeleteLeadModal";
 import DownloadExcel from "../../components/DownloadExel/DownloadExel";
+import Tooltip from "@mui/material/Tooltip";
 
 const Contacts = () => {
   //   console.log(screen.width);
@@ -31,23 +32,27 @@ const Contacts = () => {
   useEffect(() => {
     dispatch(getAllLeads());
     dispatch(getEmpNames());
-    // setfiltered(leads);
+    //
   }, []);
+
+  useEffect(() => {
+    setfiltered(leads);
+  }, [leads]);
 
   //---------------------------------------------------(search functionality)-----------------------------------------------
 
   let [search, setsearch] = useState("");
 
-  // useEffect(() => {
-  //   const result = leads?.filter((contact) => {
-  //     return (
-  //       contact?.name.toLowerCase().match(search.toLowerCase()) ||
-  //       contact?.email.toLowerCase().match(search.toLowerCase())
-  //     );
-  //   });
+  useEffect(() => {
+    const result = leads?.filter((contact) => {
+      return (
+        contact?.name.toLowerCase().match(search.toLowerCase()) ||
+        contact?.email.toLowerCase().match(search.toLowerCase())
+      );
+    });
 
-  //   setfiltered(result);
-  // }, [search]);
+    setfiltered(result);
+  }, [search]);
 
   let [viewData, setViewData] = useState({});
 
@@ -162,11 +167,13 @@ const Contacts = () => {
                 <div className="total-leads">
                   <span>
                     Leads Generated{" "}
-                    <PiWarningCircleThin
-                      style={{ fontSize: "15px", cursor: "pointer" }}
-                    />
+                    <Tooltip title="Total number of leads" placement="top">
+                      <PiWarningCircleThin
+                        style={{ fontSize: "15px", cursor: "pointer" }}
+                      />
+                    </Tooltip>
                   </span>
-                  <h2>{leads?.length}</h2>
+                  <h2>{filtered?.length}</h2>
                 </div>
                 <div className="pi-chart">
                   <div className="circle"></div>
@@ -200,8 +207,8 @@ const Contacts = () => {
               >
                 <CircularProgress color="inherit" size={50} />
               </div>
-            ) : leads?.length > 0 ? ( 
-              leads?.map((elm) => {
+            ) : filtered?.length > 0 ? (
+              filtered?.map((elm) => {
                 return (
                   <div className="table-row">
                     <div className="contact-name">

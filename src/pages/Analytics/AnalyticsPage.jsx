@@ -16,6 +16,7 @@ import { RiArrowDownSFill, RiArrowUpSFill } from "react-icons/ri";
 import { Chart as ChartJs, ArcElement, Tooltip, Legend } from "chart.js";
 import { Doughnut } from "react-chartjs-2";
 import { FiRefreshCcw } from "react-icons/fi";
+import { BarChart } from "@mui/x-charts/BarChart";
 
 const AnalyticsPage = () => {
   let dispatch = useDispatch();
@@ -27,20 +28,35 @@ const AnalyticsPage = () => {
   let employeeList = useSelector((state) => state.ApiSlice.employeeList);
   let analyticsData = useSelector((state) => state.ApiSlice.analyticsData);
   let [empName, setEmpName] = useState("");
+  let chekAndChangeDayFormate = (day) => {
+    if (day <= 9) {
+      return `0${day}`;
+    } else {
+      return day;
+    }
+  };
   let [value, setValue] = useState({
     startDate: `${theDate.getFullYear()}-${
       theDate.getMonth() + 1
-    }-${theDate.getDate()}`,
+    }-${chekAndChangeDayFormate(theDate.getDate())}`,
     endDate: `${theDate.getFullYear()}-${
       theDate.getMonth() + 1
-    }-${theDate.getDate()}`,
+    }-${chekAndChangeDayFormate(theDate.getDate())}`,
   });
   console.log(
     // `${theDate.getFullYear()}-${theDate.getMonth() + 1}-${theDate.getDate()}`
-    value
+    value.startDate
   );
   useEffect(() => {
     dispatch(getEmpNames());
+    // setValue({
+    //   startDate: `${theDate.getFullYear()}-${
+    //     theDate.getMonth() + 1
+    //   }-${theDate.getDate()}`,
+    //   endDate: `${theDate.getFullYear()}-${
+    //     theDate.getMonth() + 1
+    //   }-${theDate.getDate()}`,
+    // });
     // dispatch(getAnalytics());
     // setfiltered(leads);
   }, []);
@@ -49,7 +65,7 @@ const AnalyticsPage = () => {
       return elm?.isAdmin === 1;
     });
     console.log(theadmin);
-    setEmpName(theadmin?.id);
+    setEmpName(`${theadmin?.id}-organization`);
     dispatch(
       getAnalytics({
         id: theadmin?.id,
@@ -118,6 +134,11 @@ const AnalyticsPage = () => {
     return data;
   };
 
+  let splitTypeAndId = (str) => {
+    let strArray = str?.split("-");
+    return strArray;
+  };
+
   // console.log(returnAdminVal()?.id);
   return (
     <div className="analytics-main">
@@ -142,10 +163,10 @@ const AnalyticsPage = () => {
                     setValue({ ...value, startDate: e.target.value }),
                       dispatch(
                         getAnalytics({
-                          id: empName,
+                          id: splitTypeAndId(empName)?.[0],
                           startDate: e.target.value,
                           endDate: value?.endDate,
-                          type: isAdmin(empName) ? "organization" : "employee",
+                          type: splitTypeAndId(empName)?.[1],
                         })
                       );
                   }}
@@ -165,10 +186,10 @@ const AnalyticsPage = () => {
                     setValue({ ...value, endDate: e.target.value }),
                       dispatch(
                         getAnalytics({
-                          id: empName,
-                          startDate: value?.endDate,
+                          id: splitTypeAndId(empName)?.[0],
+                          startDate: value?.startDate,
                           endDate: e.target.value,
-                          type: isAdmin(empName) ? "organization" : "employee",
+                          type: splitTypeAndId(empName)?.[1],
                         })
                       );
                   }}
@@ -182,10 +203,10 @@ const AnalyticsPage = () => {
                   onClick={() =>
                     dispatch(
                       getAnalytics({
-                        id: empName,
+                        id: splitTypeAndId(empName)?.[0],
                         startDate: value?.startDate,
                         endDate: value?.endDate,
-                        type: isAdmin(empName) ? "organization" : "employee",
+                        type: splitTypeAndId(empName)?.[1],
                       })
                     )
                   }
@@ -202,18 +223,16 @@ const AnalyticsPage = () => {
                   setEmpName(e.target.value),
                     dispatch(
                       getAnalytics({
-                        id: e.target.value,
+                        id: splitTypeAndId(e.target.value)?.[0],
                         startDate: value?.startDate,
                         endDate: value?.endDate,
-                        type: isAdmin(e.target.value)
-                          ? "organization"
-                          : "employee",
+                        type: splitTypeAndId(e.target.value)?.[1],
                       })
                     );
                 }}
               >
                 <option
-                  value={returnAdminVal()?.id}
+                  value={`${returnAdminVal()?.id}-organization`}
                   // onChange={() => setUserType("organization")}
                   // onClick={() => setUserType("organization")}
                 >
@@ -222,7 +241,7 @@ const AnalyticsPage = () => {
                 {employeeList?.data?.map((elm) => {
                   return (
                     <option
-                      value={elm?.id}
+                      value={`${elm?.id}-employee`}
                       style={elm?.isAdmin === 1 ? { display: "none" } : null}
                     >
                       {elm?.name}
@@ -251,7 +270,7 @@ const AnalyticsPage = () => {
                           ? 0
                           : analyticsData?.data?.contacts}
                       </h2>
-                      <div className="percentage-main">
+                      {/* <div className="percentage-main">
                         {analyticsData?.data?.contactPercStatus === "inc" ? (
                           <RiArrowUpSFill style={{ fontSize: "18px" }} />
                         ) : (
@@ -262,7 +281,7 @@ const AnalyticsPage = () => {
                             ? analyticsData?.data?.contactPercentage
                             : "0%"}
                         </p>
-                      </div>
+                      </div> */}
                     </div>
                   </div>
                   {/* <div className="pi-chart">
@@ -303,7 +322,7 @@ const AnalyticsPage = () => {
                           ? 0
                           : analyticsData?.data?.clicks}
                       </h2>
-                      <div className="percentage-main">
+                      {/* <div className="percentage-main">
                         {analyticsData?.data?.clickPercStatus === "inc" ? (
                           <RiArrowUpSFill style={{ fontSize: "18px" }} />
                         ) : (
@@ -314,7 +333,7 @@ const AnalyticsPage = () => {
                             ? analyticsData?.data?.clickPercentage
                             : "0%"}
                         </p>
-                      </div>
+                      </div> */}
                     </div>
                   </div>
                   <div className="pi-chart">
@@ -352,7 +371,7 @@ const AnalyticsPage = () => {
                           ? 0
                           : analyticsData?.data?.views}
                       </h2>
-                      <div className="percentage-main">
+                      {/* <div className="percentage-main">
                         {analyticsData?.data?.viewPercStatus === "inc" ? (
                           <RiArrowUpSFill style={{ fontSize: "18px" }} />
                         ) : (
@@ -364,7 +383,7 @@ const AnalyticsPage = () => {
                             ? analyticsData?.data?.viewPercentage
                             : "0%"}
                         </p>
-                      </div>
+                      </div> */}
                     </div>
                   </div>
                   <div className="pi-chart">
@@ -390,7 +409,29 @@ const AnalyticsPage = () => {
 
         <div className="graph-recent-main">
           <div className="graph-recent">
-            <div className="graph"></div>
+            <div className="graph">
+              <BarChart
+                xAxis={[
+                  {
+                    id: "barCategories",
+                    data: ["Total Clicks", "Total Views", "Total Leads"],
+                    scaleType: "band",
+                  },
+                ]}
+                series={[
+                  {
+                    data: [
+                      analyticsData?.data?.totalClicks,
+                      analyticsData?.data?.totalViews,
+                      analyticsData?.data?.totalContacts,
+                    ],
+                  },
+                ]}
+                colors={["#eba21e", "#eba21e", "#eba21e"]}
+                width={600}
+                height={400}
+              />
+            </div>
             <div className="recent-activity">
               <div className="recent-activity-inner">
                 <div className="heading-time">

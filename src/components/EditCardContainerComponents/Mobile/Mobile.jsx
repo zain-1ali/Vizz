@@ -61,6 +61,33 @@ const Mobile = ({ mobileData, color, check, linkInfo }) => {
     (state) => state.profileInfoSlice.phoneVisible
   );
 
+  // ------------------------------------states of colors for single employee------------------------------
+
+  const textColor = useSelector((state) => state.profileInfoSlice.textColor);
+  const btnColor = useSelector((state) => state.profileInfoSlice.btnColor);
+  const linkBgColor = useSelector(
+    (state) => state.profileInfoSlice.linkBgColor
+  );
+  const linkColor = useSelector((state) => state.profileInfoSlice.linkColor);
+
+  // ------------------------------------states of colors for organization------------------------------
+
+  let orgTextColor = useSelector(
+    (state) => state.profileInfoSlice.orgTextColor
+  );
+
+  let orgColor = useSelector((state) => state.profileInfoSlice.orgColor);
+
+  let orgBtnColor = useSelector((state) => state.profileInfoSlice.orgBtnColor);
+
+  let orgLinkBgColor = useSelector(
+    (state) => state.profileInfoSlice.orgLinkBgColor
+  );
+
+  let orgLinkColor = useSelector(
+    (state) => state.profileInfoSlice.orgLinkColor
+  );
+
   let returnSplitString = (string, num) => {
     if (string) {
       if (string?.length <= num) {
@@ -70,6 +97,8 @@ const Mobile = ({ mobileData, color, check, linkInfo }) => {
       }
     }
   };
+
+  // ----------------------------method for lead form fields show and hide--------------------------------------
 
   let ifHideField = (name) => {
     if (name === "Name") {
@@ -92,6 +121,7 @@ const Mobile = ({ mobileData, color, check, linkInfo }) => {
     }
   };
   console.log(allLinks);
+
   let returnNewLinkOrNot = () => {
     return allLinks?.some((elm) => {
       return elm?.linkId === linkInfo?.id;
@@ -101,6 +131,9 @@ const Mobile = ({ mobileData, color, check, linkInfo }) => {
   const poweredVizz = useSelector(
     (state) => state.profileInfoSlice.poweredVizz
   );
+
+  let colorForLinks = check === "user" ? linkColor : orgLinkColor;
+
   return (
     <div className="mobile-main">
       {leadMode === 1 && (
@@ -164,25 +197,64 @@ const Mobile = ({ mobileData, color, check, linkInfo }) => {
 
               <div className="contact-card-details">
                 <div className="contact-card-details-inner">
-                  <h2 style={{ color }}>{mobileData?.name}</h2>
-                  <div className="primary-info-container">
-                    <div
+                  <h2
+                    style={{
+                      color: check === "user" ? textColor : orgTextColor,
+                    }}
+                  >
+                    {mobileData?.name}
+                  </h2>
+                  <div
+                    className="primary-info-container"
+                    style={
+                      mobileData?.organizationName ||
+                      mobileData?.bio ||
+                      mobileData?.organizationName ||
+                      mobileData?.designation ||
+                      mobileData?.orgPhone
+                        ? { borderLeft: `2px solid ${color}` }
+                        : null
+                    }
+                  >
+                    {/* <div
                       className="border-line"
                       style={{ backgroundColor: color }}
-                    ></div>
+                    ></div> */}
                     <div className="primary-info">
-                      <div className="phone-container">
+                      <div
+                        className="phone-container"
+                        style={{
+                          color: check === "user" ? textColor : orgTextColor,
+                        }}
+                      >
                         {/* <FaPhoneAlt style={{ fontSize: "12px", marginRight: "4px" }} /> */}
                         {returnSplitString(mobileData?.designation, 47)}
                       </div>
-                      <div className="job-container">
+                      <div
+                        className="job-container"
+                        style={{
+                          color: check === "user" ? textColor : orgTextColor,
+                        }}
+                      >
                         {/* <BiSolidBriefcaseAlt
                   style={{ fontSize: "25px", marginRight: "2px" }}
                 /> */}
                         {returnSplitString(mobileData?.organizationName, 47)}
                       </div>
-
-                      <div className="location-container">
+                      <div
+                        className="location-container"
+                        style={{
+                          color: check === "user" ? textColor : orgTextColor,
+                        }}
+                      >
+                        {returnSplitString(mobileData?.orgPhone, 96)}
+                      </div>
+                      <div
+                        className="location-container"
+                        style={{
+                          color: check === "user" ? textColor : orgTextColor,
+                        }}
+                      >
                         {returnSplitString(mobileData?.bio, 96)}
                       </div>
                     </div>
@@ -191,14 +263,34 @@ const Mobile = ({ mobileData, color, check, linkInfo }) => {
               </div>
               <div className="btns-div">
                 <div className="btns-inner">
-                  <div className="btn1" style={{ backgroundColor: color }}>
+                  <div
+                    className="btn1"
+                    style={{
+                      backgroundColor:
+                        check === "user" ? btnColor : orgBtnColor,
+                      color: check === "user" ? textColor : orgTextColor,
+                    }}
+                  >
                     <IoMdDownload
                       style={{ marginRight: "3px", fontSize: "13px" }}
                     />
                     Save Contact
                   </div>
-                  <div className="btn2">
-                    <FaShareSquare style={{ marginRight: "3px" }} /> Share
+                  <div
+                    className="btn2"
+                    style={{
+                      color: check === "user" ? textColor : orgTextColor,
+                      backgroundColor:
+                        check === "user" ? btnColor : orgBtnColor,
+                    }}
+                  >
+                    <FaShareSquare
+                      style={{
+                        marginRight: "3px",
+                        color: check === "user" ? textColor : orgTextColor,
+                      }}
+                    />{" "}
+                    Share
                   </div>
                 </div>
               </div>
@@ -216,13 +308,22 @@ const Mobile = ({ mobileData, color, check, linkInfo }) => {
                       <div className="icon-container-upper">
                         <div
                           className="icon-container"
-                          style={{ backgroundColor: color }}
+                          style={{
+                            backgroundColor:
+                              check === "user" ? linkBgColor : orgLinkBgColor,
+                          }}
                         >
                           {/* <FaRedditAlien style={{ color: "white" }} />
                            */}
-                          {returnIcons(elm.name, 14)}
+                          {returnIcons(elm.name, 14, colorForLinks)}
                         </div>
-                        <p>{elm?.name}</p>
+                        <p
+                          style={{
+                            color: check === "user" ? textColor : orgTextColor,
+                          }}
+                        >
+                          {elm?.name}
+                        </p>
                       </div>
                     );
                   })}
@@ -237,9 +338,15 @@ const Mobile = ({ mobileData, color, check, linkInfo }) => {
                       >
                         {/* <FaRedditAlien style={{ color: "white" }} />
                          */}
-                        {returnIcons(linkInfo?.name, 14)}
+                        {returnIcons(linkInfo?.name, 14, colorForLinks)}
                       </div>
-                      <p>{linkInfo?.name}</p>
+                      <p
+                        style={{
+                          color: check === "user" ? textColor : orgTextColor,
+                        }}
+                      >
+                        {linkInfo?.name}
+                      </p>
                     </div>
                   )}
                 </div>
@@ -247,10 +354,13 @@ const Mobile = ({ mobileData, color, check, linkInfo }) => {
               {check === "organization" ? (
                 <div className="prfl-btm">
                   <div className="btm-inner">
-                    <p style={{ color }}>
+                    <p style={{ color: orgTextColor }}>
                       Powered by <span>VIZZ</span>
                     </p>
-                    <div className="web-address" style={{ color }}>
+                    <div
+                      className="web-address"
+                      style={{ color: orgTextColor }}
+                    >
                       www.vizz.store
                     </div>
                   </div>
@@ -258,10 +368,10 @@ const Mobile = ({ mobileData, color, check, linkInfo }) => {
               ) : poweredVizz === 1 ? (
                 <div className="prfl-btm">
                   <div className="btm-inner">
-                    <p style={{ color }}>
+                    <p style={{ color: textColor }}>
                       Powered by <span>VIZZ</span>
                     </p>
-                    <div className="web-address" style={{ color }}>
+                    <div className="web-address" style={{ color: textColor }}>
                       www.vizz.store
                     </div>
                   </div>

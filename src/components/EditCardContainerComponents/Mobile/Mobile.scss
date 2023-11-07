@@ -98,7 +98,7 @@
     }
   }
   .mobile-inner {
-    width: 186px;
+    width: 190px;
     height: 405px;
     // overflow-y: scroll;
     // z-index: 400;
@@ -114,6 +114,8 @@
     .bg-prfl-container {
       width: 100%;
       height: 27%;
+      display: flex;
+      justify-content: center;
 
       //   border: 1px solid black;
       position: relative;
@@ -123,13 +125,16 @@
         border-radius: 100%;
         // border: 1px solid black;
         position: absolute;
-        object-fit: fill;
+        // object-fit: fill;
         bottom: -45px;
         left: 10px;
       }
       .bg-img {
-        width: 186px;
+        // width: 186px;
+        // margin-left: 1px;
+        width: 100%;
         height: 130px;
+        object-fit: cover;
       }
     }
 
@@ -155,6 +160,7 @@
           margin-top: 5px;
           display: flex;
           justify-content: space-between;
+          padding-left: 4px;
           // border: 1px solid black;
           .border-line {
             height: 60px;
@@ -388,6 +394,7 @@
   .phoneimg {
     position: absolute;
     z-index: 10;
+    // left: 50%;
     top: 0px;
     width: 227px;
     height: 436px;

@@ -16,6 +16,10 @@ import {
   setAddress,
   setBio,
   setPoweredVizz,
+  setTextColor,
+  setbtnColor,
+  setlinkColor,
+  setlinkBgColor,
 } from "../../../redux/profileInfoSlice.js";
 import { useSelector } from "react-redux";
 import Cropper from "../../Cropper/Cropper";
@@ -38,6 +42,12 @@ const About = ({ id }) => {
   const profile = useSelector((state) => state.profileInfoSlice.profileUrl);
   const address = useSelector((state) => state.profileInfoSlice.address);
   const bio = useSelector((state) => state.profileInfoSlice.bio);
+  const textColor = useSelector((state) => state.profileInfoSlice.textColor);
+  const btnColor = useSelector((state) => state.profileInfoSlice.btnColor);
+  const linkBgColor = useSelector(
+    (state) => state.profileInfoSlice.linkBgColor
+  );
+  const linkColor = useSelector((state) => state.profileInfoSlice.linkColor);
   const poweredVizz = useSelector(
     (state) => state.profileInfoSlice.poweredVizz
   );
@@ -57,9 +67,13 @@ const About = ({ id }) => {
     dispatch(setCoverUrl(singleProfile?.data?.coverUrl));
     dispatch(setProfileurl(singleProfile?.data?.profileUrl));
     dispatch(setDesignation(singleProfile?.data?.designation));
+    dispatch(setTextColor(singleProfile?.data?.textColor));
     dispatch(setAddress(singleProfile?.data?.address));
     dispatch(setBio(singleProfile?.data?.bio));
     dispatch(setDesignation(singleProfile?.data?.designation));
+    dispatch(setbtnColor(singleProfile?.data?.btnColor));
+    dispatch(setlinkColor(singleProfile?.data?.linkColor));
+    dispatch(setlinkBgColor(singleProfile?.data?.linkBgColor));
   };
 
   console.log(bio);
@@ -143,6 +157,10 @@ const About = ({ id }) => {
     name,
     email,
     color,
+    textColor,
+    btnColor,
+    linkColor,
+    linkBgColor,
     address,
     bio,
     designation,
@@ -155,6 +173,12 @@ const About = ({ id }) => {
   profile?.slice(0, 8) === "https://"
     ? null
     : (aboutData.profileUrl = profile?.split("base64,")[1]);
+
+  let submitAboutData = () => {
+    cover === "" ? (aboutData.coverUrl = "") : null;
+    profile === "" ? (aboutData.profileUrl = "") : null;
+    dispatch(submitAbout(aboutData));
+  };
 
   // let profileAdded = profile.slice(0, 8) === "https://" ? true : false;
 
@@ -217,7 +241,7 @@ const About = ({ id }) => {
         setmyimg={setmybgimg}
         setcrop={setCropbg}
         crop={cropbg}
-        aspect={4 / 2}
+        aspect={186 / 130}
         setReduxState={setCoverUrl}
       />
       {/* <div className="about-upper">
@@ -246,7 +270,7 @@ const About = ({ id }) => {
       <div className="select-clr-container">
         <h2>Card Color</h2>
         <div className="clrs">
-          <div className="single-clr" style={{ border: "1px solid black" }}>
+          <div className="clr-pkr" style={{ border: "1px solid black" }}>
             <label
               htmlFor="textclr"
               // style={{ height: "0px", width: "0px", opacity: "0px" }}
@@ -268,45 +292,673 @@ const About = ({ id }) => {
             </label>
           </div>
           <div
-            className="single-clr"
-            style={{ backgroundColor: "#E70A0A" }}
-            onClick={() => dispatch(setColor("#E70A0A"))}
-          ></div>
+            className="single-clr-main"
+            style={
+              color === "#E70A0A"
+                ? { border: `1px solid ${color}`, borderRadius: "100%" }
+                : null
+            }
+          >
+            <div
+              className="single-clr"
+              style={{ backgroundColor: "#E70A0A" }}
+              onClick={() => dispatch(setColor("#E70A0A"))}
+            ></div>
+          </div>
           <div
-            className="single-clr"
-            style={{ backgroundColor: "#0ED416" }}
-            onClick={() => dispatch(setColor("#0ED416"))}
-          ></div>
+            className="single-clr-main"
+            style={
+              color === "#0ED416"
+                ? { border: `1px solid ${color}`, borderRadius: "100%" }
+                : null
+            }
+          >
+            <div
+              className="single-clr"
+              style={{ backgroundColor: "#0ED416" }}
+              onClick={() => dispatch(setColor("#0ED416"))}
+            ></div>
+          </div>
           <div
-            className="single-clr"
-            style={{ backgroundColor: "#3076FF" }}
-            onClick={() => dispatch(setColor("#3076FF"))}
-          ></div>
+            className="single-clr-main"
+            style={
+              color === "#3076FF"
+                ? { border: `1px solid ${color}`, borderRadius: "100%" }
+                : null
+            }
+          >
+            <div
+              className="single-clr"
+              style={{ backgroundColor: "#3076FF" }}
+              onClick={() => dispatch(setColor("#3076FF"))}
+            ></div>
+          </div>
           <div
-            className="single-clr"
-            style={{ backgroundColor: "#F439D6" }}
-            onClick={() => dispatch(setColor("#F439D6"))}
-          ></div>
+            className="single-clr-main"
+            style={
+              color === "#F439D6"
+                ? { border: `1px solid ${color}`, borderRadius: "100%" }
+                : null
+            }
+          >
+            <div
+              className="single-clr"
+              style={{ backgroundColor: "#F439D6" }}
+              onClick={() => dispatch(setColor("#F439D6"))}
+            ></div>
+          </div>
           <div
-            className="single-clr"
-            style={{ backgroundColor: "#6732FF" }}
-            onClick={() => dispatch(setColor("#6732FF"))}
-          ></div>
+            className="single-clr-main"
+            style={
+              color === "#6732FF"
+                ? { border: `1px solid ${color}`, borderRadius: "100%" }
+                : null
+            }
+          >
+            <div
+              className="single-clr"
+              style={{ backgroundColor: "#6732FF" }}
+              onClick={() => dispatch(setColor("#6732FF"))}
+            ></div>
+          </div>
           <div
-            className="single-clr"
-            style={{ backgroundColor: "#FCE410" }}
-            onClick={() => dispatch(setColor("#FCE410"))}
-          ></div>
+            className="single-clr-main"
+            style={
+              color === "#FCE410"
+                ? { border: `1px solid ${color}`, borderRadius: "100%" }
+                : null
+            }
+          >
+            <div
+              className="single-clr"
+              style={{ backgroundColor: "#FCE410" }}
+              onClick={() => dispatch(setColor("#FCE410"))}
+            ></div>
+          </div>
           <div
-            className="single-clr"
-            style={{ backgroundColor: "#1BE4FF" }}
-            onClick={() => dispatch(setColor("#1BE4FF"))}
-          ></div>
+            className="single-clr-main"
+            style={
+              color === "#1BE4FF"
+                ? { border: `1px solid ${color}`, borderRadius: "100%" }
+                : null
+            }
+          >
+            <div
+              className="single-clr"
+              style={{ backgroundColor: "#1BE4FF" }}
+              onClick={() => dispatch(setColor("#1BE4FF"))}
+            ></div>
+          </div>
           <div
-            className="single-clr"
-            style={{ backgroundColor: "#DEA527" }}
-            onClick={() => dispatch(setColor("#DEA527"))}
-          ></div>
+            className="single-clr-main"
+            style={
+              color === "#DEA527"
+                ? { border: `1px solid ${color}`, borderRadius: "100%" }
+                : null
+            }
+          >
+            <div
+              className="single-clr"
+              style={{ backgroundColor: "#DEA527" }}
+              onClick={() => dispatch(setColor("#DEA527"))}
+            ></div>
+          </div>
+        </div>
+      </div>
+
+      <div className="select-clr-container">
+        <h2>Text Color</h2>
+        <div className="clrs">
+          <div className="clr-pkr" style={{ border: "1px solid black" }}>
+            <label
+              htmlFor="clr"
+              // style={{ height: "0px", width: "0px", opacity: "0px" }}
+            >
+              <CgColorPicker style={{ fontSize: "15px" }} />
+
+              <input
+                type="color"
+                id="clr"
+                style={{
+                  opacity: "0px",
+                  height: "0px",
+                  width: "0px",
+                  // display: "none",
+                }}
+                onChange={(e) => dispatch(setTextColor(e.target.value))}
+                value={textColor}
+              />
+            </label>
+          </div>
+          <div
+            className="single-clr-main"
+            style={
+              textColor === "#E70A0A"
+                ? { border: `1px solid ${textColor}`, borderRadius: "100%" }
+                : null
+            }
+          >
+            <div
+              className="single-clr"
+              style={{ backgroundColor: "#E70A0A" }}
+              onClick={() => dispatch(setTextColor("#E70A0A"))}
+            ></div>
+          </div>
+          <div
+            className="single-clr-main"
+            style={
+              textColor === "#0ED416"
+                ? { border: `1px solid ${textColor}`, borderRadius: "100%" }
+                : null
+            }
+          >
+            <div
+              className="single-clr"
+              style={{ backgroundColor: "#0ED416" }}
+              onClick={() => dispatch(setTextColor("#0ED416"))}
+            ></div>
+          </div>
+          <div
+            className="single-clr-main"
+            style={
+              textColor === "#3076FF"
+                ? { border: `1px solid ${textColor}`, borderRadius: "100%" }
+                : null
+            }
+          >
+            <div
+              className="single-clr"
+              style={{ backgroundColor: "#3076FF" }}
+              onClick={() => dispatch(setTextColor("#3076FF"))}
+            ></div>
+          </div>
+          <div
+            className="single-clr-main"
+            style={
+              textColor === "#F439D6"
+                ? { border: `1px solid ${textColor}`, borderRadius: "100%" }
+                : null
+            }
+          >
+            <div
+              className="single-clr"
+              style={{ backgroundColor: "#F439D6" }}
+              onClick={() => dispatch(setTextColor("#F439D6"))}
+            ></div>
+          </div>
+          <div
+            className="single-clr-main"
+            style={
+              textColor === "#6732FF"
+                ? { border: `1px solid ${textColor}`, borderRadius: "100%" }
+                : null
+            }
+          >
+            <div
+              className="single-clr"
+              style={{ backgroundColor: "#6732FF" }}
+              onClick={() => dispatch(setTextColor("#6732FF"))}
+            ></div>
+          </div>
+          <div
+            className="single-clr-main"
+            style={
+              textColor === "#FCE410"
+                ? { border: `1px solid ${textColor}`, borderRadius: "100%" }
+                : null
+            }
+          >
+            <div
+              className="single-clr"
+              style={{ backgroundColor: "#FCE410" }}
+              onClick={() => dispatch(setTextColor("#FCE410"))}
+            ></div>
+          </div>
+          <div
+            className="single-clr-main"
+            style={
+              textColor === "#1BE4FF"
+                ? { border: `1px solid ${textColor}`, borderRadius: "100%" }
+                : null
+            }
+          >
+            <div
+              className="single-clr"
+              style={{ backgroundColor: "#1BE4FF" }}
+              onClick={() => dispatch(setTextColor("#1BE4FF"))}
+            ></div>
+          </div>
+          <div
+            className="single-clr-main"
+            style={
+              textColor === "#DEA527"
+                ? { border: `1px solid ${textColor}`, borderRadius: "100%" }
+                : null
+            }
+          >
+            <div
+              className="single-clr"
+              style={{ backgroundColor: "#DEA527" }}
+              onClick={() => dispatch(setTextColor("#DEA527"))}
+            ></div>
+          </div>
+        </div>
+      </div>
+
+      <div className="select-clr-container">
+        <h2>Buttons Color</h2>
+        <div className="clrs">
+          <div className="clr-pkr" style={{ border: "1px solid black" }}>
+            <label
+              htmlFor="btnclr"
+              // style={{ height: "0px", width: "0px", opacity: "0px" }}
+            >
+              <CgColorPicker style={{ fontSize: "15px" }} />
+
+              <input
+                type="color"
+                id="btnclr"
+                style={{
+                  opacity: "0px",
+                  height: "0px",
+                  width: "0px",
+                  // display: "none",
+                }}
+                onChange={(e) => dispatch(setbtnColor(e.target.value))}
+                value={btnColor}
+              />
+            </label>
+          </div>
+          <div
+            className="single-clr-main"
+            style={
+              btnColor === "#E70A0A"
+                ? { border: `1px solid ${btnColor}`, borderRadius: "100%" }
+                : null
+            }
+          >
+            <div
+              className="single-clr"
+              style={{ backgroundColor: "#E70A0A" }}
+              onClick={() => dispatch(setbtnColor("#E70A0A"))}
+            ></div>
+          </div>
+          <div
+            className="single-clr-main"
+            style={
+              btnColor === "#0ED416"
+                ? { border: `1px solid ${btnColor}`, borderRadius: "100%" }
+                : null
+            }
+          >
+            <div
+              className="single-clr"
+              style={{ backgroundColor: "#0ED416" }}
+              onClick={() => dispatch(setbtnColor("#0ED416"))}
+            ></div>
+          </div>
+          <div
+            className="single-clr-main"
+            style={
+              btnColor === "#3076FF"
+                ? { border: `1px solid ${btnColor}`, borderRadius: "100%" }
+                : null
+            }
+          >
+            <div
+              className="single-clr"
+              style={{ backgroundColor: "#3076FF" }}
+              onClick={() => dispatch(setbtnColor("#3076FF"))}
+            ></div>
+          </div>
+          <div
+            className="single-clr-main"
+            style={
+              btnColor === "#F439D6"
+                ? { border: `1px solid ${btnColor}`, borderRadius: "100%" }
+                : null
+            }
+          >
+            <div
+              className="single-clr"
+              style={{ backgroundColor: "#F439D6" }}
+              onClick={() => dispatch(setbtnColor("#F439D6"))}
+            ></div>
+          </div>
+          <div
+            className="single-clr-main"
+            style={
+              btnColor === "#6732FF"
+                ? { border: `1px solid ${btnColor}`, borderRadius: "100%" }
+                : null
+            }
+          >
+            <div
+              className="single-clr"
+              style={{ backgroundColor: "#6732FF" }}
+              onClick={() => dispatch(setbtnColor("#6732FF"))}
+            ></div>
+          </div>
+          <div
+            className="single-clr-main"
+            style={
+              btnColor === "#FCE410"
+                ? { border: `1px solid ${btnColor}`, borderRadius: "100%" }
+                : null
+            }
+          >
+            <div
+              className="single-clr"
+              style={{ backgroundColor: "#FCE410" }}
+              onClick={() => dispatch(setbtnColor("#FCE410"))}
+            ></div>
+          </div>
+          <div
+            className="single-clr-main"
+            style={
+              btnColor === "#1BE4FF"
+                ? { border: `1px solid ${btnColor}`, borderRadius: "100%" }
+                : null
+            }
+          >
+            <div
+              className="single-clr"
+              style={{ backgroundColor: "#1BE4FF" }}
+              onClick={() => dispatch(setbtnColor("#1BE4FF"))}
+            ></div>
+          </div>
+          <div
+            className="single-clr-main"
+            style={
+              btnColor === "#DEA527"
+                ? { border: `1px solid ${btnColor}`, borderRadius: "100%" }
+                : null
+            }
+          >
+            <div
+              className="single-clr"
+              style={{ backgroundColor: "#DEA527" }}
+              onClick={() => dispatch(setbtnColor("#DEA527"))}
+            ></div>
+          </div>
+        </div>
+      </div>
+
+      <div className="select-clr-container">
+        <h2>Link Background</h2>
+        <div className="clrs">
+          <div className="clr-pkr" style={{ border: "1px solid black" }}>
+            <label
+              htmlFor="linkbgclr"
+              // style={{ height: "0px", width: "0px", opacity: "0px" }}
+            >
+              <CgColorPicker style={{ fontSize: "15px" }} />
+
+              <input
+                type="color"
+                id="linkbgclr"
+                style={{
+                  opacity: "0px",
+                  height: "0px",
+                  width: "0px",
+                  // display: "none",
+                }}
+                onChange={(e) => dispatch(setlinkBgColor(e.target.value))}
+                value={linkBgColor}
+              />
+            </label>
+          </div>
+          <div
+            className="single-clr-main"
+            style={
+              linkBgColor === "#E70A0A"
+                ? { border: `1px solid ${linkBgColor}`, borderRadius: "100%" }
+                : null
+            }
+          >
+            <div
+              className="single-clr"
+              style={{ backgroundColor: "#E70A0A" }}
+              onClick={() => dispatch(setlinkBgColor("#E70A0A"))}
+            ></div>
+          </div>
+          <div
+            className="single-clr-main"
+            style={
+              linkBgColor === "#0ED416"
+                ? { border: `1px solid ${linkBgColor}`, borderRadius: "100%" }
+                : null
+            }
+          >
+            <div
+              className="single-clr"
+              style={{ backgroundColor: "#0ED416" }}
+              onClick={() => dispatch(setlinkBgColor("#0ED416"))}
+            ></div>
+          </div>
+          <div
+            className="single-clr-main"
+            style={
+              linkBgColor === "#3076FF"
+                ? { border: `1px solid ${linkBgColor}`, borderRadius: "100%" }
+                : null
+            }
+          >
+            <div
+              className="single-clr"
+              style={{ backgroundColor: "#3076FF" }}
+              onClick={() => dispatch(setlinkBgColor("#3076FF"))}
+            ></div>
+          </div>
+          <div
+            className="single-clr-main"
+            style={
+              linkBgColor === "#F439D6"
+                ? { border: `1px solid ${linkBgColor}`, borderRadius: "100%" }
+                : null
+            }
+          >
+            <div
+              className="single-clr"
+              style={{ backgroundColor: "#F439D6" }}
+              onClick={() => dispatch(setlinkBgColor("#F439D6"))}
+            ></div>
+          </div>
+          <div
+            className="single-clr-main"
+            style={
+              linkBgColor === "#6732FF"
+                ? { border: `1px solid ${linkBgColor}`, borderRadius: "100%" }
+                : null
+            }
+          >
+            <div
+              className="single-clr"
+              style={{ backgroundColor: "#6732FF" }}
+              onClick={() => dispatch(setlinkBgColor("#6732FF"))}
+            ></div>
+          </div>
+          <div
+            className="single-clr-main"
+            style={
+              linkBgColor === "#FCE410"
+                ? { border: `1px solid ${linkBgColor}`, borderRadius: "100%" }
+                : null
+            }
+          >
+            <div
+              className="single-clr"
+              style={{ backgroundColor: "#FCE410" }}
+              onClick={() => dispatch(setlinkBgColor("#FCE410"))}
+            ></div>
+          </div>
+          <div
+            className="single-clr-main"
+            style={
+              linkBgColor === "#1BE4FF"
+                ? { border: `1px solid ${linkBgColor}`, borderRadius: "100%" }
+                : null
+            }
+          >
+            <div
+              className="single-clr"
+              style={{ backgroundColor: "#1BE4FF" }}
+              onClick={() => dispatch(setlinkBgColor("#1BE4FF"))}
+            ></div>
+          </div>
+          <div
+            className="single-clr-main"
+            style={
+              linkBgColor === "#DEA527"
+                ? { border: `1px solid ${linkBgColor}`, borderRadius: "100%" }
+                : null
+            }
+          >
+            <div
+              className="single-clr"
+              style={{ backgroundColor: "#DEA527" }}
+              onClick={() => dispatch(setlinkBgColor("#DEA527"))}
+            ></div>
+          </div>
+        </div>
+      </div>
+
+      <div className="select-clr-container">
+        <h2>Link Color</h2>
+        <div className="clrs">
+          <div className="clr-pkr" style={{ border: "1px solid black" }}>
+            <label
+              htmlFor="linkclr"
+              // style={{ height: "0px", width: "0px", opacity: "0px" }}
+            >
+              <CgColorPicker style={{ fontSize: "15px" }} />
+
+              <input
+                type="color"
+                id="linkclr"
+                style={{
+                  opacity: "0px",
+                  height: "0px",
+                  width: "0px",
+                  // display: "none",
+                }}
+                onChange={(e) => dispatch(setlinkColor(e.target.value))}
+                value={linkColor}
+              />
+            </label>
+          </div>
+          <div
+            className="single-clr-main"
+            style={
+              linkColor === "#E70A0A"
+                ? { border: `1px solid ${linkColor}`, borderRadius: "100%" }
+                : null
+            }
+          >
+            <div
+              className="single-clr"
+              style={{ backgroundColor: "#E70A0A" }}
+              onClick={() => dispatch(setlinkColor("#E70A0A"))}
+            ></div>
+          </div>
+          <div
+            className="single-clr-main"
+            style={
+              linkColor === "#0ED416"
+                ? { border: `1px solid ${linkColor}`, borderRadius: "100%" }
+                : null
+            }
+          >
+            <div
+              className="single-clr"
+              style={{ backgroundColor: "#0ED416" }}
+              onClick={() => dispatch(setlinkColor("#0ED416"))}
+            ></div>
+          </div>
+          <div
+            className="single-clr-main"
+            style={
+              linkColor === "#3076FF"
+                ? { border: `1px solid ${linkColor}`, borderRadius: "100%" }
+                : null
+            }
+          >
+            <div
+              className="single-clr"
+              style={{ backgroundColor: "#3076FF" }}
+              onClick={() => dispatch(setlinkColor("#3076FF"))}
+            ></div>
+          </div>
+          <div
+            className="single-clr-main"
+            style={
+              linkColor === "#F439D6"
+                ? { border: `1px solid ${linkColor}`, borderRadius: "100%" }
+                : null
+            }
+          >
+            <div
+              className="single-clr"
+              style={{ backgroundColor: "#F439D6" }}
+              onClick={() => dispatch(setlinkColor("#F439D6"))}
+            ></div>
+          </div>
+          <div
+            className="single-clr-main"
+            style={
+              linkColor === "#6732FF"
+                ? { border: `1px solid ${linkColor}`, borderRadius: "100%" }
+                : null
+            }
+          >
+            <div
+              className="single-clr"
+              style={{ backgroundColor: "#6732FF" }}
+              onClick={() => dispatch(setlinkColor("#6732FF"))}
+            ></div>
+          </div>
+          <div
+            className="single-clr-main"
+            style={
+              linkColor === "#FCE410"
+                ? { border: `1px solid ${linkColor}`, borderRadius: "100%" }
+                : null
+            }
+          >
+            <div
+              className="single-clr"
+              style={{ backgroundColor: "#FCE410" }}
+              onClick={() => dispatch(setlinkColor("#FCE410"))}
+            ></div>
+          </div>
+          <div
+            className="single-clr-main"
+            style={
+              linkColor === "#1BE4FF"
+                ? { border: `1px solid ${linkColor}`, borderRadius: "100%" }
+                : null
+            }
+          >
+            <div
+              className="single-clr"
+              style={{ backgroundColor: "#1BE4FF" }}
+              onClick={() => dispatch(setlinkColor("#1BE4FF"))}
+            ></div>
+          </div>
+          <div
+            className="single-clr-main"
+            style={
+              linkColor === "#DEA527"
+                ? { border: `1px solid ${linkColor}`, borderRadius: "100%" }
+                : null
+            }
+          >
+            <div
+              className="single-clr"
+              style={{ backgroundColor: "#DEA527" }}
+              onClick={() => dispatch(setlinkColor("#DEA527"))}
+            ></div>
+          </div>
         </div>
       </div>
 
@@ -326,7 +978,7 @@ const About = ({ id }) => {
               <MdOutlineCancel
                 style={{ fontSize: "25px" }}
                 className="prflImg-label"
-                onClick={() => dispatch(setProfileurl(null))}
+                onClick={() => dispatch(setProfileurl(""))}
               />
             ) : (
               <label
@@ -361,7 +1013,7 @@ const About = ({ id }) => {
               <MdOutlineCancel
                 style={{ fontSize: "25px" }}
                 className="coverImg-label"
-                onClick={() => dispatch(setCoverUrl(null))}
+                onClick={() => dispatch(setCoverUrl(""))}
               />
             ) : (
               <label htmlFor="coverImg" className="coverImg-label">
@@ -379,7 +1031,7 @@ const About = ({ id }) => {
             )}
 
             <img
-              src={cover ? cover : "https://placehold.co/600x180"}
+              src={cover ? cover : "https://placehold.co/500x260"}
               alt=""
               className="bg-img"
             />
@@ -455,7 +1107,7 @@ const About = ({ id }) => {
           <button
             className="update"
             onClick={() => {
-              !loading ? dispatch(submitAbout(aboutData)) : null;
+              !loading ? submitAboutData() : null;
             }}
           >
             {loading ? (

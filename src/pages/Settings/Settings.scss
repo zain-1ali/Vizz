@@ -110,7 +110,13 @@
                 font-size: 12px;
                 font-weight: 400;
                 line-height: 18px;
-                letter-spacing: 0em;
+                // letter-spacing: 18px;
+
+                // font-family: Inter;
+                // font-size: 12px;
+                // font-weight: 400;
+                // line-height: 18px;
+
                 margin-top: 6px;
                 border: none;
                 outline: none;
@@ -491,7 +497,7 @@
             position: relative;
             .bg-img {
               width: 600px;
-              height: 168px;
+              height: 260px;
               border-radius: 36px;
               margin-top: 10px;
               cursor: pointer;

@@ -63,6 +63,7 @@ const PrflPreviwModal = ({ prvModal, handlePrvModal }) => {
   //   };
 
   // Modal box style
+  let orgColor = useSelector((state) => state.profileInfoSlice.orgColor);
   const style2 = {
     position: "absolute",
     top: "50%",
@@ -116,7 +117,8 @@ const PrflPreviwModal = ({ prvModal, handlePrvModal }) => {
           </div>
           <Mobile
             mobileData={organisation?.data}
-            color={organisation?.data?.color}
+            color={orgColor}
+            // color={organisation?.data?.color}
             check="organization"
           />
         </Box>

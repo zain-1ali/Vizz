@@ -34,6 +34,7 @@ import {
   setbtnColor,
   setlinkColor,
   setlinkBgColor,
+  setShareBtnColor,
 } from "../../redux/profileInfoSlice.js";
 import { ToastContainer } from "react-toastify";
 import ShareCardModal from "../../components/Modals/ShareCardModal/ShareCardModal";
@@ -82,7 +83,8 @@ const EditCard = () => {
     dispatch(setNoteVisible(singleProfile?.data?.leadFields?.noteVisible));
     dispatch(setPoweredVizz(singleProfile?.data?.poweredVizz));
     dispatch(setTextColor(singleProfile?.data?.textColor));
-    dispatch(setbtnColor(singleProfile?.data?.btnColor));
+    dispatch(setbtnColor(singleProfile?.data?.saveBtnColor));
+    dispatch(setShareBtnColor(singleProfile?.data?.shareBtnColor));
     dispatch(setlinkColor(singleProfile?.data?.linkColor));
     dispatch(setlinkBgColor(singleProfile?.data?.linkBgColor));
   }, [singleProfile]);

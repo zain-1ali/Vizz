@@ -301,6 +301,7 @@
           display: flex;
           justify-content: space-between;
           align-items: center;
+          // border: 1px solid black;
           .icon-container {
             height: 28px;
             width: 28px;
@@ -316,7 +317,9 @@
             font-weight: 600;
             line-height: 17px;
             letter-spacing: 0em;
-            // text-align: left;
+            width: 50%;
+
+            // text-align: center;
           }
         }
 

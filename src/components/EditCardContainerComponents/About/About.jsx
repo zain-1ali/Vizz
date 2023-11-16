@@ -18,6 +18,7 @@ import {
   setPoweredVizz,
   setTextColor,
   setbtnColor,
+  setShareBtnColor,
   setlinkColor,
   setlinkBgColor,
 } from "../../../redux/profileInfoSlice.js";
@@ -44,6 +45,9 @@ const About = ({ id }) => {
   const bio = useSelector((state) => state.profileInfoSlice.bio);
   const textColor = useSelector((state) => state.profileInfoSlice.textColor);
   const btnColor = useSelector((state) => state.profileInfoSlice.btnColor);
+  const shareBtnColor = useSelector(
+    (state) => state.profileInfoSlice.shareBtnColor
+  );
   const linkBgColor = useSelector(
     (state) => state.profileInfoSlice.linkBgColor
   );
@@ -158,7 +162,8 @@ const About = ({ id }) => {
     email,
     color,
     textColor,
-    btnColor,
+    saveBtnColor: btnColor,
+    shareBtnColor,
     linkColor,
     linkBgColor,
     address,
@@ -230,6 +235,7 @@ const About = ({ id }) => {
         crop={cropPrfl}
         aspect={1 / 1}
         setReduxState={setProfileurl}
+        isCircle={true}
       />
 
       {/* --------------------------------------------croper for Cover image------------------------------------------------  */}
@@ -243,6 +249,7 @@ const About = ({ id }) => {
         crop={cropbg}
         aspect={186 / 130}
         setReduxState={setCoverUrl}
+        isCircle={false}
       />
       {/* <div className="about-upper">
         <div className="lead-direct">
@@ -546,7 +553,7 @@ const About = ({ id }) => {
       </div>
 
       <div className="select-clr-container">
-        <h2>Buttons Color</h2>
+        <h2>Save Button Color</h2>
         <div className="clrs">
           <div className="clr-pkr" style={{ border: "1px solid black" }}>
             <label
@@ -679,6 +686,145 @@ const About = ({ id }) => {
               className="single-clr"
               style={{ backgroundColor: "#DEA527" }}
               onClick={() => dispatch(setbtnColor("#DEA527"))}
+            ></div>
+          </div>
+        </div>
+      </div>
+
+      <div className="select-clr-container">
+        <h2>Share Button Color</h2>
+        <div className="clrs">
+          <div className="clr-pkr" style={{ border: "1px solid black" }}>
+            <label
+              htmlFor="sharebtnclr"
+              // style={{ height: "0px", width: "0px", opacity: "0px" }}
+            >
+              <CgColorPicker style={{ fontSize: "15px" }} />
+
+              <input
+                type="color"
+                id="sharebtnclr"
+                style={{
+                  opacity: "0px",
+                  height: "0px",
+                  width: "0px",
+                  // display: "none",
+                }}
+                onChange={(e) => dispatch(setShareBtnColor(e.target.value))}
+                value={shareBtnColor}
+              />
+            </label>
+          </div>
+          <div
+            className="single-clr-main"
+            style={
+              shareBtnColor === "#E70A0A"
+                ? { border: `1px solid ${shareBtnColor}`, borderRadius: "100%" }
+                : null
+            }
+          >
+            <div
+              className="single-clr"
+              style={{ backgroundColor: "#E70A0A" }}
+              onClick={() => dispatch(setShareBtnColor("#E70A0A"))}
+            ></div>
+          </div>
+          <div
+            className="single-clr-main"
+            style={
+              shareBtnColor === "#0ED416"
+                ? { border: `1px solid ${shareBtnColor}`, borderRadius: "100%" }
+                : null
+            }
+          >
+            <div
+              className="single-clr"
+              style={{ backgroundColor: "#0ED416" }}
+              onClick={() => dispatch(setShareBtnColor("#0ED416"))}
+            ></div>
+          </div>
+          <div
+            className="single-clr-main"
+            style={
+              shareBtnColor === "#3076FF"
+                ? { border: `1px solid ${shareBtnColor}`, borderRadius: "100%" }
+                : null
+            }
+          >
+            <div
+              className="single-clr"
+              style={{ backgroundColor: "#3076FF" }}
+              onClick={() => dispatch(setShareBtnColor("#3076FF"))}
+            ></div>
+          </div>
+          <div
+            className="single-clr-main"
+            style={
+              shareBtnColor === "#F439D6"
+                ? { border: `1px solid ${shareBtnColor}`, borderRadius: "100%" }
+                : null
+            }
+          >
+            <div
+              className="single-clr"
+              style={{ backgroundColor: "#F439D6" }}
+              onClick={() => dispatch(setShareBtnColor("#F439D6"))}
+            ></div>
+          </div>
+          <div
+            className="single-clr-main"
+            style={
+              shareBtnColor === "#6732FF"
+                ? { border: `1px solid ${shareBtnColor}`, borderRadius: "100%" }
+                : null
+            }
+          >
+            <div
+              className="single-clr"
+              style={{ backgroundColor: "#6732FF" }}
+              onClick={() => dispatch(setShareBtnColor("#6732FF"))}
+            ></div>
+          </div>
+          <div
+            className="single-clr-main"
+            style={
+              shareBtnColor === "#FCE410"
+                ? { border: `1px solid ${shareBtnColor}`, borderRadius: "100%" }
+                : null
+            }
+          >
+            <div
+              className="single-clr"
+              style={{ backgroundColor: "#FCE410" }}
+              onClick={() => dispatch(setShareBtnColor("#FCE410"))}
+            ></div>
+          </div>
+          <div
+            className="single-clr-main"
+            style={
+              shareBtnColor === "#1BE4FF"
+                ? { border: `1px solid ${shareBtnColor}`, borderRadius: "100%" }
+                : null
+            }
+          >
+            <div
+              className="single-clr"
+              style={{ backgroundColor: "#1BE4FF" }}
+              onClick={() => dispatch(setShareBtnColor("#1BE4FF"))}
+            ></div>
+          </div>
+          <div
+            className="single-clr-main"
+            style={
+              shareBtnColor === "#DEA527"
+                ? { border: `1px solid ${shareBtnColor}`, borderRadius: "100%" }
+                : null
+            }
+          >
+            <div
+              className="single-clr"
+              style={{ backgroundColor: "#DEA527" }}
+              onClick={() => dispatch(setShareBtnColor("#DEA527"))}
             ></div>
           </div>
         </div>

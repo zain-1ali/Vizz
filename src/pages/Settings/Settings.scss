@@ -505,21 +505,31 @@
               object-fit: cover;
             }
 
-            .prfl-img {
-              width: 134px;
-              height: 134px;
-              border-radius: 100%;
+            .prfl-main {
               position: absolute;
               bottom: -30px;
               left: 20px;
-              cursor: pointer;
-              border: 1px dashed #000000;
+              .prfl-img {
+                width: 134px;
+                height: 134px;
+                border-radius: 100%;
+                cursor: pointer;
+                border: 1px dashed #000000;
+              }
+
+              .prfl-img-label {
+                position: absolute;
+                top: 5px;
+                right: 5px;
+                cursor: pointer;
+              }
             }
 
-            .prfl-img-label {
+            .coverImg-label {
               position: absolute;
-              bottom: -30px;
-              left: 20px;
+              // bottom: -30px;
+              top: 5px;
+              right: -5px;
               cursor: pointer;
             }
           }

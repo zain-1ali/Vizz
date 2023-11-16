@@ -598,6 +598,26 @@ export const adminAccess = createAsyncThunk(
   }
 );
 
+export const forgotPassword = createAsyncThunk(
+  "forgotPassword",
+  async (data, { rejectWithValue }) => {
+    const response = await fetch(`${baseUrl}/api/forgotPassword`, {
+      method: "Post",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+    try {
+      const result = await response.json();
+      console.log("res");
+      return result;
+    } catch (error) {
+      rejectWithValue(error);
+    }
+  }
+);
+
 const initialState = {
   response: {},
   profiles: { data: { employees: [] } },
@@ -648,6 +668,25 @@ export const ApiSlice = createSlice({
       state.response = action.payload;
     },
     [loginUser.rejected]: (state, action) => {
+      state.submitLoading = false;
+      state.response = action.payload;
+    },
+    // )
+
+    // forgot Password
+    // (
+    [forgotPassword.pending]: (state) => {
+      state.submitLoading = true;
+    },
+
+    [forgotPassword.fulfilled]: (state, action) => {
+      action.payload.status === true
+        ? toast.success(action.payload.message)
+        : toast.error(action.payload.message);
+      state.submitLoading = false;
+      state.response = action.payload;
+    },
+    [forgotPassword.rejected]: (state, action) => {
       state.submitLoading = false;
       state.response = action.payload;
     },

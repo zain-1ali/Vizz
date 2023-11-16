@@ -27,18 +27,20 @@ const initialState = {
   qrLogo: "",
   qrColor: "black",
   textColor: "black",
+  shareBtnColor: "black",
   btnColor: "black",
   linkBgColor: "black",
   linkColor: "white",
   poweredVizz: 1,
   leadMode: 0,
   organizationLogo: "",
+  organizationCover: "",
   orgColor: "#DEA527",
   orgTextColor: "black",
   orgBtnColor: "black",
+  orgShareBtnColor: "black",
   orgLinkBgColor: "black",
   orgLinkColor: "white",
-
 };
 
 export const profileInfoSlice = createSlice({
@@ -118,20 +120,32 @@ export const profileInfoSlice = createSlice({
     setbtnColor: (state, action) => {
       state.btnColor = action.payload;
     },
+    setShareBtnColor: (state, action) => {
+      state.shareBtnColor = action.payload;
+    },
     setlinkBgColor: (state, action) => {
       state.linkBgColor = action.payload;
     },
     setlinkColor: (state, action) => {
       state.linkColor = action.payload;
     },
+    setLead: (state, action) => {
+      state.leadMode = action.payload;
+    },
+    setPoweredVizz: (state, action) => {
+      state.poweredVizz = action.payload;
+    },
 
-    // ------------------------------------org clrs methods---------------------------------------
+    // ------------------------------------org  methods---------------------------------------
 
     setOrgTextColor: (state, action) => {
       state.orgTextColor = action.payload;
     },
     setOrgbtnColor: (state, action) => {
       state.orgBtnColor = action.payload;
+    },
+    setOrgSharebtnColor: (state, action) => {
+      state.orgShareBtnColor = action.payload;
     },
     setOrglinkBgColor: (state, action) => {
       state.orgLinkBgColor = action.payload;
@@ -142,18 +156,14 @@ export const profileInfoSlice = createSlice({
     setOrgColor: (state, action) => {
       state.orgColor = action.payload;
     },
-
-    // ----------------------------------------------------
-
-    setLead: (state, action) => {
-      state.leadMode = action.payload;
-    },
-    setPoweredVizz: (state, action) => {
-      state.poweredVizz = action.payload;
+    setOrganizationCover: (state, action) => {
+      state.organizationCover = action.payload;
     },
     setOrgLogo: (state, action) => {
       state.organizationLogo = action.payload;
     },
+
+    // ----------------------------------------------------
 
     setAllNull: (state) => {
       state.name = "";
@@ -198,13 +208,16 @@ export const {
   setPoweredVizz,
   setTextColor,
   setbtnColor,
+  setShareBtnColor,
   setlinkColor,
   setlinkBgColor,
   setOrgColor,
   setOrglinkColor,
   setOrglinkBgColor,
   setOrgbtnColor,
+  setOrgSharebtnColor,
   setOrgTextColor,
+  setOrganizationCover,
 } = profileInfoSlice.actions;
 
 export default profileInfoSlice.reducer;

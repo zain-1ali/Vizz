@@ -33,8 +33,13 @@ import {
   setOrglinkColor,
   setOrglinkBgColor,
   setOrgbtnColor,
+  setOrgSharebtnColor,
+  // setOrgShareBtnColor
+  setOrganizationCover,
 } from "../../redux/profileInfoSlice";
 import HelpModal from "../../components/Modals/HelpModal/HelpModal";
+import { GrAddCircle } from "react-icons/gr";
+import { MdOutlineCancel } from "react-icons/md";
 
 const Settings = () => {
   let dispatch = useDispatch();
@@ -64,6 +69,9 @@ const Settings = () => {
   let orgColor = useSelector((state) => state.profileInfoSlice.orgColor);
 
   let orgBtnColor = useSelector((state) => state.profileInfoSlice.orgBtnColor);
+  let orgShareBtnColor = useSelector(
+    (state) => state.profileInfoSlice.orgShareBtnColor
+  );
 
   let orgLinkBgColor = useSelector(
     (state) => state.profileInfoSlice.orgLinkBgColor
@@ -71,6 +79,10 @@ const Settings = () => {
 
   let orgLinkColor = useSelector(
     (state) => state.profileInfoSlice.orgLinkColor
+  );
+
+  let orgCover = useSelector(
+    (state) => state.profileInfoSlice.organizationCover
   );
 
   console.log(organisation?.data);
@@ -89,12 +101,14 @@ const Settings = () => {
     dispatch(setOrgLogo(organisation?.data?.logoUrl));
     dispatch(setOrgTextColor(organisation?.data?.textColor));
 
-    dispatch(setOrgbtnColor(organisation?.data?.btnColor));
+    dispatch(setOrgbtnColor(organisation?.data?.saveBtnColor));
+    dispatch(setOrgSharebtnColor(organisation?.data?.shareBtnColor));
     dispatch(setOrgColor(organisation?.data?.color));
     dispatch(setOrglinkColor(organisation?.data?.linkColor));
     dispatch(setOrglinkBgColor(organisation?.data?.linkBgColor));
+    dispatch(setOrganizationCover(organisation?.data?.coverUrl));
 
-    setshowbgimg(organisation?.data?.coverUrl);
+    // setshowbgimg(organisation?.data?.coverUrl);
   }, [organisation?.data]);
   // console.log(orgTextColor);
   let [prflimg, setprflimg] = useState(null);
@@ -161,6 +175,7 @@ const Settings = () => {
       const reader = new FileReader();
       reader.readAsDataURL(files[0]);
       reader.addEventListener("load", () => {
+        // dispatch(setOrgLogo(reader.result));
         setbgimg(reader.result);
         // dispatch(setProfileImg(reader.result))
 
@@ -175,9 +190,9 @@ const Settings = () => {
   const responce = useSelector((state) => state.ApiSlice.response);
   console.log(responce);
 
-  showbgimg?.slice(0, 8) === "https://"
+  orgCover?.slice(0, 8) === "https://"
     ? null
-    : (organizationBtmData.coverUrl = showbgimg?.split("base64,")[1]);
+    : (organizationBtmData.coverUrl = orgCover?.split("base64,")[1]);
 
   organizationLogo?.slice(0, 8) === "https://"
     ? null
@@ -210,6 +225,7 @@ const Settings = () => {
           crop={cropPrfl}
           aspect={1 / 1}
           setReduxState={setOrgLogo}
+          isCircle={true}
         />
 
         {/* --------------------------------------------croper for Cover image------------------------------------------------  */}
@@ -222,8 +238,9 @@ const Settings = () => {
           setcrop={setCropbg}
           crop={cropbg}
           aspect={186 / 130}
-          setReduxState={setshowbgimg}
-          isSettings={true}
+          setReduxState={setOrganizationCover}
+          // isSettings={true}
+          isCircle={false}
         />
         <LinksModal />
         <HelpModal handlehelpModal={handlehelpModal} helpmodal={helpmodal} />
@@ -506,43 +523,59 @@ const Settings = () => {
               </div>
 
               <div className="imgs-input">
-                <label
-                  htmlFor="prflImg"
-                  // style={{ border: "1px solid black" }}
-
-                  // className="prfl-img"
-                >
+                <div htmlFor="prflImg" className="prfl-main">
+                  {organizationLogo ? (
+                    <MdOutlineCancel
+                      style={{ fontSize: "25px" }}
+                      className="prfl-img-label"
+                      onClick={() => dispatch(setOrgLogo(""))}
+                    />
+                  ) : (
+                    <label htmlFor="prflImg" className="prfl-img-label">
+                      {<GrAddCircle style={{ fontSize: "25px" }} />}
+                      <input
+                        type="file"
+                        name="prflImg"
+                        id="prflImg"
+                        style={{ opacity: 0, width: "0px", height: "0px" }}
+                        onChange={handlePrflImageChange}
+                      />
+                    </label>
+                  )}
                   <img
                     src={organizationLogo ? organizationLogo : prflplaceholder}
                     alt=""
                     className="prfl-img"
-                    // style={{ border: "1px solid black" }}
                   />
-                  <input
-                    type="file"
-                    name="prflImg"
-                    id="prflImg"
-                    style={{ opacity: 0, width: "0px", height: "0px" }}
-                    onChange={handlePrflImageChange}
-                  />
-                </label>
+                </div>
 
-                <label htmlFor="coverImg">
+                {orgCover ? (
+                  <MdOutlineCancel
+                    style={{ fontSize: "25px" }}
+                    className="coverImg-label"
+                    onClick={() => dispatch(setOrganizationCover(""))}
+                  />
+                ) : (
+                  <label htmlFor="coverImg" className="coverImg-label">
+                    {<GrAddCircle style={{ fontSize: "25px" }} />}
+                    <input
+                      type="file"
+                      name="coverImg"
+                      id="coverImg"
+                      // className="opacity-0 w-[0px] h-[0px]"
+                      style={{ opacity: 0, width: "0px", height: "0px" }}
+                      onChange={handlebgImageChange}
+                      //   ,setlogoImg,setBgImg
+                    />
+                  </label>
+                )}
+                <div htmlFor="coverImg">
                   <img
-                    src={showbgimg ? showbgimg : bgplaceholder}
+                    src={orgCover ? orgCover : bgplaceholder}
                     alt=""
                     className="bg-img"
                   />
-                  <input
-                    type="file"
-                    name="coverImg"
-                    id="coverImg"
-                    // className="opacity-0 w-[0px] h-[0px]"
-                    style={{ opacity: 0, width: "0px", height: "0px" }}
-                    onChange={handlebgImageChange}
-                    //   ,setlogoImg,setBgImg
-                  />
-                </label>
+                </div>
               </div>
 
               <div className="page-appearence">
@@ -629,7 +662,7 @@ const Settings = () => {
 
                 <div className="twice-colors">
                   <div className="single-color-field-upper">
-                    Buttons color
+                    Save button color
                     <div className="single-color-field">
                       <div
                         className="color-circle"
@@ -656,30 +689,34 @@ const Settings = () => {
                       </label>
                     </div>
                   </div>
+
                   <div className="single-color-field-upper">
-                    Link color
+                    Share button color
                     <div className="single-color-field">
                       <div
                         className="color-circle"
-                        style={{ backgroundColor: orgLinkColor }}
+                        style={{ backgroundColor: orgShareBtnColor }}
                       ></div>
-                      {orgLinkColor}
-                      <label htmlFor="linkclr" className="color-picker-circle">
+                      {orgShareBtnColor}
+                      <label
+                        htmlFor="sharebtnclr"
+                        className="color-picker-circle"
+                      >
                         <div>
                           <CgColorPicker style={{ fontSize: "20px" }} />
                         </div>
                         <input
                           type="color"
-                          id="linkclr"
+                          id="sharebtnclr"
                           style={{
                             opacity: "0px",
                             height: "0px",
                             width: "0px",
                           }}
                           onChange={(e) =>
-                            dispatch(setOrglinkColor(e.target.value))
+                            dispatch(setOrgSharebtnColor(e.target.value))
                           }
-                          value={orgLinkColor}
+                          value={orgShareBtnColor}
                         />
                       </label>
                     </div>
@@ -713,6 +750,35 @@ const Settings = () => {
                             dispatch(setOrglinkBgColor(e.target.value))
                           }
                           value={orgLinkBgColor}
+                        />
+                      </label>
+                    </div>
+                  </div>
+
+                  <div className="single-color-field-upper">
+                    Link color
+                    <div className="single-color-field">
+                      <div
+                        className="color-circle"
+                        style={{ backgroundColor: orgLinkColor }}
+                      ></div>
+                      {orgLinkColor}
+                      <label htmlFor="linkclr" className="color-picker-circle">
+                        <div>
+                          <CgColorPicker style={{ fontSize: "20px" }} />
+                        </div>
+                        <input
+                          type="color"
+                          id="linkclr"
+                          style={{
+                            opacity: "0px",
+                            height: "0px",
+                            width: "0px",
+                          }}
+                          onChange={(e) =>
+                            dispatch(setOrglinkColor(e.target.value))
+                          }
+                          value={orgLinkColor}
                         />
                       </label>
                     </div>
@@ -759,7 +825,8 @@ const Settings = () => {
                         textColor: orgTextColor,
                         linkBgColor: orgLinkBgColor,
                         linkColor: orgLinkColor,
-                        btnColor: orgBtnColor,
+                        saveBtnColor: orgBtnColor,
+                        shareBtnColor: orgShareBtnColor,
                       })
                     )
                   }

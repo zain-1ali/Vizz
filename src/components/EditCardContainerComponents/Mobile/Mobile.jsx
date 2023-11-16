@@ -65,6 +65,9 @@ const Mobile = ({ mobileData, color, check, linkInfo }) => {
 
   const textColor = useSelector((state) => state.profileInfoSlice.textColor);
   const btnColor = useSelector((state) => state.profileInfoSlice.btnColor);
+  const shareBtnColor = useSelector(
+    (state) => state.profileInfoSlice.shareBtnColor
+  );
   const linkBgColor = useSelector(
     (state) => state.profileInfoSlice.linkBgColor
   );
@@ -79,6 +82,9 @@ const Mobile = ({ mobileData, color, check, linkInfo }) => {
   let orgColor = useSelector((state) => state.profileInfoSlice.orgColor);
 
   let orgBtnColor = useSelector((state) => state.profileInfoSlice.orgBtnColor);
+  let orgShareBtnColor = useSelector(
+    (state) => state.profileInfoSlice.orgShareBtnColor
+  );
 
   let orgLinkBgColor = useSelector(
     (state) => state.profileInfoSlice.orgLinkBgColor
@@ -281,7 +287,7 @@ const Mobile = ({ mobileData, color, check, linkInfo }) => {
                     style={{
                       color: check === "user" ? textColor : orgTextColor,
                       backgroundColor:
-                        check === "user" ? btnColor : orgBtnColor,
+                        check === "user" ? shareBtnColor : orgShareBtnColor,
                     }}
                   >
                     <FaShareSquare

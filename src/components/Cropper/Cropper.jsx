@@ -15,6 +15,7 @@ const Cropper = ({
   aspect,
   setReduxState,
   isSettings,
+  isCircle,
 }) => {
   let dispatch = useDispatch();
 
@@ -89,6 +90,7 @@ const Cropper = ({
             onChange={(c) => {
               setcrop(c);
             }}
+            circularCrop={isCircle}
             aspect={aspect}
           >
             <img

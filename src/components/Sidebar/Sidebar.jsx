@@ -16,11 +16,13 @@ import CustomModal from "../Modals/CustomModal/CustomModal";
 import LogoutModal from "../Modals/LogoutModal/LogoutModal";
 import { getOrganization } from "../../redux/ApisSlice";
 import { setOrgLogo } from "../../redux/profileInfoSlice";
+import { BsBuildingsFill } from "react-icons/bs";
 
 const Sidebar = () => {
   let navigate = useNavigate();
   let pathname = window.location.pathname;
   let dispatch = useDispatch();
+  let vizzRole = localStorage.getItem("vizzRole");
   let [logoutmodal, setlogoutmodal] = useState(false);
   let handleLogoutModal = () => {
     setlogoutmodal(!logoutmodal);
@@ -68,45 +70,54 @@ const Sidebar = () => {
               : null
           }
         >
-          <BsPersonFill className="optionicon" />
-          <p>Profiles</p>
+          {vizzRole === "admin" ? (
+            <BsBuildingsFill className="optionicon" />
+          ) : (
+            <BsPersonFill className="optionicon" />
+          )}
+
+          <p>{vizzRole === "teamAdmin" ? "Profiles" : "Companies"}</p>
         </div>
-        <div
-          className="single-option"
-          onClick={() => navigate("/contacts")}
-          style={
-            pathname === "/contacts"
-              ? { backgroundColor: "rgba(47, 47, 47, 1)" }
-              : null
-          }
-        >
-          <BsPersonVcardFill className="optionicon" />
-          <p>Contacts</p>
-        </div>
-        <div
-          className="single-option"
-          onClick={() => navigate("/analyticsPage")}
-          style={
-            pathname === "/analyticsPage"
-              ? { backgroundColor: "rgba(47, 47, 47, 1)" }
-              : null
-          }
-        >
-          <SiGoogleanalytics className="optionicon" />
-          <p>Analytics</p>
-        </div>
-        <div
-          className="single-option"
-          onClick={() => navigate("/settings")}
-          style={
-            pathname === "/settings"
-              ? { backgroundColor: "rgba(47, 47, 47, 1)" }
-              : null
-          }
-        >
-          <IoMdSettings className="optionicon" />
-          <p>Settings</p>
-        </div>
+        {vizzRole === "teamAdmin" && (
+          <>
+            <div
+              className="single-option"
+              onClick={() => navigate("/contacts")}
+              style={
+                pathname === "/contacts"
+                  ? { backgroundColor: "rgba(47, 47, 47, 1)" }
+                  : null
+              }
+            >
+              <BsPersonVcardFill className="optionicon" />
+              <p>Contacts</p>
+            </div>
+            <div
+              className="single-option"
+              onClick={() => navigate("/analyticsPage")}
+              style={
+                pathname === "/analyticsPage"
+                  ? { backgroundColor: "rgba(47, 47, 47, 1)" }
+                  : null
+              }
+            >
+              <SiGoogleanalytics className="optionicon" />
+              <p>Analytics</p>
+            </div>
+            <div
+              className="single-option"
+              onClick={() => navigate("/settings")}
+              style={
+                pathname === "/settings"
+                  ? { backgroundColor: "rgba(47, 47, 47, 1)" }
+                  : null
+              }
+            >
+              <IoMdSettings className="optionicon" />
+              <p>Settings</p>
+            </div>
+          </>
+        )}
       </div>
       <button className="logoutbtn" onClick={() => handleLogoutModal()}>
         <RiLogoutCircleLine className="logouticon" />

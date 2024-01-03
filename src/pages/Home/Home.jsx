@@ -65,6 +65,7 @@ const Home = () => {
     setfiltered(result);
   }, [search]);
 
+  console.log(filtered);
   // -------------------------------------------------Sort functionality-------------------------------------------------
 
   const sortByAscending = () => {
@@ -149,7 +150,7 @@ const Home = () => {
                       filtered?.length < 2 ? { marginRight: "100px" } : null
                     }
                   >
-                    <ContactCard data={elm} />
+                    <ContactCard data={elm} vizzRole={vizzRole} />
                   </div>
                 );
               })}

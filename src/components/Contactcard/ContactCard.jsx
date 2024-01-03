@@ -15,8 +15,9 @@ import { AiFillEye } from "react-icons/ai";
 import DeleteCardModal from "../Modals/DeleteCardModal/DeleteCardModal";
 import { deleteEmployee } from "../../redux/ApisSlice";
 import ShareCardModal from "../Modals/ShareCardModal/ShareCardModal";
+import { MdEmail } from "react-icons/md";
 
-const ContactCard = ({ data }) => {
+const ContactCard = ({ data, vizzRole }) => {
   const navigate = useNavigate();
   let dispatch = useDispatch();
   let returnString = (str, numVal) => {
@@ -138,7 +139,7 @@ const ContactCard = ({ data }) => {
         {data?.phone && (
           <div className="phone-container">
             <FaPhoneAlt style={{ fontSize: "12px", marginRight: "4px" }} />
-            <p className="phone-text">{returnString(data?.phone, 52)}</p>
+            <p className="phone-text">{returnString(data?.phone, 15)}</p>
           </div>
         )}
         {data?.bio && (
@@ -155,29 +156,42 @@ const ContactCard = ({ data }) => {
           </div>
         )}
 
-        {data?.address && (
-          <div className="location-container">
-            <MdLocationOn style={{ fontSize: "15px", marginRight: "4px" }} />
-            <p className="location-text">{returnString(data?.address, 52)}</p>
-          </div>
-        )}
+        {vizzRole === "teamAdmin"
+          ? data?.address && (
+              <div className="location-container">
+                <MdLocationOn
+                  style={{ fontSize: "15px", marginRight: "4px" }}
+                />
+                <p className="location-text">
+                  {returnString(data?.address, 52)}
+                </p>
+              </div>
+            )
+          : data?.email && (
+              <div className="location-container">
+                <MdEmail style={{ fontSize: "15px", marginRight: "4px" }} />
+                <p className="location-text">{returnString(data?.email, 52)}</p>
+              </div>
+            )}
       </div>
       <div className="btn-main">
-        <button
-          className="editbtn"
-          onClick={() => {
-            navigate(`/editcard/${data?.id}`);
-            // dispatch(setAllNull());
-          }}
-        >
-          <BiSolidPencil
-            style={{
-              fontSize: "12px",
-              marginRight: "3px",
+        {vizzRole === "teamAdmin" && (
+          <button
+            className="editbtn"
+            onClick={() => {
+              navigate(`/editcard/${data?.id}`);
+              // dispatch(setAllNull());
             }}
-          />
-          Edit Card
-        </button>
+          >
+            <BiSolidPencil
+              style={{
+                fontSize: "12px",
+                marginRight: "3px",
+              }}
+            />
+            Edit Card
+          </button>
+        )}
         <button className="sharebtn" onClick={() => handleShareModal()}>
           <BsShareFill
             style={{

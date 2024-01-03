@@ -17,7 +17,8 @@ const Login = () => {
   });
   let [showPass, setShowPass] = useState(false);
   let handleShowPass = () => {
-    setShowPass(!showPass);
+    // setShowPass(!showPass);
+    setShowPass(true);
   };
   let dispatch = useDispatch();
   let successNavigation = () => {
@@ -62,14 +63,16 @@ const Login = () => {
           />
 
           <div className="eye-container">
-            {showPass ? (
+            {showPass === true ? (
               <PiEyeClosedBold
-                onClick={() => handleShowPass()}
+                // onClick={() => handleShowPass()}
+                onClick={() => setShowPass(false)}
                 style={{ fontSize: "20px" }}
               />
             ) : (
               <PiEyeBold
-                onClick={() => handleShowPass()}
+                // onClick={() => handleShowPass()}
+                onClick={() => setShowPass(true)}
                 style={{ fontSize: "20px" }}
               />
             )}

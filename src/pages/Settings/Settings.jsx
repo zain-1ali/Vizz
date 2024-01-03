@@ -58,7 +58,10 @@ const Settings = () => {
   let [fontClr, setFontClr] = useState("black");
   let [showprfl, setshowprfl] = useState(null);
   let [showbgimg, setshowbgimg] = useState(null);
+  let [orgId, setOrgId] = useState(null);
   let organisation = useSelector((state) => state.ApiSlice.organization);
+  console.log(organisation);
+
   let organizationLogo = useSelector(
     (state) => state.profileInfoSlice.organizationLogo
   );
@@ -87,6 +90,11 @@ const Settings = () => {
 
   console.log(organisation?.data);
   useEffect(() => {
+    organisation?.data?.admins?.map((elm) => {
+      if (elm?.email === organisation?.data?.email) {
+        setOrgId(elm?.id);
+      }
+    });
     setData({
       name: organisation?.data?.name,
       email: organisation?.data?.email,
@@ -789,9 +797,7 @@ const Settings = () => {
                 <div
                   className="preview"
                   onClick={() => {
-                    navigator.clipboard.writeText(
-                      profileUrl + organisation?.data?.id
-                    ),
+                    navigator.clipboard.writeText(profileUrl + orgId),
                       toast.success("Profile url copied to clipboard");
                   }}
                 >

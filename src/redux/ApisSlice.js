@@ -129,6 +129,7 @@ export const submitAbout = createAsyncThunk(
     try {
       const result = await response.json();
       console.log("res", result);
+
       return result;
     } catch (error) {
       rejectWithValue(error);
@@ -752,6 +753,9 @@ export const ApiSlice = createSlice({
 
       state.submitLoading = false;
       state.response = action.payload;
+      console.log(action.payload);
+      state.singleEmployee = action.payload;
+      // getEmployee(action.payload?.data?.id);
     },
     [submitAbout.rejected]: (state, action) => {
       toast.error(action.payload.message);
@@ -971,6 +975,7 @@ export const ApiSlice = createSlice({
         : toast.error(action.payload.message);
       state.submitLoading = false;
       state.response = action.payload;
+      console.log(action.payload);
     },
     [updateLead.rejected]: (state, action) => {
       state.submitLoading = false;

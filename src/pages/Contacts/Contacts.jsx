@@ -158,7 +158,7 @@ const Contacts = () => {
                     These are the contacts you have received if contact exchange
                     is enabled on your profile.
                   </p>
-                  <h2 className="learn-more">Learn more</h2>
+                  {/* <h2 className="learn-more">Learn more</h2> */}
                 </div>
               </div>
             </div>

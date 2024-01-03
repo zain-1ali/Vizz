@@ -24,7 +24,7 @@ import {
 } from "../../../redux/profileInfoSlice.js";
 import { useSelector } from "react-redux";
 import Cropper from "../../Cropper/Cropper";
-import { submitAbout } from "../../../redux/ApisSlice";
+import { getEmployee, submitAbout } from "../../../redux/ApisSlice";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.min.css";
 import { CgColorPicker } from "react-icons/cg";
@@ -168,6 +168,7 @@ const About = ({ id }) => {
     linkBgColor,
     address,
     bio,
+    phone,
     designation,
   };
 
@@ -183,6 +184,7 @@ const About = ({ id }) => {
     cover === "" ? (aboutData.coverUrl = "") : null;
     profile === "" ? (aboutData.profileUrl = "") : null;
     dispatch(submitAbout(aboutData));
+    // dispatch(getEmployee(id));
   };
 
   // let profileAdded = profile.slice(0, 8) === "https://" ? true : false;

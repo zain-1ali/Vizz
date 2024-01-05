@@ -20,6 +20,8 @@ export const loginUser = createAsyncThunk(
       const result = await response.json();
       localStorage.setItem("vizzToken", result?.data?.token);
       localStorage.setItem("vizzRole", result?.data?.role);
+      localStorage.setItem("orgId", result?.data?.organizationId);
+
       console.log(result);
       if (result?.status === true) {
         data.successNavigation();
@@ -32,6 +34,7 @@ export const loginUser = createAsyncThunk(
   }
 );
 let theToken = localStorage.getItem("vizzToken")?.split("|");
+let orgid = localStorage?.getItem("orgId");
 
 export const signOutUser = createAsyncThunk(
   "signOutUser",
@@ -325,12 +328,8 @@ export const rearrangeUserLinks = createAsyncThunk(
 export const getOrganization = createAsyncThunk(
   "getOrganization",
   async (data, { rejectWithValue }) => {
-    const response = await fetch(`${baseUrl}/api/getOrganization`, {
-      headers: {
-        Authorization: `Bearer ${theToken[1]}`,
-      },
-    });
-    console.log("org1");
+    const response = await fetch(`${baseUrl}/api/getOrganization/${orgid}`);
+    console.log(data);
     try {
       const result = await response.json();
       // dispatch(setName(result?.data?.name));
@@ -422,7 +421,7 @@ export const updateLead = createAsyncThunk(
     });
     try {
       const result = await response.json();
-      // console.log("res");
+      console.log(result);
       return result;
     } catch (error) {
       rejectWithValue(error);
@@ -619,9 +618,26 @@ export const forgotPassword = createAsyncThunk(
   }
 );
 
+export const deleteOrg = createAsyncThunk(
+  "deleteOrganization",
+  async (id, { rejectWithValue }) => {
+    const response = await fetch(`${baseUrl}/api/deleteOrganization/${id}`, {
+      headers: {
+        Authorization: `Bearer ${theToken[1]}`,
+      },
+    });
+    try {
+      const result = await response.json();
+      return result;
+    } catch (error) {
+      rejectWithValue(error);
+    }
+  }
+);
+
 const initialState = {
   response: {},
-  profiles: { data: { employees: [] } },
+  profiles: {},
   allLinks: {},
   singleEmployee: {},
   addedLinks: {},
@@ -1115,6 +1131,29 @@ export const ApiSlice = createSlice({
       toast.error(action.payload.message);
       state.response = action.payload;
     },
+
+    // delete Org
+    // (
+    [deleteOrg.pending]: (state) => {
+      // state.analyticsLoading = true;
+    },
+
+    [deleteOrg.fulfilled]: (state, action) => {
+      // state.analyticsLoading = false;
+      console.log(action.payload);
+      action.payload.status === true
+        ? toast.success(action.payload.message)
+        : toast.error(action.payload.message);
+
+      if (action.payload.status === true) {
+        state.profiles = action.payload;
+      }
+      state.response = action.payload;
+    },
+    [deleteOrg.rejected]: (state, action) => {
+      toast.error(action.payload.message);
+      state.response = action.payload;
+    },
     // )
     // get All Organization
     // (
@@ -1146,8 +1185,8 @@ export const ApiSlice = createSlice({
 
       state.submitLoading = false;
       state.response = action.payload;
-      if (action.payload?.data?.name) {
-        state.profiles?.data?.employees?.push(action.payload?.data);
+      if (action.payload?.status === true) {
+        state.profiles = action.payload;
       }
 
       console.log(action.payload);

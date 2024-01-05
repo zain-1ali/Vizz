@@ -61,7 +61,7 @@ const About = ({ id }) => {
   );
   const responce = useSelector((state) => state.ApiSlice.response);
 
-  console.log(cover);
+  console.log(singleProfile?.data?.btnColor);
 
   let handleCancel = () => {
     dispatch(setName(singleProfile?.data?.name));
@@ -75,7 +75,8 @@ const About = ({ id }) => {
     dispatch(setAddress(singleProfile?.data?.address));
     dispatch(setBio(singleProfile?.data?.bio));
     dispatch(setDesignation(singleProfile?.data?.designation));
-    dispatch(setbtnColor(singleProfile?.data?.btnColor));
+    dispatch(setbtnColor(singleProfile?.data?.saveBtnColor));
+    dispatch(setShareBtnColor(singleProfile?.data?.shareBtnColor));
     dispatch(setlinkColor(singleProfile?.data?.linkColor));
     dispatch(setlinkBgColor(singleProfile?.data?.linkBgColor));
   };

@@ -14,14 +14,22 @@ import Contacts from "./pages/Contacts/Contacts";
 import Settings from "./pages/Settings/Settings";
 import { ToastContainer } from "react-toastify";
 // import Analytics from "./pages/Analytics/AnalyticsPage";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Loader from "./components/Loader/Loader";
 import Forget from "./pages/ForgetPassword/Forget";
 import AnalyticsPage from "./pages/Analytics/AnalyticsPage";
+import { useEffect } from "react";
+import { getOrganization } from "./redux/ApisSlice";
+import { setOrgLogo } from "./redux/profileInfoSlice";
+import Sidebar from "./components/Sidebar/Sidebar";
 // import PrivateRoute from "./PrivateRoute";
 // import Analytics from "./pages/Analytics/Analytics";
 function App() {
   let width = screen.width;
+  // let dispatch = useDispatch();
+  // useEffect(() => {
+  //   dispatch(getOrganization());
+  // }, []);
   let theToken = localStorage.getItem("vizzToken");
   const RequireAuth = ({ children }) => {
     return theToken ? children : <Navigate to="/" />;

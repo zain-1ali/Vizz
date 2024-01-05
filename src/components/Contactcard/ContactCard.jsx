@@ -13,7 +13,7 @@ import { useDispatch } from "react-redux";
 import { Button, IconButton, Menu, MenuItem } from "@mui/material";
 import { AiFillEye } from "react-icons/ai";
 import DeleteCardModal from "../Modals/DeleteCardModal/DeleteCardModal";
-import { deleteEmployee } from "../../redux/ApisSlice";
+import { deleteEmployee, deleteOrg } from "../../redux/ApisSlice";
 import ShareCardModal from "../Modals/ShareCardModal/ShareCardModal";
 import { MdEmail } from "react-icons/md";
 
@@ -50,7 +50,11 @@ const ContactCard = ({ data, vizzRole }) => {
   let profileUrl = import.meta.env.VITE_PROFILE_URL;
   console.log(profileUrl);
   let OpenProfile = (id) => {
-    window.open(profileUrl + id);
+    if (vizzRole === "admin") {
+      window.open(`${profileUrl}isOrg/` + id);
+    } else {
+      window.open(profileUrl + id);
+    }
   };
   let [shareModal, setShareModal] = useState(false);
   let handleShareModal = () => {
@@ -70,6 +74,10 @@ const ContactCard = ({ data, vizzRole }) => {
         deleteEmployee={() => {
           dispatch(deleteEmployee(data?.id)), handledeleteModal();
         }}
+        deleteOrg={() => {
+          dispatch(deleteOrg(data?.id)), handledeleteModal();
+        }}
+        vizzRole={vizzRole}
       />
 
       <div className="card-imgs">

@@ -21,6 +21,8 @@ const DeleteCardModal = ({
   handledeleteModal,
   deletemodal,
   deleteEmployee,
+  deleteOrg,
+  vizzRole,
 }) => {
   // console.log(link);
 
@@ -47,6 +49,14 @@ const DeleteCardModal = ({
   //   deleteSingleLead()
   // };
 
+  let returnDel = () => {
+    if (vizzRole === "admin") {
+      deleteOrg();
+    } else {
+      deleteEmployee();
+    }
+  };
+
   return (
     <>
       <Modal
@@ -65,7 +75,7 @@ const DeleteCardModal = ({
                 <button className="editbtn" onClick={() => handledeleteModal()}>
                   Cancel
                 </button>
-                <button className="sharebtn" onClick={() => deleteEmployee()}>
+                <button className="sharebtn" onClick={() => returnDel()}>
                   Sure
                 </button>
               </div>

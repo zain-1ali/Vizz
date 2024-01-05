@@ -18,7 +18,10 @@ const Home = () => {
   let dispatch = useDispatch();
   let vizzRole = localStorage.getItem("vizzRole");
   console.log(vizzRole);
-
+  let organizationLogo = useSelector(
+    (state) => state.profileInfoSlice.organizationLogo
+  );
+  console.log(organizationLogo);
   let profilesLoading = useSelector((state) => state.ApiSlice.profilesLoading);
   let [filtered, setfiltered] = useState([]);
   useEffect(() => {
@@ -31,9 +34,13 @@ const Home = () => {
 
   let allProfiles = useSelector((state) => state.ApiSlice.profiles);
   let resp = useSelector((state) => state.ApiSlice.response);
-  console.log(resp);
-
   console.log(allProfiles);
+
+  // console.log(allProfiles.data);
+
+  // useEffect(() => {
+  //   localStorage.setItem("orgId", allProfiles?.data?.id);
+  // }, [allProfiles]);
 
   let employees = allProfiles?.data?.employees;
 
@@ -56,13 +63,21 @@ const Home = () => {
   //---------------------------------------------------(search functionality)-----------------------------------------------
 
   let [search, setsearch] = useState("");
-
+  console.log(employees);
   useEffect(() => {
-    const result = employees?.filter((user) => {
-      return user?.name.toLowerCase().match(search.toLowerCase());
-    });
+    if (vizzRole === "admin") {
+      const result = allProfiles?.data?.filter((user) => {
+        return user?.name.toLowerCase().match(search.toLowerCase());
+      });
+      setfiltered(result);
+    } else {
+      const result2 = employees?.filter((user) => {
+        return user?.name.toLowerCase().match(search.toLowerCase());
+      });
+      setfiltered(result2);
+    }
 
-    setfiltered(result);
+    // console.log(result);
   }, [search]);
 
   console.log(filtered);

@@ -43,9 +43,11 @@ import { MdOutlineCancel } from "react-icons/md";
 
 const Settings = () => {
   let dispatch = useDispatch();
+  let orgid = localStorage?.getItem("orgId");
   useEffect(() => {
-    dispatch(getOrganization());
+    dispatch(getOrganization(orgid));
   }, []);
+
   let loading = useSelector((state) => state.ApiSlice.submitLoading);
   let [data, setData] = useState({
     name: "",
@@ -797,7 +799,9 @@ const Settings = () => {
                 <div
                   className="preview"
                   onClick={() => {
-                    navigator.clipboard.writeText(profileUrl + orgId),
+                    navigator.clipboard.writeText(
+                      profileUrl + "isOrg/" + organisation?.data?.id
+                    ),
                       toast.success("Profile url copied to clipboard");
                   }}
                 >

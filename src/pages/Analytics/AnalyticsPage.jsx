@@ -36,16 +36,16 @@ const AnalyticsPage = () => {
     }
   };
   let [value, setValue] = useState({
-    startDate: `${theDate.getFullYear()}-${
+    startDate: `${theDate.getFullYear()}-${chekAndChangeDayFormate(
       theDate.getMonth() + 1
-    }-${chekAndChangeDayFormate(theDate.getDate())}`,
-    endDate: `${theDate.getFullYear()}-${
+    )}-${chekAndChangeDayFormate(theDate.getDate())}`,
+    endDate: `${theDate.getFullYear()}-${chekAndChangeDayFormate(
       theDate.getMonth() + 1
-    }-${chekAndChangeDayFormate(theDate.getDate())}`,
+    )}-${chekAndChangeDayFormate(theDate.getDate())}`,
   });
   console.log(
     // `${theDate.getFullYear()}-${theDate.getMonth() + 1}-${theDate.getDate()}`
-    value.startDate
+    value
   );
   useEffect(() => {
     dispatch(getEmpNames());

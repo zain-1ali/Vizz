@@ -209,9 +209,9 @@ const Lead = ({ userId }) => {
 
         <div className="btns-main">
           <div className="btns-inner">
-            <button className="cancel" onClick={() => handleCancelBtn()}>
+            {/* <button className="cancel" onClick={() => handleCancelBtn()}>
               Cancel
-            </button>
+            </button> */}
             <button
               className="update"
               onClick={() => {

@@ -28,18 +28,29 @@ const Sidebar = () => {
     setlogoutmodal(!logoutmodal);
   };
 
+  let orgId = localStorage.getItem("orgId");
+  console.log(orgId);
+  let organisation = useSelector((state) => state.ApiSlice.organization);
+  let organizationLogo = useSelector(
+    (state) => state.profileInfoSlice.organizationLogo
+  );
   useEffect(() => {
     dispatch(getOrganization());
   }, []);
-  let organisation = useSelector((state) => state.ApiSlice.organization);
 
   useEffect(() => {
     dispatch(setOrgLogo(organisation?.data?.logoUrl));
   }, [organisation]);
 
-  let organizationLogo = useSelector(
-    (state) => state.profileInfoSlice.organizationLogo
-  );
+  let returnLogo = () => {
+    if (vizzRole === "teamAdmin") {
+      return organizationLogo
+        ? organizationLogo
+        : "https://placehold.co/110x110";
+    } else {
+      return vizzlogo;
+    }
+  };
 
   return (
     <div className="sidebar-main">
@@ -49,14 +60,7 @@ const Sidebar = () => {
       />
       <div className="logo-main">
         <div className="logo-inner">
-          <img
-            src={
-              organizationLogo
-                ? organizationLogo
-                : "https://placehold.co/110x110"
-            }
-            alt="logo"
-          />
+          <img src={returnLogo()} alt="logo" />
         </div>
       </div>
 

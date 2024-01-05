@@ -267,40 +267,41 @@ const Mobile = ({ mobileData, color, check, linkInfo }) => {
                   </div>
                 </div>
               </div>
-              <div className="btns-div">
-                <div className="btns-inner">
-                  <div
-                    className="btn1"
-                    style={{
-                      backgroundColor:
-                        check === "user" ? btnColor : orgBtnColor,
-                      color: check === "user" ? textColor : orgTextColor,
-                    }}
-                  >
-                    <IoMdDownload
-                      style={{ marginRight: "3px", fontSize: "13px" }}
-                    />
-                    Save Contact
-                  </div>
-                  <div
-                    className="btn2"
-                    style={{
-                      color: check === "user" ? textColor : orgTextColor,
-                      backgroundColor:
-                        check === "user" ? shareBtnColor : orgShareBtnColor,
-                    }}
-                  >
-                    <FaShareSquare
+              {check != "organization" && (
+                <div className="btns-div">
+                  <div className="btns-inner">
+                    <div
+                      className="btn1"
                       style={{
-                        marginRight: "3px",
+                        backgroundColor:
+                          check === "user" ? btnColor : orgBtnColor,
                         color: check === "user" ? textColor : orgTextColor,
                       }}
-                    />{" "}
-                    Share
+                    >
+                      <IoMdDownload
+                        style={{ marginRight: "3px", fontSize: "13px" }}
+                      />
+                      Save Contact
+                    </div>
+                    <div
+                      className="btn2"
+                      style={{
+                        color: check === "user" ? textColor : orgTextColor,
+                        backgroundColor:
+                          check === "user" ? shareBtnColor : orgShareBtnColor,
+                      }}
+                    >
+                      <FaShareSquare
+                        style={{
+                          marginRight: "3px",
+                          color: check === "user" ? textColor : orgTextColor,
+                        }}
+                      />{" "}
+                      Share
+                    </div>
                   </div>
                 </div>
-              </div>
-
+              )}
               {/* <div className="links-heading">
           <div className="line"></div>
           Your Links
